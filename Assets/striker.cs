@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class striker : MonoBehaviour
 {
-  Vector3 startpos, endpos, offset, targetdir;
+  Vector3 startPos, endPos, offset, targetDirection;
 
   public AudioSource[] breakshots;
   public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
@@ -20,12 +20,11 @@ public class striker : MonoBehaviour
   bool player = false;
   public int black, white, red;
   public bool coveringTheQueen = false;
-  public Color r = Color.red;
   public Slider move_slider;
   GameObject start;
 
   Rigidbody2D rb;
-  public bool hit = false;
+  bool hit = false;
   public bool st = false;
   public bool movestriker = false;
   public bool turn = false;
@@ -69,7 +68,7 @@ public class striker : MonoBehaviour
     // }
     if (rb.velocity == Vector2.zero)
     {
-      return_striker();
+      ReturnStriker(); // Reset Striker Position
       if (movestriker == false)
       {
         breakshots[3].Stop();
@@ -78,7 +77,7 @@ public class striker : MonoBehaviour
     }
 
   }
-  public void move_striker(bool t)
+  public void MoveStriker(bool t)
   {
     if (rb.velocity == Vector2.zero)
     {
@@ -91,113 +90,78 @@ public class striker : MonoBehaviour
         this.transform.position = new Vector3(move_slider.value, 1.575f, 0);
       }
     }
-    player = t;
-
-    // return t;
-
-    // Debug.Log(this.transform.position.y);
-    // move_slider.value+=this.transform.position.x;
-
-    // movestriker=true;
+    // player = t;
   }
-  public bool get_striker()
+  public bool GetStriker()
   {
     return player;
   }
   private void control()
   {
-    //  Input.mousePosition = new Vector3(Input.mousePosition.x,Mathf.Clamp(60,61,60),Input.mousePosition.z);
     if (Input.mousePosition.y > 150f)
     {
-      // start.GetComponent<start>().init();
-      startpos = this.transform.position + camoffset;
-      // Debug.Log(startpos);
-
-      // if(Input.GetMouseButtonDown(0) )
-      // {
-      //                             if(lr == null)
-      // {
-      //     lr = gameObject.AddComponent<LineRenderer>();
-
-      // }
+      startPos = this.transform.position + camoffset;
 
       lr.positionCount = 2;
       lr.widthCurve = ac;
       lr.numCapVertices = 10;
       lr.enabled = false;
-      lr.SetPosition(0, startpos);
-      // lr.SetRotation(0,0,0);s
-      lr.useWorldSpace = true;
-      // }
+      lr.SetPosition(0, startPos);
+
       if (Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
       {
-        lr.enabled = true;
-        endpos = cm.ScreenToWorldPoint(Input.mousePosition) + camoffset;
+        endPos = cm.ScreenToWorldPoint(Input.mousePosition) + camoffset;
+        lr.SetPosition(1, endPos);
 
-        lr.SetPosition(1, endpos);
+        lr.enabled = true;
       }
+
       if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
       {
-
         lr.enabled = false;
         hit = true;
         st = true;
-        // Debug.Log("End:"+endpos);
-        targetdir = -startpos + endpos;
-        //  Debug.Log("Distance"+targetdir.magnitude);
+        targetDirection = endPos - startPos;
 
-        if (targetdir.magnitude > 10.007f)
+        // Draw a debug line to visualize the target direction
+        Debug.DrawLine(startPos, endPos, Color.green, 2f);
+
+        if (targetDirection.magnitude > 10.007f)
         {
-          lr.material.color = r;
+          lr.material.color = Color.red;
 
           breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
           breakshots[2].Play();
 
-          rb.AddForce(targetdir * 200);
-          if (player == true && this.GetComponent<pocket>().get_st() == false)
-          {
-            player = false;
-          }
-          else if (player == false && this.GetComponent<pocket>().get_st() == false)
-          {
-            player = true;
-          }
-          // turn=true;
+          rb.AddForce(targetDirection * 200);
 
-          //             if(player=true)
-          //             {
-          //             move_striker(false);
-          //             }
-          //             else{
-          // move_striker(true);
-          //             }
+          player = false; // Set this to False to Make Player One Always Take Turn
 
+          // if (player == true && this.GetComponent<pocket>().get_st() == false)
+          // {
+          //   player = false;
+          // }
+          // else if (player == false && this.GetComponent<pocket>().get_st() == false)
+          // {
+          //   player = true;
+          // }
         }
-
       }
 
       breakshots[3].clip = movesound[Random.Range(0, movesound.Length)];
-      //  Debug.Log(this.GetComponent<Rigidbody2D>().velocity.sqrMagnitude);
-      if (this.GetComponent<Rigidbody2D>().velocity.sqrMagnitude / 200 > 1)
-      {
-        breakshots[3].volume = 1f;
-      }
-      else
-      {
-        breakshots[3].volume = this.GetComponent<Rigidbody2D>().velocity.sqrMagnitude / 200;
-      }
+      breakshots[3].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
       breakshots[3].Play();
     }
   }
-  public void return_striker()
+  public void ReturnStriker()
   {
     if (player == false)
     {
-      move_striker(false);
+      MoveStriker(false);
     }
     else
     {
-      move_striker(true);
+      MoveStriker(true);
     }
   }
 

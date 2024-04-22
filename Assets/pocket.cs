@@ -29,7 +29,7 @@ public class pocket : MonoBehaviour
         // black_no.text = "0";
         // if (this.gameObject.tag == "black")
         // {
-        //     Debug.Log(striker.GetComponent<striker>().get_striker());
+        //     Debug.Log(striker.GetComponent<striker>().GetStriker());
         // }
     }
 
@@ -54,7 +54,7 @@ public class pocket : MonoBehaviour
         if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red" || this.gameObject.tag == "white"))
         {
             // Give one Bonus Chance
-            striker.GetComponent<striker>().move_striker(true);
+            striker.GetComponent<striker>().MoveStriker(true);
 
             if (this.gameObject.tag == "black")
             {
@@ -104,7 +104,7 @@ public class pocket : MonoBehaviour
         // if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red"))
         // {
         //     // Give one Bonus Chance
-        //     striker.GetComponent<striker>().move_striker(true);
+        //     striker.GetComponent<striker>().MoveStriker(true);
 
         //     if (this.gameObject.tag == "black")
         //     {
@@ -122,7 +122,7 @@ public class pocket : MonoBehaviour
         // if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "white" || this.gameObject.tag == "red"))
         // {
         //     // Give one Bonus Chance
-        //     striker.GetComponent<striker>().move_striker(false);
+        //     striker.GetComponent<striker>().MoveStriker(false);
 
         //     if (this.gameObject.tag == "white")
         //     {
@@ -143,7 +143,7 @@ public class pocket : MonoBehaviour
         anim.SetTrigger("fall");
         yield return new WaitForSeconds(1f);
         // Destroy(this.gameObject);
-        this.GetComponent<striker>().return_striker();
+        this.GetComponent<striker>().ReturnStriker();
         // yield return new WaitForSeconds(.5f);
         // start.GetComponent<start>().init();
     }
@@ -198,11 +198,11 @@ public class pocket : MonoBehaviour
     // {
     // if(get_st()==true)
     // {
-    //     striker.GetComponent<striker>().move_striker(true);
+    //     striker.GetComponent<striker>().MoveStriker(true);
     // }
     // else
     // {
-    //   striker.GetComponent<striker>().move_striker(false);  
+    //   striker.GetComponent<striker>().MoveStriker(false);  
     // }
     // }
     // private void OnTriggerEnter2D(Collider2D other) {
