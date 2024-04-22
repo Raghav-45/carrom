@@ -5,14 +5,12 @@ using UnityEngine.UI;
 
 public class striker : MonoBehaviour
 {
-  Vector3 startPos, endPos, offset, targetDirection;
+  Vector3 startPos, endPos, targetDirection;
 
   public AudioSource[] breakshots;
   public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
-  Camera cm;
-  public GameObject board;
-  LineRenderer lr;
 
+  public GameObject board;
   public GameObject game_over;
   public Text game_over_text;
   public Text black_no;
@@ -21,29 +19,25 @@ public class striker : MonoBehaviour
   public int black, white, red;
   public bool coveringTheQueen = false;
   public Slider move_slider;
+
+  Camera cm;
+  LineRenderer lr;
   GameObject start;
 
   Rigidbody2D rb;
-  bool hit = false;
+  // bool hit = false;
   public bool st = false;
   public bool movestriker = false;
   public bool turn = false;
-  // public int red,black,white;
-  //  start st;
-  //   Collider2D col;
-  //  public GameObject start;
-  Vector3 camoffset = new Vector3(0, 0, 0);
+  Vector3 camoffset = new(0, 0, 0);
   [SerializeField] AnimationCurve ac;
 
-  // public GameObject ball;
   // Start is called before the first frame update
   void Start()
   {
-    // col = GetComponent<Collider2D>();
     start = GameObject.Find("start");
 
     cm = Camera.main;
-    // st = GetComponent<start>();
     lr = GetComponent<LineRenderer>();
     rb = GetComponent<Rigidbody2D>();
   }
@@ -119,7 +113,7 @@ public class striker : MonoBehaviour
       if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
       {
         lr.enabled = false;
-        hit = true;
+        // hit = true;
         st = true;
         targetDirection = endPos - startPos;
 
@@ -172,16 +166,8 @@ public class striker : MonoBehaviour
       Debug.Log("Striker Hit a Pawn");
       if (board.GetComponent<Collider2D>().enabled == false)
       {
-        //  Debug.Log(other.relativeVelocity.magnitude/20);
         breakshots[1].clip = hits[Random.Range(0, hits.Length)];
-        if (other.relativeVelocity.magnitude / 30 > 1)
-        {
-          breakshots[1].volume = 1f;
-        }
-        else
-        {
-          breakshots[1].volume = other.relativeVelocity.magnitude / 30;
-        }
+        breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 30);
         breakshots[1].Play();
       }
     }
@@ -190,19 +176,10 @@ public class striker : MonoBehaviour
   {
     if (other.gameObject.tag == "board")
     {
-      // Debug.Log("Striked");
-      //  breakshots[0].volume = 
-      if (this.GetComponent<Rigidbody2D>().velocity.sqrMagnitude / 200 > 1)
-      {
-        breakshots[0].volume = 1f;
-      }
-      else
-      {
-        breakshots[0].volume = this.GetComponent<Rigidbody2D>().velocity.sqrMagnitude / 200;
-      }
+      Debug.Log("Striked");
+      breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
       board.GetComponent<Collider2D>().enabled = false;
       breakshots[0].Play();
-      // Destroy(this.gameObject);
     }
   }
   public int set_black(int b)
