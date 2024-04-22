@@ -182,32 +182,4 @@ public class striker : MonoBehaviour
       breakshots[0].Play();
     }
   }
-  public int set_black(int b)
-  {
-    black = b;
-    return black;
-  }
-  public int set_white(int w)
-  {
-    white = w;
-    return white;
-  }
-  public int set_red(int r)
-  {
-    red = r;
-    return red;
-  }
-
-  public int get_black()
-  {
-    return black;
-  }
-  public int get_red()
-  {
-    return red;
-  }
-  public int get_white()
-  {
-    return white;
-  }
 }
