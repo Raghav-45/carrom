@@ -19,12 +19,13 @@ public class striker : MonoBehaviour
   public Text white_no;
   bool player = false;
   public int black, white, red;
+  public bool coveringTheQueen = false;
   public Color r = Color.red;
   public Slider move_slider;
   GameObject start;
 
   Rigidbody2D rb;
-  bool hit = false;
+  public bool hit = false;
   public bool st = false;
   public bool movestriker = false;
   public bool turn = false;
@@ -53,25 +54,19 @@ public class striker : MonoBehaviour
   {
     black_no.text = black + "";
     white_no.text = white + "";
-    //  Debug.Log("Black: "+get_black()+" White: "+get_white()+" Red: "+get_red());
-    if (black == 9 && red == 1)
-    {
-      game_over.SetActive(true);
-      game_over_text.text = "Opponent Won";
 
-    }
-    else if (white == 9 && red == 1)
-    {
-      game_over.SetActive(true);
-      game_over_text.text = "You Won";
+    // if (black == 9 && red == 1)
+    // {
+    //   game_over.SetActive(true);
+    //   game_over_text.text = "Opponent Won";
 
-    }
-    //   if(Input.touchCount>0)
-    //   {
-    //  Debug.Log("tich_position"+Input.GetTouch(0).position.y);
+    // }
+    // else if (white == 9 && red == 1)
+    // {
+    //   game_over.SetActive(true);
+    //   game_over_text.text = "You Won";
 
-    //   }
-    //  Debug.Log("tich_position"+Input.mousePosition.y);
+    // }
     if (rb.velocity == Vector2.zero)
     {
       return_striker();
@@ -248,7 +243,7 @@ public class striker : MonoBehaviour
   {
     if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
     {
-
+      Debug.Log("Striker Hit a Pawn");
       if (board.GetComponent<Collider2D>().enabled == false)
       {
         //  Debug.Log(other.relativeVelocity.magnitude/20);

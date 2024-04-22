@@ -37,57 +37,105 @@ public class pocket : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log(other.gameObject.tag);
+        // Object is Striker
         if (other.gameObject.tag == "pocket" && this.gameObject.tag == "striker")
         {
             rb.velocity = Vector2.zero;
-
             StartCoroutine("fall");
-            // Destroy(this.gameObject);
+            if (striker.GetComponent<striker>().coveringTheQueen == true)
+            {
+                //TODO: return the queen
+                striker.GetComponent<striker>().coveringTheQueen = false;
+            }
         }
 
-        if (other.gameObject.tag == "pocket" && this.gameObject.tag == "red")
+        // Object is Any Pawn
+        if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red" || this.gameObject.tag == "white"))
         {
-            striker.GetComponent<striker>().red++;
-        }
-
-        if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red"))
-        {
-            // black+=1;
+            // Give one Bonus Chance
             striker.GetComponent<striker>().move_striker(true);
 
             if (this.gameObject.tag == "black")
             {
                 striker.GetComponent<striker>().black++;
+                Debug.Log("Black Fall by Player");
+                if (striker.GetComponent<striker>().coveringTheQueen == true)
+                {
+                    //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
+                    striker.GetComponent<striker>().red = 1;
+                    striker.GetComponent<striker>().coveringTheQueen = false;
+                }
+            }
+            if (this.gameObject.tag == "red")
+            {
+                // Debug.Log(striker.GetComponent<striker>().red);
+                // striker.GetComponent<striker>().red++;
+                striker.GetComponent<striker>().coveringTheQueen = true;
+                Debug.Log("Red Fall by Player");
+            }
+            if (this.gameObject.tag == "white")
+            {
+                // Debug.Log(striker.GetComponent<striker>().red);
+                striker.GetComponent<striker>().white++;
+                Debug.Log("white Fall by Player");
+                if (striker.GetComponent<striker>().coveringTheQueen == true)
+                {
+                    //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
+                    striker.GetComponent<striker>().red = 1;
+                    striker.GetComponent<striker>().coveringTheQueen = false;
+                }
             }
 
             striker_stat = true;
             rb.velocity = Vector2.zero;
             anim.SetTrigger("fall");
-            Debug.Log("Black: " + get_black() + " White: " + get_white());
-            // black_no.text=get_black()+"";
-            Debug.Log("Return0");
-
             Destroy(this.gameObject);
         }
 
-        if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "white" || this.gameObject.tag == "red"))
-        {
-            //   white+=1;
-            striker.GetComponent<striker>().move_striker(false);
+        // striker.GetComponent<striker>().coveringTheQueen = false;
 
-            if (this.gameObject.tag == "white")
-            {
-                striker.GetComponent<striker>().white++;
-            }
+        // Object is Red Pawn
+        // if (other.gameObject.tag == "pocket" && this.gameObject.tag == "red")
+        // {
+        //     striker.GetComponent<striker>().red++;
+        // }
 
-            striker_stat = true;
-            anim.SetTrigger("fall");
-            Debug.Log("Black: " + get_black() + " White: " + get_white());
-            // white_no.text=get_white()+"";
-            Debug.Log("Return1");
-            Destroy(this.gameObject);
-        }
+        // if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red"))
+        // {
+        //     // Give one Bonus Chance
+        //     striker.GetComponent<striker>().move_striker(true);
 
+        //     if (this.gameObject.tag == "black")
+        //     {
+        //         striker.GetComponent<striker>().black++;
+        //     }
+
+        //     striker_stat = true;
+        //     rb.velocity = Vector2.zero;
+        //     anim.SetTrigger("fall");
+        //     // Debug.Log("Black: " + get_black() + " White: " + get_white());
+        //     Debug.Log("Black Fall by Player");
+        //     Destroy(this.gameObject);
+        // }
+
+        // if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "white" || this.gameObject.tag == "red"))
+        // {
+        //     // Give one Bonus Chance
+        //     striker.GetComponent<striker>().move_striker(false);
+
+        //     if (this.gameObject.tag == "white")
+        //     {
+        //         striker.GetComponent<striker>().white++;
+        //     }
+
+        //     striker_stat = true;
+        //     rb.velocity = Vector2.zero;
+        //     anim.SetTrigger("fall");
+        //     // Debug.Log("Black: " + get_black() + " White: " + get_white());
+        //     Debug.Log("White Fall by Player");
+        //     Destroy(this.gameObject);
+        // }
     }
 
     IEnumerator fall()
@@ -119,26 +167,26 @@ public class pocket : MonoBehaviour
 
     void Update()
     {
-        if (this.gameObject.tag == "striker")
-        {
-            //          if(get_black()==1)
-            //         {
-            //             game_over.SetActive(true);
-            //             game_over_text.text = "Player Two Won";
+        // if (this.gameObject.tag == "striker")
+        // {
+        //          if(get_black()==1)
+        //         {
+        //             game_over.SetActive(true);
+        //             game_over_text.text = "Player Two Won";
 
-            //         }
-            //         else if(get_white()==1){
-            // game_over.SetActive(true);
-            //             game_over_text.text = "Player One Won";
-            //         }
-            // Debug.Log("Black: "+get_black()+" White: "+get_white());
-            //     if(other.gameObject.tag=="pocket" && (this.gameObject.tag=="red"||this.gameObject.tag=="black"||this.gameObject.tag=="white"))
-            // {
-            //     rb.velocity = Vector2.zero;
-            //     anim.SetTrigger("fall");
-            //     Destroy(this.gameObject);
-            // }
-        }
+        //         }
+        //         else if(get_white()==1){
+        // game_over.SetActive(true);
+        //             game_over_text.text = "Player One Won";
+        //         }
+        // Debug.Log("Black: "+get_black()+" White: "+get_white());
+        //     if(other.gameObject.tag=="pocket" && (this.gameObject.tag=="red"||this.gameObject.tag=="black"||this.gameObject.tag=="white"))
+        // {
+        //     rb.velocity = Vector2.zero;
+        //     anim.SetTrigger("fall");
+        //     Destroy(this.gameObject);
+        // }
+        // }
         // if(this.gameObject.tag=="striker")
         // {
         // black_no.text = black+"";
