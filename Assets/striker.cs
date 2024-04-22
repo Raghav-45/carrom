@@ -70,36 +70,10 @@ public class striker : MonoBehaviour
     if (rb.velocity == Vector2.zero)
     {
       return_striker();
-      //  move_striker();
       if (movestriker == false)
       {
         breakshots[3].Stop();
         control();
-        if (st == false)
-        {
-          // turn = true;
-
-
-          // if(st==true)
-          // {
-          // Destroy(this.gameObject);
-          // }
-
-          // start.GetComponent<start>().init();
-
-        }
-        //       else if(st==true)
-        //       {
-        //       if(turn==false)
-        //       {
-        // turn=true;
-        //       }
-        //      if(turn==true)
-        //       {
-        //       turn=false;
-        //       }
-        //           return_striker();
-        //       }
       }
     }
 
@@ -110,14 +84,11 @@ public class striker : MonoBehaviour
     {
       if (t == false)
       {
-        // move_slider.value = 
         this.transform.position = new Vector3(move_slider.value, -1.575f, 0);
-
       }
       else
       {
         this.transform.position = new Vector3(move_slider.value, 1.575f, 0);
-
       }
     }
     player = t;
@@ -222,21 +193,12 @@ public class striker : MonoBehaviour
   {
     if (player == false)
     {
-
-      // this.transform.position = new Vector3(0,-1.743f,0);
       move_striker(false);
-      //  player=true;
-
     }
     else
     {
-
-      // this.transform.position = new Vector3(0,1.743f,0);
       move_striker(true);
-      //  player=false;
-      // turn = false;
     }
-
   }
 
   private void OnCollisionEnter2D(Collision2D other)
