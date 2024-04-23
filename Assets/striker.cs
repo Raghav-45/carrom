@@ -10,6 +10,7 @@ public class striker : MonoBehaviour
   public AudioSource[] breakshots;
   public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
 
+  public float resetThresholdVelocity = 0.07f;
   public GameObject board;
   public GameObject game_over;
   public Text game_over_text;
@@ -60,7 +61,9 @@ public class striker : MonoBehaviour
     //   game_over_text.text = "You Won";
 
     // }
-    if (rb.velocity == Vector2.zero)
+    // Debug.Log(rb.velocity.magnitude);
+    // if (rb.velocity == Vector2.zero)
+    if (rb.velocity.magnitude < resetThresholdVelocity)
     {
       ReturnStriker(); // Reset Striker Position
       if (movestriker == false)
@@ -73,7 +76,8 @@ public class striker : MonoBehaviour
   }
   public void MoveStriker(bool t)
   {
-    if (rb.velocity == Vector2.zero)
+    // if (rb.velocity == Vector2.zero)
+    if (rb.velocity.magnitude < resetThresholdVelocity)
     {
       if (t == false)
       {
