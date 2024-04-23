@@ -84,7 +84,6 @@ public class striker : MonoBehaviour
   }
   private void control()
   {
-        Debug.Log(Input.mousePosition.y);
     if (Input.mousePosition.y > 150f)
     {
       startPos = this.transform.position + camoffset;
