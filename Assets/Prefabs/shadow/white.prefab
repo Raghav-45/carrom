@@ -166,7 +166,7 @@ MonoBehaviour:
   red: 0
   white: 0
   black: 0
-  striker: {fileID: 6362508504852925543, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+  striker: {fileID: 0}
 --- !u!95 &2018613631248010756
 Animator:
   serializedVersion: 5

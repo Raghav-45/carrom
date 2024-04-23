@@ -64,12 +64,14 @@ public class striker : MonoBehaviour
       if (t == false)
       {
         // this.transform.position = new Vector3(move_slider.value, -1.575f, 0);
-        this.transform.position = new Vector3(0, -1.575f, 0);
+        // this.transform.position = new Vector3(0, -1.575f, 0);
+        this.transform.position = new Vector3(0, -1.47f, 0);
       }
       else
       {
         // this.transform.position = new Vector3(move_slider.value, 1.575f, 0);
-        this.transform.position = new Vector3(0, 1.575f, 0);
+        // this.transform.position = new Vector3(0, 1.575f, 0);
+        this.transform.position = new Vector3(0, 1.47f, 0);
       }
     }
     // player = t;
@@ -134,6 +136,9 @@ public class striker : MonoBehaviour
           breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
           breakshots[2].Play();
 
+          Debug.Log(testtargetDirection.magnitude);
+
+          // 10 > is good
           rb.AddForce(testtargetDirection * 350);
 
           player = false; // Set this to False to Make Player One Always Take Turn
