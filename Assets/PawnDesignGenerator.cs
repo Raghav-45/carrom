@@ -2,39 +2,40 @@ using UnityEngine;
 
 public class PawnDesignGenerator : MonoBehaviour
 {
-    public int numberOfTiles = 30; // Number of tiles to generate around the circle
-    public GameObject hexTilePrefab; // Prefab for the hexagonal tiles
-    public GameObject queenPrefab; // Prefab for the queen piece
-    public float circleRadius = 5f; // Radius of the circular board
-    public float gapAngle = 360f / 30f; // Angle between each tile
+    public GameObject cornerPrefab; // Prefab for corners
+    public GameObject sideCenterPrefab; // Prefab for side centers
 
     void Start()
     {
-        GenerateBoard();
+        // Generate the first hexagon with corners
+        GenerateHexagonCorners(Vector3.zero, 5f); // Adjust the size as needed
+
+        // Generate the second hexagon with side centers
+        GenerateHexagonSideCenters(new Vector3(8f, 0f, 0f), 4f); // Adjust the position and size as needed
     }
 
-    void GenerateBoard()
+    // Function to generate corners of a hexagon
+    void GenerateHexagonCorners(Vector3 center, float size)
     {
-        for (int i = 0; i < numberOfTiles; i++)
+        for (int i = 0; i < 6; i++)
         {
-            // Calculate angle for this tile
-            float angle = i * gapAngle;
-
-            // Convert angle to radians
-            float radianAngle = angle * Mathf.Deg2Rad;
-
-            // Calculate position of the tile using polar coordinates
-            float x = circleRadius * Mathf.Cos(radianAngle);
-            float z = circleRadius * Mathf.Sin(radianAngle);
-
-            // Create hexagon tile prefab at the calculated position
-            GameObject hexTile = Instantiate(hexTilePrefab, new Vector3(x, 0, z), Quaternion.identity);
-            hexTile.transform.SetParent(transform);
+            float angle = i * 60 * Mathf.Deg2Rad;
+            Vector3 cornerPosition = center + new Vector3(size * Mathf.Cos(angle), 0f, size * Mathf.Sin(angle));
+            Instantiate(cornerPrefab, cornerPosition, Quaternion.identity);
         }
+    }
 
-        // Instantiate queen prefab at the center
-        GameObject queen = Instantiate(queenPrefab, Vector3.zero, Quaternion.identity);
-        queen.transform.SetParent(transform);
-        queen.name = "Queen";
+    // Function to generate centers of sides of a hexagon
+    void GenerateHexagonSideCenters(Vector3 center, float size)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            float angle1 = i * 60 * Mathf.Deg2Rad;
+            float angle2 = (i + 1) * 60 * Mathf.Deg2Rad;
+            Vector3 sideCenterPosition = center + new Vector3((size * Mathf.Cos(angle1) + size * Mathf.Cos(angle2)) / 2f,
+                                                               0f,
+                                                               (size * Mathf.Sin(angle1) + size * Mathf.Sin(angle2)) / 2f);
+            Instantiate(sideCenterPrefab, sideCenterPosition, Quaternion.identity);
+        }
     }
 }

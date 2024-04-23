@@ -12,10 +12,6 @@ public class striker : MonoBehaviour
 
   public float resetThresholdVelocity = 0.07f;
   public GameObject board;
-  public GameObject game_over;
-  public Text game_over_text;
-  public Text black_no;
-  public Text white_no;
   bool player = false;
   public int black, white, red;
   public bool coveringTheQueen = false;
@@ -46,9 +42,6 @@ public class striker : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    black_no.text = black + "";
-    white_no.text = white + "";
-
     // Debug.Log(rb.velocity.magnitude);
     // if (rb.velocity == Vector2.zero)
     if (rb.velocity.magnitude < resetThresholdVelocity)
@@ -69,11 +62,13 @@ public class striker : MonoBehaviour
     {
       if (t == false)
       {
-        this.transform.position = new Vector3(move_slider.value, -1.575f, 0);
+        // this.transform.position = new Vector3(move_slider.value, -1.575f, 0);
+        this.transform.position = new Vector3(0, -1.575f, 0);
       }
       else
       {
-        this.transform.position = new Vector3(move_slider.value, 1.575f, 0);
+        // this.transform.position = new Vector3(move_slider.value, 1.575f, 0);
+        this.transform.position = new Vector3(0, 1.575f, 0);
       }
     }
     // player = t;
@@ -95,10 +90,28 @@ public class striker : MonoBehaviour
       lr.SetPosition(0, startPos);
 
       if (Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+      // {
+      //   endPos = cm.ScreenToWorldPoint(Input.mousePosition) + camoffset;
+      //   lr.SetPosition(1, endPos);
+
+      //   lr.enabled = true;
+      // }
       {
         endPos = cm.ScreenToWorldPoint(Input.mousePosition) + camoffset;
-        lr.SetPosition(1, endPos);
 
+        // Calculate the direction from start position to input position
+        Vector3 hitDirection = startPos - endPos;
+
+        // Calculate the end position
+        Vector3 linePos = startPos + hitDirection;
+
+        // Draw a debug line from startPos to endPos
+        Debug.DrawLine(startPos, endPos, Color.blue);
+
+        // Set the end position for the line renderer
+        lr.SetPosition(1, linePos);
+
+        // Enable the line renderer
         lr.enabled = true;
       }
 
@@ -108,6 +121,7 @@ public class striker : MonoBehaviour
         // hit = true;
         st = true;
         targetDirection = endPos - startPos;
+        Vector3 testtargetDirection = startPos - endPos;
 
         // Draw a debug line to visualize the target direction
         Debug.DrawLine(startPos, endPos, Color.green, 2f);
@@ -119,7 +133,7 @@ public class striker : MonoBehaviour
           breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
           breakshots[2].Play();
 
-          rb.AddForce(targetDirection * 200);
+          rb.AddForce(testtargetDirection * 250);
 
           player = false; // Set this to False to Make Player One Always Take Turn
 
@@ -155,7 +169,6 @@ public class striker : MonoBehaviour
   {
     if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
     {
-      Debug.Log("Striker Hit a Pawn");
       if (board.GetComponent<Collider2D>().enabled == false)
       {
         breakshots[1].clip = hits[Random.Range(0, hits.Length)];
