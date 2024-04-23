@@ -80,7 +80,7 @@ public class striker : MonoBehaviour
   }
   private void control()
   {
-    if (Input.mousePosition.y > 150f)
+    if (Input.mousePosition.y > 50f)
     {
       startPos = this.transform.position + camoffset;
 
@@ -134,7 +134,7 @@ public class striker : MonoBehaviour
           breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
           breakshots[2].Play();
 
-          rb.AddForce(testtargetDirection * 250);
+          rb.AddForce(testtargetDirection * 350);
 
           player = false; // Set this to False to Make Player One Always Take Turn
 

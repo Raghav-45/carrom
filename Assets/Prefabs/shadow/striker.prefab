@@ -118,7 +118,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &6362508504852925542
 CircleCollider2D:
@@ -246,15 +246,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d8298314fe7049e448e905f87732c583, type: 3}
   resetThresholdVelocity: 0.05
   board: {fileID: 0}
-  game_over: {fileID: 0}
-  game_over_text: {fileID: 0}
-  black_no: {fileID: 0}
-  white_no: {fileID: 0}
   black: 0
   white: 0
   red: 0
   coveringTheQueen: 0
-  move_slider: {fileID: 0}
   st: 0
   movestriker: 0
   turn: 0
