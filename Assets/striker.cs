@@ -7,6 +7,7 @@ public class striker : MonoBehaviour
 {
   Vector3 startPos, endPos, targetDirection;
 
+  // TODO: Instea of Array, do something else
   public AudioSource[] breakshots;
   public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
 
@@ -15,7 +16,7 @@ public class striker : MonoBehaviour
   bool player = false;
   public int black, white, red;
   public bool coveringTheQueen = false;
-  public Slider move_slider;
+  // public Slider move_slider;
 
   Camera cm;
   LineRenderer lr;
