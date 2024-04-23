@@ -49,18 +49,6 @@ public class striker : MonoBehaviour
     black_no.text = black + "";
     white_no.text = white + "";
 
-    // if (black == 9 && red == 1)
-    // {
-    //   game_over.SetActive(true);
-    //   game_over_text.text = "Opponent Won";
-
-    // }
-    // else if (white == 9 && red == 1)
-    // {
-    //   game_over.SetActive(true);
-    //   game_over_text.text = "You Won";
-
-    // }
     // Debug.Log(rb.velocity.magnitude);
     // if (rb.velocity == Vector2.zero)
     if (rb.velocity.magnitude < resetThresholdVelocity)
@@ -96,6 +84,7 @@ public class striker : MonoBehaviour
   }
   private void control()
   {
+        Debug.Log(Input.mousePosition.y);
     if (Input.mousePosition.y > 150f)
     {
       startPos = this.transform.position + camoffset;
