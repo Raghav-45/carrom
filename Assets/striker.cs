@@ -11,6 +11,7 @@ public class striker : MonoBehaviour
   public AudioSource[] breakshots;
   public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
 
+  public GameObject powerCircle;
   public float resetThresholdVelocity = 0.07f;
   public GameObject board;
   bool player = false;
@@ -27,7 +28,6 @@ public class striker : MonoBehaviour
   public bool st = false;
   public bool movestriker = false;
   public bool turn = false;
-  Vector3 camoffset = new(0, 0, 0);
   [SerializeField] AnimationCurve ac;
 
   // Start is called before the first frame update
@@ -84,7 +84,7 @@ public class striker : MonoBehaviour
   {
     if (Input.mousePosition.y > 50f)
     {
-      startPos = this.transform.position + camoffset;
+      startPos = this.transform.position;
 
       lr.positionCount = 2;
       lr.widthCurve = ac;
@@ -94,13 +94,13 @@ public class striker : MonoBehaviour
 
       if (Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
       // {
-      //   endPos = cm.ScreenToWorldPoint(Input.mousePosition) + camoffset;
+      //   endPos = cm.ScreenToWorldPoint(Input.mousePosition);
       //   lr.SetPosition(1, endPos);
 
       //   lr.enabled = true;
       // }
       {
-        endPos = cm.ScreenToWorldPoint(Input.mousePosition) + camoffset;
+        endPos = cm.ScreenToWorldPoint(Input.mousePosition);
 
         // Calculate the direction from start position to input position
         Vector3 hitDirection = startPos - endPos;
