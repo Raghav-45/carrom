@@ -9,31 +9,16 @@ public class pocket : MonoBehaviour
     Rigidbody2D rb;
     bool striker_stat = false;
     GameObject start;
-    public int red, white, black;
     public GameObject striker;
-    // public GameObject game_over;
-    // public Text game_over_text;
-    // public Text black_no;
-    // public Text white_no;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        // red=1;
-        // black_no.text = "1";
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         start = GameObject.Find("start");
-        // black_no.text = "0";
-        // black_no.text = "0";
-        // if (this.gameObject.tag == "black")
-        // {
-        //     Debug.Log(striker.GetComponent<striker>().GetStriker());
-        // }
     }
-
-    // Update is called once per frame
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -92,123 +77,18 @@ public class pocket : MonoBehaviour
             anim.SetTrigger("fall");
             Destroy(this.gameObject);
         }
-
-        // striker.GetComponent<striker>().coveringTheQueen = false;
-
-        // Object is Red Pawn
-        // if (other.gameObject.tag == "pocket" && this.gameObject.tag == "red")
-        // {
-        //     striker.GetComponent<striker>().red++;
-        // }
-
-        // if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red"))
-        // {
-        //     // Give one Bonus Chance
-        //     striker.GetComponent<striker>().MoveStriker(true);
-
-        //     if (this.gameObject.tag == "black")
-        //     {
-        //         striker.GetComponent<striker>().black++;
-        //     }
-
-        //     striker_stat = true;
-        //     rb.velocity = Vector2.zero;
-        //     anim.SetTrigger("fall");
-        //     // Debug.Log("Black: " + get_black() + " White: " + get_white());
-        //     Debug.Log("Black Fall by Player");
-        //     Destroy(this.gameObject);
-        // }
-
-        // if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "white" || this.gameObject.tag == "red"))
-        // {
-        //     // Give one Bonus Chance
-        //     striker.GetComponent<striker>().MoveStriker(false);
-
-        //     if (this.gameObject.tag == "white")
-        //     {
-        //         striker.GetComponent<striker>().white++;
-        //     }
-
-        //     striker_stat = true;
-        //     rb.velocity = Vector2.zero;
-        //     anim.SetTrigger("fall");
-        //     // Debug.Log("Black: " + get_black() + " White: " + get_white());
-        //     Debug.Log("White Fall by Player");
-        //     Destroy(this.gameObject);
-        // }
     }
 
     IEnumerator fall()
     {
         anim.SetTrigger("fall");
         yield return new WaitForSeconds(1f);
-        // Destroy(this.gameObject);
         this.GetComponent<striker>().ReturnStriker();
-        // yield return new WaitForSeconds(.5f);
-        // start.GetComponent<start>().init();
     }
 
-    public bool get_st()
-    {
-        return striker_stat;
-    }
-    public int get_black()
-    {
-        return black;
-    }
-    public int get_white()
-    {
-        return white;
-    }
-    public int get_red()
-    {
-        return red;
-    }
+    // Update is called once per frame
+    // void Update()
+    // {
 
-    void Update()
-    {
-        // if (this.gameObject.tag == "striker")
-        // {
-        //          if(get_black()==1)
-        //         {
-        //             game_over.SetActive(true);
-        //             game_over_text.text = "Player Two Won";
-
-        //         }
-        //         else if(get_white()==1){
-        // game_over.SetActive(true);
-        //             game_over_text.text = "Player One Won";
-        //         }
-        // Debug.Log("Black: "+get_black()+" White: "+get_white());
-        //     if(other.gameObject.tag=="pocket" && (this.gameObject.tag=="red"||this.gameObject.tag=="black"||this.gameObject.tag=="white"))
-        // {
-        //     rb.velocity = Vector2.zero;
-        //     anim.SetTrigger("fall");
-        //     Destroy(this.gameObject);
-        // }
-        // }
-        // if(this.gameObject.tag=="striker")
-        // {
-        // black_no.text = black+"";
-        // white_no.text = white+"";
-        // }
-        // striker_control();
-    }
-    // void striker_control()
-    // {
-    // if(get_st()==true)
-    // {
-    //     striker.GetComponent<striker>().MoveStriker(true);
-    // }
-    // else
-    // {
-    //   striker.GetComponent<striker>().MoveStriker(false);  
-    // }
-    // }
-    // private void OnTriggerEnter2D(Collider2D other) {
-    //     if(other.gameObject.tag=="pocket")
-    //     {
-    //         Destroy(this.gameObject);
-    //     }
     // }
 }
