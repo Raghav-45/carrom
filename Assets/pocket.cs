@@ -7,7 +7,6 @@ public class pocket : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D rb;
-    bool striker_stat = false;
     GameObject start;
     public GameObject striker;
 
@@ -72,7 +71,6 @@ public class pocket : MonoBehaviour
                 }
             }
 
-            striker_stat = true;
             rb.velocity = Vector2.zero;
             anim.SetTrigger("fall");
             Destroy(this.gameObject);
