@@ -30,7 +30,6 @@ Library: C:\Users\realr\Carrom Board\Temp\BurstOutput\tempburstlibs\armeabi-v7a\
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\Users\realr\Carrom Board\Temp\Burst
---debug=Full
 --key-folder=C:/Program Files/Unity/Hub/Editor/2022.3.25f1/Editor/Data/PlaybackEngines/AndroidPlayer
 --decode-folder=C:\Users\realr\Carrom Board\Library\Burst
 --output=C:\Users\realr\Carrom Board\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_burst_generated
