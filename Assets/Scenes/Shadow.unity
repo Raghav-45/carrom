@@ -1795,11 +1795,15 @@ PrefabInstance:
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: board
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1544366719}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: move_slider
       value: 
       objectReference: {fileID: 306265613}
+    - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: resetThresholdVelocity
+      value: 0.07
+      objectReference: {fileID: 0}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: breakshots.Array.data[1]
       value: 
@@ -2659,6 +2663,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526272730}
   m_CullTransparentMesh: 0
+--- !u!1 &1544366719 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 794431350021027294, guid: e183d326411e3484090fa5646f40df84, type: 3}
+  m_PrefabInstance: {fileID: 4814049634049616325}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1689976981
 GameObject:
   m_ObjectHideFlags: 0
@@ -3376,6 +3385,10 @@ PrefabInstance:
       propertyPath: striker
       value: 
       objectReference: {fileID: 1758689453}
+    - target: {fileID: 6724705776476316618, guid: e183d326411e3484090fa5646f40df84, type: 3}
+      propertyPath: m_Radius
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 6902895542770650815, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: striker
       value: 
