@@ -1816,6 +1816,10 @@ PrefabInstance:
       propertyPath: breakshots.Array.data[3]
       value: 
       objectReference: {fileID: 236086345}
+    - target: {fileID: 6362508504852925541, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: m_LinearDrag
+      value: 2.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6362508504852925543, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: m_Name
       value: striker
@@ -3304,6 +3308,10 @@ PrefabInstance:
     - target: {fileID: 794431350021027294, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_Name
       value: Pawn Pattern
+      objectReference: {fileID: 0}
+    - target: {fileID: 794431350021027294, guid: e183d326411e3484090fa5646f40df84, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 794431350021027294, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_TagString
