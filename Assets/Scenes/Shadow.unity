@@ -1824,6 +1824,14 @@ PrefabInstance:
       propertyPath: striker
       value: 
       objectReference: {fileID: 1758689453}
+    - target: {fileID: 809474994238871759, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 809474994238871759, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: board
       value: 
