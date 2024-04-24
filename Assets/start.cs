@@ -12,13 +12,12 @@ public class start : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    // void Update()
+    // {
 
-    }
+    // }
     public void init()
     {
         // Instantiate(striker,this.transform.position,this.transform.rotation);
-
     }
 }
