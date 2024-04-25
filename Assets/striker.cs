@@ -19,7 +19,6 @@ public class striker : MonoBehaviour
   bool player = false;
   public int black, white, red;
   public bool coveringTheQueen = false;
-  // public Slider move_slider;
 
   Camera cm;
   LineRenderer lr;
@@ -45,9 +44,7 @@ public class striker : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
-    // Debug.Log(rb.velocity.magnitude);
-    // if (rb.velocity == Vector2.zero)
-    if (rb.velocity.magnitude < resetThresholdVelocity)
+    if (rb.velocity.magnitude <= resetThresholdVelocity)
     {
       ReturnStriker(); // Reset Striker Position
       if (movestriker == false)
@@ -60,31 +57,16 @@ public class striker : MonoBehaviour
   }
   public void MoveStriker(bool t)
   {
-    // if (rb.velocity == Vector2.zero)
-    if (rb.velocity.magnitude < resetThresholdVelocity)
+    if (rb.velocity.magnitude <= resetThresholdVelocity)
     {
-      if (t == false)
-      {
-        this.transform.position = new Vector3(StrikerSlider.value, -1.47f, 0);
-        // this.transform.position = new Vector3(0, -1.575f, 0);
-        // this.transform.position = new Vector3(0, -1.47f, 0);
-      }
-      else
-      {
-        this.transform.position = new Vector3(StrikerSlider.value, 1.47f, 0);
-        // this.transform.position = new Vector3(0, 1.575f, 0);
-        // this.transform.position = new Vector3(0, 1.47f, 0);
-      }
+      float yPosition = t ? 1.47f : -1.47f;
+      this.transform.position = new Vector3(StrikerSlider.value, yPosition, 0);
     }
     // player = t;
   }
-  public bool GetStriker()
-  {
-    return player;
-  }
   private void control()
   {
-    if (Input.mousePosition.y > 650f)
+    if (Input.touchCount > 0)
     {
       startPos = this.transform.position;
 
@@ -94,7 +76,7 @@ public class striker : MonoBehaviour
       lr.enabled = false;
       lr.SetPosition(0, startPos);
 
-      if (Input.GetMouseButton(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
+      if (Input.GetMouseButton(0) || (Input.GetTouch(0).phase == TouchPhase.Began))
       // {
       //   endPos = cm.ScreenToWorldPoint(Input.mousePosition);
       //   lr.SetPosition(1, endPos);
@@ -120,7 +102,7 @@ public class striker : MonoBehaviour
         lr.enabled = true;
       }
 
-      if (Input.GetMouseButtonUp(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended))
+      if (Input.GetMouseButtonUp(0) || (Input.GetTouch(0).phase == TouchPhase.Ended))
       {
         lr.enabled = false;
         // hit = true;
@@ -159,40 +141,40 @@ public class striker : MonoBehaviour
       breakshots[3].clip = movesound[Random.Range(0, movesound.Length)];
       breakshots[3].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
       breakshots[3].Play();
+      // }
     }
-  }
-  public void ReturnStriker()
-  {
-    if (player == false)
+    public void ReturnStriker()
     {
-      MoveStriker(false);
-    }
-    else
-    {
-      MoveStriker(true);
-    }
-  }
-
-  private void OnCollisionEnter2D(Collision2D other)
-  {
-    if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
-    {
-      if (board.GetComponent<Collider2D>().enabled == false)
+      if (player == false)
       {
-        breakshots[1].clip = hits[Random.Range(0, hits.Length)];
-        breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 30);
-        breakshots[1].Play();
+        MoveStriker(false);
+      }
+      else
+      {
+        MoveStriker(true);
+      }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+      if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
+      {
+        if (board.GetComponent<Collider2D>().enabled == false)
+        {
+          breakshots[1].clip = hits[Random.Range(0, hits.Length)];
+          breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 30);
+          breakshots[1].Play();
+        }
+      }
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+      if (other.gameObject.tag == "board")
+      {
+        Debug.Log("Striked");
+        breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
+        board.GetComponent<Collider2D>().enabled = false;
+        breakshots[0].Play();
       }
     }
   }
-  void OnTriggerEnter2D(Collider2D other)
-  {
-    if (other.gameObject.tag == "board")
-    {
-      Debug.Log("Striked");
-      breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
-      board.GetComponent<Collider2D>().enabled = false;
-      breakshots[0].Play();
-    }
-  }
-}
