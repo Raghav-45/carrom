@@ -141,40 +141,40 @@ public class striker : MonoBehaviour
       breakshots[3].clip = movesound[Random.Range(0, movesound.Length)];
       breakshots[3].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
       breakshots[3].Play();
-      // }
     }
-    public void ReturnStriker()
+  }
+  public void ReturnStriker()
+  {
+    if (player == false)
     {
-      if (player == false)
-      {
-        MoveStriker(false);
-      }
-      else
-      {
-        MoveStriker(true);
-      }
+      MoveStriker(false);
     }
+    else
+    {
+      MoveStriker(true);
+    }
+  }
 
-    private void OnCollisionEnter2D(Collision2D other)
+  private void OnCollisionEnter2D(Collision2D other)
+  {
+    if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
     {
-      if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
+      if (board.GetComponent<Collider2D>().enabled == false)
       {
-        if (board.GetComponent<Collider2D>().enabled == false)
-        {
-          breakshots[1].clip = hits[Random.Range(0, hits.Length)];
-          breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 30);
-          breakshots[1].Play();
-        }
-      }
-    }
-    void OnTriggerEnter2D(Collider2D other)
-    {
-      if (other.gameObject.tag == "board")
-      {
-        Debug.Log("Striked");
-        breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
-        board.GetComponent<Collider2D>().enabled = false;
-        breakshots[0].Play();
+        breakshots[1].clip = hits[Random.Range(0, hits.Length)];
+        breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 30);
+        breakshots[1].Play();
       }
     }
   }
+  void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.gameObject.tag == "board")
+    {
+      Debug.Log("Striked");
+      breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
+      board.GetComponent<Collider2D>().enabled = false;
+      breakshots[0].Play();
+    }
+  }
+}
