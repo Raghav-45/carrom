@@ -511,8 +511,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 1722083881}
   m_Direction: 0
-  m_MinValue: -1
-  m_MaxValue: 1
+  m_MinValue: -1.175
+  m_MaxValue: 1.175
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -1617,6 +1617,10 @@ PrefabInstance:
       propertyPath: move_slider
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: StrikerSlider
+      value: 
+      objectReference: {fileID: 406843524}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: resetThresholdVelocity
       value: 0.07

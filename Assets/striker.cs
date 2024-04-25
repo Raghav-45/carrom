@@ -11,6 +11,8 @@ public class striker : MonoBehaviour
   public AudioSource[] breakshots;
   public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
 
+  [SerializeField] Slider StrikerSlider;
+
   public GameObject powerCircle;
   public float resetThresholdVelocity = 0.07f;
   public GameObject board;
@@ -63,15 +65,15 @@ public class striker : MonoBehaviour
     {
       if (t == false)
       {
-        // this.transform.position = new Vector3(move_slider.value, -1.575f, 0);
+        this.transform.position = new Vector3(StrikerSlider.value, -1.47f, 0);
         // this.transform.position = new Vector3(0, -1.575f, 0);
-        this.transform.position = new Vector3(0, -1.47f, 0);
+        // this.transform.position = new Vector3(0, -1.47f, 0);
       }
       else
       {
-        // this.transform.position = new Vector3(move_slider.value, 1.575f, 0);
+        this.transform.position = new Vector3(StrikerSlider.value, 1.47f, 0);
         // this.transform.position = new Vector3(0, 1.575f, 0);
-        this.transform.position = new Vector3(0, 1.47f, 0);
+        // this.transform.position = new Vector3(0, 1.47f, 0);
       }
     }
     // player = t;
@@ -82,7 +84,7 @@ public class striker : MonoBehaviour
   }
   private void control()
   {
-    if (Input.mousePosition.y > 50f)
+    if (Input.mousePosition.y > 650f)
     {
       startPos = this.transform.position;
 
