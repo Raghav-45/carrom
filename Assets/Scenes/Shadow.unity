@@ -1792,6 +1792,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 4719726446641218173, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: board
       value: 
@@ -1816,6 +1820,10 @@ PrefabInstance:
       propertyPath: breakshots.Array.data[3]
       value: 
       objectReference: {fileID: 236086345}
+    - target: {fileID: 6362508504852925540, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 28a8b36c74b5abd4f8aae1c0d83f6168, type: 3}
     - target: {fileID: 6362508504852925541, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: m_LinearDrag
       value: 2.2
@@ -3379,7 +3387,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671000240837687223, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.98768836
       objectReference: {fileID: 0}
     - target: {fileID: 2671000240837687223, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3391,7 +3399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671000240837687223, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.1564345
       objectReference: {fileID: 0}
     - target: {fileID: 2671000240837687223, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3403,7 +3411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2671000240837687223, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3060735583344511260, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: striker
