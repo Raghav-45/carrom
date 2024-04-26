@@ -7,9 +7,9 @@ public class striker : MonoBehaviour
 {
   Vector3 strikerPosition, endPos, targetDirection, touchPosition;
 
-  public float forceMultiplier = 1500f;
+  public float forceMultiplier = 1200f;
   public float minRequiredForce = 0.8f;
-  public float maxForce = 6.4f;
+  public float maxForce = 4f;
 
   // TODO: Instea of Array, do something else
   public AudioSource[] breakshots;
@@ -92,7 +92,7 @@ public class striker : MonoBehaviour
           strikerPosition = this.transform.position;
           float scaleValue = 4f * Vector2.Distance(strikerPosition, touchPosition);
           // powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
-          powerCircle.transform.localScale = Vector3.one * scaleValue;
+          powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
 
           // Draw Debug line for Force Vector
           Debug.DrawLine(strikerPosition, touchPosition, Color.blue);
@@ -124,9 +124,9 @@ public class striker : MonoBehaviour
         breakshots[2].Play();
 
         float magnitude = 4f * Vector2.Distance(strikerPosition, touchPosition);
-        // Vector3 forceVector = targetDirection.normalized * Mathf.Clamp(magnitude, 0f, maxForce);
-        Vector3 forceVector = targetDirection.normalized * magnitude;
-        Debug.Log(forceVector.magnitude);
+        // Vector3 forceVector = targetDirection.normalized * magnitude;
+        Vector3 forceVector = targetDirection.normalized * Mathf.Clamp(magnitude, 0f, maxForce);
+        Debug.Log(forceVector.magnitude * forceMultiplier);
 
         rb.AddForce(forceVector * forceMultiplier);
 
