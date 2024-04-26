@@ -1622,6 +1622,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 406843524}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: forceMultiplier
+      value: 3500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: resetThresholdVelocity
       value: 0.07
       objectReference: {fileID: 0}
