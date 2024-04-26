@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class striker : MonoBehaviour
 {
-  public Vector3 strikerPosition, endPos, targetDirection, touchPosition;
+  Vector3 strikerPosition, endPos, targetDirection, touchPosition;
+
+  // public float forceMultiplier = 350f;
+  public float forceMultiplier = 1500f;
+  public float minRequiredForce = 3f;
+  public float maxForce = 5f;
 
   // TODO: Instea of Array, do something else
   public AudioSource[] breakshots;
@@ -167,6 +172,7 @@ public class striker : MonoBehaviour
           strikerPosition = this.transform.position;
           // powerCircle.transform.LookAt(hit.point);
           float scaleValue = 4f * Vector2.Distance(strikerPosition, touchPosition);
+          // powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
           powerCircle.transform.localScale = Vector3.one * scaleValue;
 
           // Draw Debug line for Force Vector
@@ -206,11 +212,12 @@ public class striker : MonoBehaviour
 
 
         float magnitude = 4f * Vector2.Distance(strikerPosition, touchPosition);
+        // Vector3 forceVector = targetDirection.normalized * Mathf.Clamp(magnitude, 0f, maxForce);
         Vector3 forceVector = targetDirection.normalized * magnitude;
         Debug.Log(forceVector.magnitude);
 
         // 10 > is good
-        rb.AddForce(forceVector * 350);
+        rb.AddForce(forceVector * forceMultiplier);
 
         player = false; // Set this to False to Make Player One Always Take Turn
       }
