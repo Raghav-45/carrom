@@ -21,8 +21,6 @@ public class disableCollider : MonoBehaviour
     {
         if (other.gameObject.tag == "striker")
         {
-            Debug.Log("Striked");
-
             breakshots[0].Play();
             // Destroy(this.gameObject);
         }

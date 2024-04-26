@@ -21,7 +21,7 @@ public class pocket : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.gameObject.tag);
+        // Debug.Log(other.gameObject.tag);
         // Object is Striker
         if (other.gameObject.tag == "pocket" && this.gameObject.tag == "striker")
         {
@@ -43,7 +43,7 @@ public class pocket : MonoBehaviour
             if (this.gameObject.tag == "black")
             {
                 striker.GetComponent<striker>().black++;
-                Debug.Log("Black Fall by Player");
+                // Debug.Log("Black Fall by Player");
                 if (striker.GetComponent<striker>().coveringTheQueen == true)
                 {
                     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
@@ -56,13 +56,13 @@ public class pocket : MonoBehaviour
                 // Debug.Log(striker.GetComponent<striker>().red);
                 // striker.GetComponent<striker>().red++;
                 striker.GetComponent<striker>().coveringTheQueen = true;
-                Debug.Log("Red Fall by Player");
+                // Debug.Log("Red Fall by Player");
             }
             if (this.gameObject.tag == "white")
             {
                 // Debug.Log(striker.GetComponent<striker>().red);
                 striker.GetComponent<striker>().white++;
-                Debug.Log("white Fall by Player");
+                // Debug.Log("white Fall by Player");
                 if (striker.GetComponent<striker>().coveringTheQueen == true)
                 {
                     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
