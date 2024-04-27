@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class striker : MonoBehaviour
 {
-    Vector3 strikerPosition, endPos, targetDirection, touchPosition;
+    Vector3 strikerPosition, targetDirection, touchPosition;
 
     public GameObject gameManager;
 
@@ -21,7 +21,7 @@ public class striker : MonoBehaviour
     [SerializeField] Slider StrikerSlider;
 
     public GameObject powerCircle;
-    public GameObject powerArrow;
+    public GameObject powerControl;
     public float resetThresholdVelocity = 0.07f;
     public GameObject board;
     bool player = false;
@@ -105,7 +105,7 @@ public class striker : MonoBehaviour
                     float scaleValue = 4f * Vector2.Distance(strikerPosition, touchPosition);
                     // powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
                     powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
-                    powerArrow.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
+                    powerControl.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
 
                     // Draw Debug line for Force Vector
                     Debug.DrawLine(strikerPosition, touchPosition, Color.blue);
@@ -117,7 +117,7 @@ public class striker : MonoBehaviour
                     float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
 
                     // Set the rotation of the power arrow
-                    powerArrow.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                    powerControl.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                     // Calculate the end position
                     // Vector3 linePos = strikerPosition + targetDirection;
@@ -136,7 +136,7 @@ public class striker : MonoBehaviour
             // lr.enabled = false;
             showGizmos = false;
             powerCircle.transform.localScale = Vector3.zero;
-            powerArrow.transform.localScale = Vector3.zero;
+            powerControl.transform.localScale = Vector3.zero;
 
             Vector2 hitDirectionNormalized = targetDirection.normalized;
             float dragAmount = 4f * Vector2.Distance(strikerPosition, touchPosition);
