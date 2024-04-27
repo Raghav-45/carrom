@@ -8,6 +8,8 @@ public class striker : MonoBehaviour
 {
     Vector3 strikerPosition, endPos, targetDirection, touchPosition;
 
+    public GameObject gameManager;
+
     public float forceMultiplier = 200f;
     public float minRequiredForce = 0.8f;
     public float maxForce = 4f;
@@ -41,6 +43,7 @@ public class striker : MonoBehaviour
     void Start()
     {
         start = GameObject.Find("start");
+        gameManager = GameObject.Find("Game Manager");
 
         cm = Camera.main;
         lr = GetComponent<LineRenderer>();
@@ -69,6 +72,13 @@ public class striker : MonoBehaviour
             this.transform.position = new Vector3(StrikerSlider.value, yPosition, 0);
         }
         // player = t;
+    }
+
+    public void UpdateScore()
+    {
+        gameManager.GetComponent<Game_Manager>().white = (byte)white;
+        gameManager.GetComponent<Game_Manager>().black = (byte)black;
+        gameManager.GetComponent<Game_Manager>().UpdateScoreUI();
     }
     private void control()
     {

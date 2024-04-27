@@ -43,6 +43,7 @@ public class pocket : MonoBehaviour
             if (this.gameObject.tag == "black")
             {
                 striker.GetComponent<striker>().black++;
+                striker.GetComponent<striker>().UpdateScore();
                 // Debug.Log("Black Fall by Player");
                 if (striker.GetComponent<striker>().coveringTheQueen == true)
                 {
@@ -62,6 +63,7 @@ public class pocket : MonoBehaviour
             {
                 // Debug.Log(striker.GetComponent<striker>().red);
                 striker.GetComponent<striker>().white++;
+                striker.GetComponent<striker>().UpdateScore();
                 // Debug.Log("white Fall by Player");
                 if (striker.GetComponent<striker>().coveringTheQueen == true)
                 {

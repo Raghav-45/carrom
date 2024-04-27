@@ -1033,6 +1033,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f3d4e3f0109cf4db894840a4f6d37d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  white: 0
+  black: 0
+  whiteTextRenderer: {fileID: 1414856694}
+  blackTextRenderer: {fileID: 994593642}
 --- !u!4 &786270579
 Transform:
   m_ObjectHideFlags: 0
