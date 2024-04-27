@@ -10,7 +10,7 @@ public class striker : MonoBehaviour
 
     public GameObject gameManager;
 
-    public float forceMultiplier = 200f;
+    public float forceMultiplier = 230f;
     public float minRequiredForce = 0.8f;
     public float maxForce = 4f;
 
@@ -20,7 +20,7 @@ public class striker : MonoBehaviour
 
     [SerializeField] Slider StrikerSlider;
 
-    public GameObject powerCircle;
+    public GameObject focusCircle;
     public GameObject powerControl;
     public float resetThresholdVelocity = 0.07f;
     public GameObject board;
@@ -39,6 +39,8 @@ public class striker : MonoBehaviour
     public bool turn = false;
     bool showGizmos = false;
     [SerializeField] AnimationCurve ac;
+
+    float angle = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -60,10 +62,16 @@ public class striker : MonoBehaviour
             if (movestriker == false)
             {
                 breakshots[3].Stop();
+                focusCircle.SetActive(false); // set to true
                 control();
             }
         }
 
+        if (focusCircle.active == true)
+        {
+            angle += 75f * Time.deltaTime;
+            focusCircle.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
     }
     public void MoveStriker(bool t)
     {
@@ -91,6 +99,8 @@ public class striker : MonoBehaviour
             // Raycast to check if the touch position is hitting the striker collider
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
 
+            powerControl.SetActive(false);
+
             if (hit.collider)
             {
                 if (hit.transform.name == "striker")
@@ -101,11 +111,13 @@ public class striker : MonoBehaviour
 
                 if (showGizmos == true)
                 {
+                    powerControl.SetActive(true);
+                    focusCircle.SetActive(false);
                     strikerPosition = this.transform.position;
                     float scaleValue = 4f * Vector2.Distance(strikerPosition, touchPosition);
                     // powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
-                    powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
-                    powerControl.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
+                    //powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
+                    powerControl.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0.75f, maxForce);
 
                     // Draw Debug line for Force Vector
                     Debug.DrawLine(strikerPosition, touchPosition, Color.blue);
@@ -135,8 +147,10 @@ public class striker : MonoBehaviour
         {
             // lr.enabled = false;
             showGizmos = false;
-            powerCircle.transform.localScale = Vector3.zero;
-            powerControl.transform.localScale = Vector3.zero;
+            // powerCircle.transform.localScale = Vector3.zero;
+            powerControl.SetActive(false);
+            focusCircle.SetActive(false);
+            powerControl.transform.localScale = Vector3.one * 0.75f;
 
             Vector2 hitDirectionNormalized = targetDirection.normalized;
             float dragAmount = 4f * Vector2.Distance(strikerPosition, touchPosition);
