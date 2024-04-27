@@ -1635,7 +1635,7 @@ PrefabInstance:
       objectReference: {fileID: 406843524}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: forceMultiplier
-      value: 1500
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: minRequiredForce

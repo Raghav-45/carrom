@@ -125,7 +125,7 @@ public class striker : MonoBehaviour
             // Vector3 forceVector = targetDirection.normalized * magnitude;
             Vector3 forceVector = hitDirectionNormalized.normalized * magnitudeClamped;
 
-            if (magnitudeClamped > 0.9f)
+            if (magnitudeClamped > minRequiredForce)
             {
                 Debug.Log(forceVector.magnitude * forceMultiplier);
                 breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
