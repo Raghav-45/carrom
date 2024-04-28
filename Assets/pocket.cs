@@ -44,8 +44,7 @@ public class pocket : MonoBehaviour
         if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red" || this.gameObject.tag == "white"))
         {
             // Give one Bonus Turn
-            // GameManager.getTurnPlayer.Striker...
-            // striker.GetComponent<striker>().MoveStriker(true);
+            GetCurrentPlayingCharacter().GetComponent<striker>().MoveStriker(true);
 
             if (this.gameObject.tag == "black")
             {
