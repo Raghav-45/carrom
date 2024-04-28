@@ -110,7 +110,7 @@ public class striker : MonoBehaviour
 
             if (hit.collider)
             {
-                if (hit.transform.name == "striker")
+                if (hit.transform.tag == "striker")
                 {
                     showGizmos = true;
                 }

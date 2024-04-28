@@ -14,7 +14,7 @@ public class Game_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        currentPlayingCharacter = strikers[0];
     }
 
     public void UpdateScoreUI()

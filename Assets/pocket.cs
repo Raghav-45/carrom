@@ -21,7 +21,8 @@ public class pocket : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    GameObject GetCurrentPlayingCharacter() {
+    GameObject GetCurrentPlayingCharacter()
+    {
         return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
     }
 
@@ -48,29 +49,29 @@ public class pocket : MonoBehaviour
 
             if (this.gameObject.tag == "black")
             {
-                striker.GetComponent<striker>().black++;
-                striker.GetComponent<striker>().UpdateScore();
-                if (striker.GetComponent<striker>().coveringTheQueen == true)
+                GetCurrentPlayingCharacter().GetComponent<striker>().black++;
+                GetCurrentPlayingCharacter().GetComponent<striker>().UpdateScore();
+                if (GetCurrentPlayingCharacter().GetComponent<striker>().coveringTheQueen == true)
                 {
                     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
-                    striker.GetComponent<striker>().red = 1;
-                    striker.GetComponent<striker>().coveringTheQueen = false;
+                    GetCurrentPlayingCharacter().GetComponent<striker>().red = 1;
+                    GetCurrentPlayingCharacter().GetComponent<striker>().coveringTheQueen = false;
                 }
             }
             if (this.gameObject.tag == "red")
             {
                 // striker.GetComponent<striker>().red++;
-                striker.GetComponent<striker>().coveringTheQueen = true;
+                GetCurrentPlayingCharacter().GetComponent<striker>().coveringTheQueen = true;
             }
             if (this.gameObject.tag == "white")
             {
-                striker.GetComponent<striker>().white++;
-                striker.GetComponent<striker>().UpdateScore();
-                if (striker.GetComponent<striker>().coveringTheQueen == true)
+                GetCurrentPlayingCharacter().GetComponent<striker>().white++;
+                GetCurrentPlayingCharacter().GetComponent<striker>().UpdateScore();
+                if (GetCurrentPlayingCharacter().GetComponent<striker>().coveringTheQueen == true)
                 {
                     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
-                    striker.GetComponent<striker>().red = 1;
-                    striker.GetComponent<striker>().coveringTheQueen = false;
+                    GetCurrentPlayingCharacter().GetComponent<striker>().red = 1;
+                    GetCurrentPlayingCharacter().GetComponent<striker>().coveringTheQueen = false;
                 }
             }
 
