@@ -83,7 +83,7 @@ public class pocket : MonoBehaviour
     {
         anim.SetTrigger("fall");
         yield return new WaitForSeconds(1f);
-        this.GetComponent<striker>().ReturnStriker();
+        this.GetComponent<striker>().MoveStriker(false);
     }
 
     // Update is called once per frame

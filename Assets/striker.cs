@@ -58,7 +58,8 @@ public class striker : MonoBehaviour
     {
         if (rb.velocity.magnitude <= resetThresholdVelocity)
         {
-            ReturnStriker(); // Reset Striker Position
+            // ReturnStriker(); // Reset Striker Position
+            MoveStriker(false);
             if (movestriker == false)
             {
                 breakshots[3].Stop();
@@ -67,11 +68,11 @@ public class striker : MonoBehaviour
             }
         }
 
-        if (focusCircle.active == true)
-        {
-            angle += 75f * Time.deltaTime;
-            focusCircle.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        }
+        //if (focusCircle.active == true)
+        //{
+        //    angle += 75f * Time.deltaTime;
+        //    focusCircle.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //}
     }
     public void MoveStriker(bool t)
     {
@@ -168,17 +169,6 @@ public class striker : MonoBehaviour
 
                 player = false; // Set this to False to Make Player One Always Take Turn
             }
-        }
-    }
-    public void ReturnStriker()
-    {
-        if (player == false)
-        {
-            MoveStriker(false);
-        }
-        else
-        {
-            MoveStriker(true);
         }
     }
 
