@@ -170,7 +170,7 @@ public class striker : MonoBehaviour
             if (board.GetComponent<Collider2D>().enabled == false)
             {
                 breakshots[1].clip = hits[Random.Range(0, hits.Length)];
-                breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 30);
+                breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 12);
                 breakshots[1].Play();
             }
         }
@@ -179,7 +179,7 @@ public class striker : MonoBehaviour
     {
         if (other.gameObject.tag == "board")
         {
-            breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 200);
+            breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 80);
             board.GetComponent<Collider2D>().enabled = false;
             breakshots[0].Play();
         }
