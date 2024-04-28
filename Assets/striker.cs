@@ -9,7 +9,7 @@ public class striker : MonoBehaviour
     Vector3 strikerPosition, targetDirection, touchPosition;
 
     public GameObject gameManager;
-
+    public Vector2 strikerStartPosition = new Vector2(0, -1.47f);
     public float forceMultiplier = 230f;
     public float minRequiredForce = 0.8f;
     public float maxForce = 4f;
@@ -57,6 +57,11 @@ public class striker : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    GameObject GetCurrentPlayingCharacter()
+    {
+        return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -84,10 +89,11 @@ public class striker : MonoBehaviour
     {
         if (rb.velocity.magnitude <= resetThresholdVelocity)
         {
-            float yPosition = t ? 1.47f : -1.47f;
+            // float yPosition = t ? 1.47f : -1.47f;
+            // float yPosition = GetCurrentPlayingCharacter().GetComponent<striker>().strikerStartPosition.y;
+            float yPosition = strikerStartPosition.y;
             this.transform.position = new Vector3(StrikerSlider.value, yPosition, 0);
         }
-        // player = t;
     }
 
     public void UpdateScore()
