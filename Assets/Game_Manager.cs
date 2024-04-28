@@ -11,6 +11,12 @@ public class Game_Manager : MonoBehaviour
     public GameObject[] strikers;
     public GameObject currentPlayingCharacter;
 
+    // Awake is called when the script instance is being loaded
+    private void Awake()
+    {
+        strikers = GameObject.FindGameObjectsWithTag("striker");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,12 +30,6 @@ public class Game_Manager : MonoBehaviour
             whiteTextRenderer.text = white.ToString();
             blackTextRenderer.text = black.ToString();
         }
-    }
-
-    // Awake is called when the script instance is being loaded
-    private void Awake()
-    {
-        strikers = GameObject.FindGameObjectsWithTag("striker");
     }
 
     public void restart()
