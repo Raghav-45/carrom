@@ -32,6 +32,21 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
+    // Update is called every frame, if the MonoBehaviour is enabled
+    private void Update()
+    {
+        if (currentPlayingCharacter.GetComponent<Rigidbody2D>().velocity.magnitude <= currentPlayingCharacter.GetComponent<striker>().resetThresholdVelocity)
+        {
+            // ReturnStriker(); // Reset Striker Position
+            currentPlayingCharacter.GetComponent<striker>().MoveStriker(false);
+            if (currentPlayingCharacter.GetComponent<striker>().movestriker == false)
+            {
+                currentPlayingCharacter.GetComponent<striker>().breakshots[3].Stop();
+                currentPlayingCharacter.GetComponent<striker>().control();
+            }
+        }
+    }
+
     public void restart()
     {
         // Get the current active scene and Reload it
