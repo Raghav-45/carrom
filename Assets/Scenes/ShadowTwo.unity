@@ -1639,6 +1639,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 836370473}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 786270577}
+    - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: move_slider
       value: 
       objectReference: {fileID: 0}
@@ -2414,6 +2418,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1514651606}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 786270577}
+    - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: move_slider
       value: 
       objectReference: {fileID: 0}
@@ -2443,7 +2451,7 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 752f3d15cd8553b4bb151b8195ef2fa3, type: 3}
     - target: {fileID: 6362508504852925543, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: m_Name
-      value: Enemy Striker
+      value: Opponent Striker
       objectReference: {fileID: 0}
     - target: {fileID: 6362508504852925547, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: m_LocalPosition.x
