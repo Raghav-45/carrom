@@ -469,7 +469,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  striker: {fileID: 6362508504852925543}
 --- !u!95 &2521291883484052024
 Animator:
   serializedVersion: 5
@@ -503,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91205dd1f19f1694b92be16f11db5c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  strikerStartPosition: {x: 0, y: -1.47}
   forceMultiplier: 230
   minRequiredForce: 0.8
   maxForce: 4
@@ -713,7 +712,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6362508504852925543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -830,7 +829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  striker: {fileID: 6362508504852925543}
 --- !u!82 &809408867
 AudioSource:
   m_ObjectHideFlags: 0
