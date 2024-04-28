@@ -1,13 +1,10 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class pocket : MonoBehaviour
 {
     Animator anim;
     Rigidbody2D rb;
-    GameObject start;
     public GameObject striker;
 
 
@@ -16,12 +13,10 @@ public class pocket : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        start = GameObject.Find("start");
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Debug.Log(other.gameObject.tag);
         // Object is Striker
         if (other.gameObject.tag == "pocket" && this.gameObject.tag == "striker")
         {
@@ -34,17 +29,16 @@ public class pocket : MonoBehaviour
             }
         }
 
-        // Object is Any Pawn
+        // Object is Coin
         if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red" || this.gameObject.tag == "white"))
         {
-            // Give one Bonus Chance
+            // Give one Bonus Turn
             striker.GetComponent<striker>().MoveStriker(true);
 
             if (this.gameObject.tag == "black")
             {
                 striker.GetComponent<striker>().black++;
                 striker.GetComponent<striker>().UpdateScore();
-                // Debug.Log("Black Fall by Player");
                 if (striker.GetComponent<striker>().coveringTheQueen == true)
                 {
                     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
@@ -54,17 +48,13 @@ public class pocket : MonoBehaviour
             }
             if (this.gameObject.tag == "red")
             {
-                // Debug.Log(striker.GetComponent<striker>().red);
                 // striker.GetComponent<striker>().red++;
                 striker.GetComponent<striker>().coveringTheQueen = true;
-                // Debug.Log("Red Fall by Player");
             }
             if (this.gameObject.tag == "white")
             {
-                // Debug.Log(striker.GetComponent<striker>().red);
                 striker.GetComponent<striker>().white++;
                 striker.GetComponent<striker>().UpdateScore();
-                // Debug.Log("white Fall by Player");
                 if (striker.GetComponent<striker>().coveringTheQueen == true)
                 {
                     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
@@ -85,10 +75,4 @@ public class pocket : MonoBehaviour
         yield return new WaitForSeconds(1f);
         this.GetComponent<striker>().MoveStriker(false);
     }
-
-    // Update is called once per frame
-    // void Update()
-    // {
-
-    // }
 }
