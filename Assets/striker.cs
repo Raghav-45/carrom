@@ -56,14 +56,14 @@ public class striker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
-        {
-            focusCircle.SetActive(true);
-        }
-        else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
-        {
-            focusCircle.SetActive(false);
-        }
+        // if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
+        // {
+        //     focusCircle.SetActive(true);
+        // }
+        // else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
+        // {
+        //     focusCircle.SetActive(false);
+        // }
 
         if (rb.velocity.magnitude <= resetThresholdVelocity)
         {
