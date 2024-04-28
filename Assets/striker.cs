@@ -42,12 +42,16 @@ public class striker : MonoBehaviour
 
     float angle = 0f;
 
-    // Start is called before the first frame update
-    void Start()
+    // Awake is called when the script instance is being loaded
+    private void Awake()
     {
         start = GameObject.Find("start");
         gameManager = GameObject.Find("Game Manager");
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         cm = Camera.main;
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();

@@ -8,7 +8,6 @@ public class pocket : MonoBehaviour
     Rigidbody2D rb;
     public GameObject striker;
 
-
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -45,7 +44,7 @@ public class pocket : MonoBehaviour
         {
             // Give one Bonus Turn
             // GameManager.getTurnPlayer.Striker...
-            striker.GetComponent<striker>().MoveStriker(true);
+            // striker.GetComponent<striker>().MoveStriker(true);
 
             if (this.gameObject.tag == "black")
             {
