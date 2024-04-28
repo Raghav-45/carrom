@@ -44,6 +44,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1211013682568365039}
   - component: {fileID: 942054178239768294}
+  - component: {fileID: 7359426116540404938}
   m_Layer: 0
   m_Name: Focus Point
   m_TagString: Untagged
@@ -118,6 +119,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7359426116540404938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858310446698464183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ac1cf5efa85a459b97c1e8d574933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 75
+  radius: 1
 --- !u!1 &5629384337428999080
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,7 +409,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 2.5
+  m_LinearDrag: 2.2
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -490,7 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
-  forceMultiplier: 200
+  forceMultiplier: 230
   minRequiredForce: 0.8
   maxForce: 4
   breakshots:

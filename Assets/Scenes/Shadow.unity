@@ -1622,6 +1622,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 942054178239768294, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4719726446641218173, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1664,7 +1668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: resetThresholdVelocity
-      value: 0.05
+      value: 0.07
       objectReference: {fileID: 0}
     - target: {fileID: 6185954806710999382, guid: 044d55c40baf7f644b981ba1c3f106d0, type: 3}
       propertyPath: breakshots.Array.data[1]

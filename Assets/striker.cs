@@ -22,7 +22,7 @@ public class striker : MonoBehaviour
 
     public GameObject focusCircle;
     public GameObject powerControl;
-    public float resetThresholdVelocity = 0.05f;
+    public float resetThresholdVelocity = 0.07f;
     public GameObject board;
     bool player = false;
     public int black, white, red;
@@ -56,6 +56,15 @@ public class striker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
+        {
+            focusCircle.SetActive(true);
+        }
+        else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
+        {
+            focusCircle.SetActive(false);
+        }
+
         if (rb.velocity.magnitude <= resetThresholdVelocity)
         {
             // ReturnStriker(); // Reset Striker Position
@@ -63,16 +72,9 @@ public class striker : MonoBehaviour
             if (movestriker == false)
             {
                 breakshots[3].Stop();
-                focusCircle.SetActive(false); // set to true
                 control();
             }
         }
-
-        //if (focusCircle.active == true)
-        //{
-        //    angle += 75f * Time.deltaTime;
-        //    focusCircle.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        //}
     }
     public void MoveStriker(bool t)
     {
