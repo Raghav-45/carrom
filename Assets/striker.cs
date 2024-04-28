@@ -95,7 +95,7 @@ public class striker : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            touchPosition = cm.ScreenToWorldPoint(Input.mousePosition);
+            touchPosition = cm.ScreenToWorldPoint(touch.position);
 
             // Raycast to check if the touch position is hitting the striker collider
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
@@ -106,7 +106,6 @@ public class striker : MonoBehaviour
             {
                 if (hit.transform.name == "striker")
                 {
-                    // Debug.Log("Touch on striker");
                     showGizmos = true;
                 }
 
@@ -114,23 +113,18 @@ public class striker : MonoBehaviour
                 {
                     powerControl.SetActive(true);
                     focusCircle.SetActive(false);
+
                     strikerPosition = this.transform.position;
+
                     float scaleValue = 4f * Vector2.Distance(strikerPosition, touchPosition);
-                    // powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
-                    //powerCircle.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0f, maxForce);
                     powerControl.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0.75f, maxForce);
+
+                    targetDirection = strikerPosition - touchPosition;
+                    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+                    powerControl.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
                     // Draw Debug line for Force Vector
                     Debug.DrawLine(strikerPosition, touchPosition, Color.blue);
-
-                    // Calculate the direction from start position to input position
-                    targetDirection = strikerPosition - touchPosition;
-
-                    // Calculate the rotation angle using the direction
-                    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg - 90;
-
-                    // Set the rotation of the power arrow
-                    powerControl.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
                     // Calculate the end position
                     // Vector3 linePos = strikerPosition + targetDirection;
@@ -144,24 +138,21 @@ public class striker : MonoBehaviour
                 }
             }
         }
-        else if (Input.touchCount == 0 && showGizmos == true)
+        else if (showGizmos)
         {
             // lr.enabled = false;
             showGizmos = false;
-            // powerCircle.transform.localScale = Vector3.zero;
             powerControl.SetActive(false);
             focusCircle.SetActive(false);
             powerControl.transform.localScale = Vector3.one * 0.75f;
 
-            Vector2 hitDirectionNormalized = targetDirection.normalized;
             float dragAmount = 4f * Vector2.Distance(strikerPosition, touchPosition);
             float magnitudeClamped = Mathf.Clamp(dragAmount, 0f, maxForce);
-            // Vector3 forceVector = targetDirection.normalized * magnitude;
+            Vector2 hitDirectionNormalized = targetDirection.normalized;
             Vector3 forceVector = hitDirectionNormalized.normalized * magnitudeClamped;
 
             if (magnitudeClamped > minRequiredForce)
             {
-                Debug.Log(forceVector.magnitude * forceMultiplier);
                 breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
                 breakshots[2].Play();
 
