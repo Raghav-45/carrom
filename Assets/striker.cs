@@ -63,28 +63,28 @@ public class striker : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        // if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
-        // {
-        //     focusCircle.SetActive(true);
-        // }
-        // else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
-        // {
-        //     focusCircle.SetActive(false);
-        // }
+    // void Update()
+    // {
+    //     // if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
+    //     // {
+    //     //     focusCircle.SetActive(true);
+    //     // }
+    //     // else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
+    //     // {
+    //     //     focusCircle.SetActive(false);
+    //     // }
 
-        if (rb.velocity.magnitude <= resetThresholdVelocity)
-        {
-            // ReturnStriker(); // Reset Striker Position
-            MoveStriker(false);
-            if (movestriker == false)
-            {
-                breakshots[3].Stop();
-                control();
-            }
-        }
-    }
+    //     if (rb.velocity.magnitude <= resetThresholdVelocity)
+    //     {
+    //         // ReturnStriker(); // Reset Striker Position
+    //         MoveStriker(false);
+    //         if (movestriker == false)
+    //         {
+    //             breakshots[3].Stop();
+    //             control();
+    //         }
+    //     }
+    // }
     public void MoveStriker(bool t)
     {
         if (rb.velocity.magnitude <= resetThresholdVelocity)
@@ -102,7 +102,7 @@ public class striker : MonoBehaviour
         gameManager.GetComponent<Game_Manager>().black = (byte)black;
         gameManager.GetComponent<Game_Manager>().UpdateScoreUI();
     }
-    private void control()
+    public void control()
     {
         if (Input.touchCount > 0)
         {
@@ -116,7 +116,7 @@ public class striker : MonoBehaviour
 
             if (hit.collider)
             {
-                if (hit.transform.tag == "striker")
+                if (hit.transform.CompareTag("striker"))
                 {
                     showGizmos = true;
                 }
