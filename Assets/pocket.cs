@@ -3,16 +3,27 @@ using UnityEngine;
 
 public class pocket : MonoBehaviour
 {
+    public GameObject gameManager;
     Animator anim;
     Rigidbody2D rb;
     public GameObject striker;
 
+
+    // Awake is called when the script instance is being loaded
+    private void Awake()
+    {
+        gameManager = GameObject.Find("Game Manager");
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+    }
+
+    GameObject GetCurrentPlayingCharacter() {
+        return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -22,10 +33,10 @@ public class pocket : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             StartCoroutine("fall");
-            if (striker.GetComponent<striker>().coveringTheQueen == true)
+            if (this.gameObject.GetComponent<striker>().coveringTheQueen == true)
             {
                 //TODO: return the queen
-                striker.GetComponent<striker>().coveringTheQueen = false;
+                this.gameObject.GetComponent<striker>().coveringTheQueen = false;
             }
         }
 
@@ -33,6 +44,7 @@ public class pocket : MonoBehaviour
         if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red" || this.gameObject.tag == "white"))
         {
             // Give one Bonus Turn
+            // GameManager.getTurnPlayer.Striker...
             striker.GetComponent<striker>().MoveStriker(true);
 
             if (this.gameObject.tag == "black")
