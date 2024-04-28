@@ -22,7 +22,7 @@ public class striker : MonoBehaviour
 
     public GameObject focusCircle;
     public GameObject powerControl;
-    public float resetThresholdVelocity = 0.07f;
+    public float resetThresholdVelocity = 0.05f;
     public GameObject board;
     bool player = false;
     public int black, white, red;
