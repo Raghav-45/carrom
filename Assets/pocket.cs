@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class pocket : MonoBehaviour
 {
-    public GameObject gameManager;
+    GameObject gameManager;
     Animator anim;
     Rigidbody2D rb;
-    public GameObject striker;
 
     // Awake is called when the script instance is being loaded
     private void Awake()

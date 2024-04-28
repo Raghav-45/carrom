@@ -8,7 +8,7 @@ public class striker : MonoBehaviour
 {
     Vector3 strikerPosition, targetDirection, touchPosition;
 
-    public GameObject gameManager;
+    GameObject gameManager;
     public Vector2 strikerStartPosition = new Vector2(0, -1.47f);
     public float forceMultiplier = 230f;
     public float minRequiredForce = 0.8f;
@@ -24,7 +24,6 @@ public class striker : MonoBehaviour
     public GameObject powerControl;
     public float resetThresholdVelocity = 0.07f;
     public GameObject board;
-    bool player = false;
     public int black, white, red;
     public bool coveringTheQueen = false;
 
@@ -37,10 +36,9 @@ public class striker : MonoBehaviour
     public bool st = false;
     public bool movestriker = false;
     public bool turn = false;
+    public byte currentTurnIndex = 0;
     bool showGizmos = false;
     [SerializeField] AnimationCurve ac;
-
-    float angle = 0f;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -63,28 +61,30 @@ public class striker : MonoBehaviour
     }
 
     // Update is called once per frame
-    // void Update()
-    // {
-    //     // if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
-    //     // {
-    //     //     focusCircle.SetActive(true);
-    //     // }
-    //     // else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
-    //     // {
-    //     //     focusCircle.SetActive(false);
-    //     // }
+    void Update()
+    {
+        // if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
+        // {
+        //     focusCircle.SetActive(true);
+        // }
+        // else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
+        // {
+        //     focusCircle.SetActive(false);
+        // }
 
-    //     if (rb.velocity.magnitude <= resetThresholdVelocity)
-    //     {
-    //         // ReturnStriker(); // Reset Striker Position
-    //         MoveStriker(false);
-    //         if (movestriker == false)
-    //         {
-    //             breakshots[3].Stop();
-    //             control();
-    //         }
-    //     }
-    // }
+        if (rb.velocity.magnitude <= resetThresholdVelocity)
+        {
+            // ReturnStriker(); // Reset Striker Position
+            MoveStriker(false);
+            if (movestriker == false)
+            {
+                breakshots[3].Stop();
+                control();
+            }
+        }
+    }
+
+
     public void MoveStriker(bool t)
     {
         if (rb.velocity.magnitude <= resetThresholdVelocity)
@@ -112,12 +112,13 @@ public class striker : MonoBehaviour
             // Raycast to check if the touch position is hitting the striker collider
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
 
-            powerControl.SetActive(false);
+            // powerControl.SetActive(false);
 
             if (hit.collider)
             {
-                if (hit.transform.CompareTag("striker"))
+                if (hit.transform.CompareTag("striker") && hit.transform.name == this.name)
                 {
+                    Debug.Log(hit.transform.name == this.name);
                     showGizmos = true;
                 }
 
@@ -170,7 +171,11 @@ public class striker : MonoBehaviour
 
                 rb.AddForce(forceVector.normalized * magnitudeClamped * forceMultiplier);
 
-                player = false; // Set this to False to Make Player One Always Take Turn
+                currentTurnIndex++;
+
+                // gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
+
+                // player = false; // Set this to False to Make Player One Always Take Turn
             }
         }
     }

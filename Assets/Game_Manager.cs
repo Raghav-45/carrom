@@ -15,12 +15,19 @@ public class Game_Manager : MonoBehaviour
     private void Awake()
     {
         strikers = GameObject.FindGameObjectsWithTag("striker");
+        currentPlayingCharacter = strikers[1];
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void SwitchToNextPlayer()
     {
-        currentPlayingCharacter = strikers[0];
+        // Find the index of the current player
+        int currentIndex = System.Array.IndexOf(strikers, currentPlayingCharacter);
+
+        // Increment the index to switch to the next player
+        currentIndex = (currentIndex + 1) % strikers.Length;
+
+        // Update currentPlayingCharacter to the next player
+        currentPlayingCharacter = strikers[currentIndex];
     }
 
     public void UpdateScoreUI()
@@ -29,21 +36,6 @@ public class Game_Manager : MonoBehaviour
         {
             whiteTextRenderer.text = white.ToString();
             blackTextRenderer.text = black.ToString();
-        }
-    }
-
-    // Update is called every frame, if the MonoBehaviour is enabled
-    private void Update()
-    {
-        if (currentPlayingCharacter.GetComponent<Rigidbody2D>().velocity.magnitude <= currentPlayingCharacter.GetComponent<striker>().resetThresholdVelocity)
-        {
-            // ReturnStriker(); // Reset Striker Position
-            currentPlayingCharacter.GetComponent<striker>().MoveStriker(false);
-            if (currentPlayingCharacter.GetComponent<striker>().movestriker == false)
-            {
-                currentPlayingCharacter.GetComponent<striker>().breakshots[3].Stop();
-                currentPlayingCharacter.GetComponent<striker>().control();
-            }
         }
     }
 
