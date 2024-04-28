@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 75
-  radius: 1
 --- !u!1 &5629384337428999080
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,7 +384,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 491ed6f62cdc0014180c9cb5762f2a0a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 28a8b36c74b5abd4f8aae1c0d83f6168, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -470,7 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  striker: {fileID: 0}
+  striker: {fileID: 6362508504852925543}
 --- !u!95 &2521291883484052024
 Animator:
   serializedVersion: 5
@@ -549,7 +548,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1329d2306b9553f40a039be1bfec4820, type: 3}
   - {fileID: 8300000, guid: d8298314fe7049e448e905f87732c583, type: 3}
   StrikerSlider: {fileID: 0}
-  focusCircle: {fileID: 0}
+  focusCircle: {fileID: 4858310446698464183}
   powerControl: {fileID: 1272860692470752492}
   resetThresholdVelocity: 0.07
   board: {fileID: 0}
