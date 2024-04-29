@@ -169,7 +169,7 @@ public class striker : MonoBehaviour
                             breakshots[2].Play();
 
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
-                            breakshots[3].Play();
+                            // breakshots[3].Play();
                             currentTurnIndex++;
                         }
                     }
