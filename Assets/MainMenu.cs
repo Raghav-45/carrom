@@ -5,7 +5,7 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("Shadow");
+        SceneManager.LoadScene("ShadowTwo");
     }
 
     public void QuitGame()
