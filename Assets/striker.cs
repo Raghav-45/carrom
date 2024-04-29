@@ -80,10 +80,20 @@ public class striker : MonoBehaviour
         {
             control();
         }
+        // if (rb.velocity.magnitude <= resetThresholdVelocity)
+        // {
+        //     breakshots[3].Stop();
+        // }
         //     }
         // }
     }
 
+    void InitTurn()
+    {
+        Debug.Log("Turn Initialized");
+        isBeingDragged = false;
+        ResetStrikerPos();
+    }
 
     public void ResetStrikerPos()
     {
@@ -159,6 +169,7 @@ public class striker : MonoBehaviour
                             breakshots[2].Play();
 
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
+                            breakshots[3].Play();
                             currentTurnIndex++;
                         }
                     }
