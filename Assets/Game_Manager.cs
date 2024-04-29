@@ -18,6 +18,12 @@ public class Game_Manager : MonoBehaviour
         currentPlayingCharacter = strikers[1];
     }
 
+    // Start is called just before any of the Update methods is called the first time
+    private void Start()
+    {
+        currentPlayingCharacter.GetComponent<striker>().isPlayerTurn = true;
+    }
+
     public void SwitchToNextPlayer()
     {
         // Find the index of the current player
