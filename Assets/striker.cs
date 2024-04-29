@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class striker : MonoBehaviour
 {
-    Vector3 strikerPosition, targetDirection, touchPosition;
+    // Vector3 strikerPosition, targetDirection, touchPosition;
+    Vector3 strikerPosition, dragDirection, forceDirection, touchPosition;
+    float dragAmount;
 
     GameObject gameManager;
     public Vector2 strikerStartPosition = new Vector2(0, -1.47f);
@@ -36,6 +38,7 @@ public class striker : MonoBehaviour
     public bool st = false;
     public bool movestriker = false;
     public bool isPlayerTurn = false;
+    private bool isBeingDragged = false;
     public byte currentTurnIndex = 0;
     bool showGizmos = false;
     [SerializeField] AnimationCurve ac;
@@ -104,75 +107,62 @@ public class striker : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            touchPosition = cm.ScreenToWorldPoint(touch.position);
+
+            touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            touchPosition.z = 0;
+
+            strikerPosition = this.transform.position;
 
             // Raycast to check if the touch position is hitting the striker collider
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
 
-            // powerControl.SetActive(false);
-
-            if (hit.collider)
+            switch (touch.phase)
             {
-                if (hit.transform.CompareTag("striker") && hit.transform.name == this.name)
-                {
-                    Debug.Log(hit.transform.name == this.name);
-                    showGizmos = true;
-                }
+                case TouchPhase.Began:
+                    // Show arrow
+                    if (hit.transform.CompareTag("striker") && hit.transform.name == this.name)
+                    {
+                        isBeingDragged = true; // Set the flag to indicate this striker is being dragged
+                        powerControl.transform.localScale = Vector3.one * 0.75f; // Reset Gizmos Scale
+                        powerControl.SetActive(true);
+                    }
+                    break;
+                case TouchPhase.Moved:
+                    if (isBeingDragged) // Process drag motion only if this striker is being dragged
+                    {
+                        // Calculate directions
+                        dragDirection = (touchPosition - strikerPosition).normalized;
+                        forceDirection = (dragDirection * -1).normalized;
 
-                if (showGizmos == true)
-                {
-                    powerControl.SetActive(true);
-                    focusCircle.SetActive(false);
+                        dragAmount = 4f * Vector2.Distance(strikerPosition, touchPosition);
+                        powerControl.transform.localScale = Vector3.one * Mathf.Clamp(dragAmount, 0.75f, maxForce);
 
-                    strikerPosition = this.transform.position;
+                        float angle = Mathf.Atan2(forceDirection.y, forceDirection.x) * Mathf.Rad2Deg;
+                        powerControl.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                    }
 
-                    float scaleValue = 4f * Vector2.Distance(strikerPosition, touchPosition);
-                    powerControl.transform.localScale = Vector3.one * Mathf.Clamp(scaleValue, 0.75f, maxForce);
+                    break;
+                case TouchPhase.Ended:
+                    if (isBeingDragged) // Process end touch only if this striker is being dragged
+                    {
+                        isBeingDragged = false; // Reset the flag
 
-                    targetDirection = strikerPosition - touchPosition;
-                    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-                    powerControl.transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+                        // Hide arrow
+                        powerControl.SetActive(false);
+                        powerControl.transform.localScale = Vector3.one * 0.75f; // Reset Gizmos Scale
 
-                    // Draw Debug line for Force Vector
-                    Debug.DrawLine(strikerPosition, touchPosition, Color.blue);
+                        float magnitude = Mathf.Clamp(dragAmount, 0f, maxForce);
+                        // Apply force in the direction of drag
+                        if (magnitude > minRequiredForce)
+                        {
+                            breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
+                            breakshots[2].Play();
 
-                    // Calculate the end position
-                    // Vector3 linePos = strikerPosition + targetDirection;
-
-                    // lr.positionCount = 2;
-                    // lr.widthCurve = ac;
-                    // lr.numCapVertices = 10;
-                    // lr.SetPosition(0, strikerPosition);
-                    // lr.SetPosition(1, linePos);
-                    // lr.enabled = true;
-                }
-            }
-        }
-        else if (showGizmos)
-        {
-            // lr.enabled = false;
-            showGizmos = false;
-            powerControl.SetActive(false);
-            focusCircle.SetActive(false);
-            powerControl.transform.localScale = Vector3.one * 0.75f;
-
-            float dragAmount = 4f * Vector2.Distance(strikerPosition, touchPosition);
-            float magnitudeClamped = Mathf.Clamp(dragAmount, 0f, maxForce);
-            Vector2 hitDirectionNormalized = targetDirection.normalized;
-            Vector3 forceVector = hitDirectionNormalized.normalized * magnitudeClamped;
-
-            if (magnitudeClamped > minRequiredForce)
-            {
-                breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
-                breakshots[2].Play();
-
-                rb.AddForce(forceVector.normalized * magnitudeClamped * forceMultiplier);
-
-                currentTurnIndex++;
-
-                // gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
-
-                // player = false; // Set this to False to Make Player One Always Take Turn
+                            rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
+                            currentTurnIndex++;
+                        }
+                    }
+                    break;
             }
         }
     }
