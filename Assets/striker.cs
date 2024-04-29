@@ -35,7 +35,7 @@ public class striker : MonoBehaviour
     // bool hit = false;
     public bool st = false;
     public bool movestriker = false;
-    public bool turn = false;
+    public bool isPlayerTurn = false;
     public byte currentTurnIndex = 0;
     bool showGizmos = false;
     [SerializeField] AnimationCurve ac;
@@ -53,6 +53,9 @@ public class striker : MonoBehaviour
         cm = Camera.main;
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
+
+        powerControl.SetActive(false); // Hide arrow initially
+        focusCircle.SetActive(false);
     }
 
     GameObject GetCurrentPlayingCharacter()
@@ -63,37 +66,31 @@ public class striker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (rb.velocity.magnitude == 0f && transform.position.y == -1.47f)
+        // if (rb.velocity.magnitude <= resetThresholdVelocity)
         // {
-        //     focusCircle.SetActive(true);
-        // }
-        // else if (rb.velocity.magnitude > 0f && transform.position.y != -1.47f)
-        // {
-        //     focusCircle.SetActive(false);
-        // }
-
-        if (rb.velocity.magnitude <= resetThresholdVelocity)
+        //     // ReturnStriker(); // Reset Striker Position
+        //     ResetStrikerPos();
+        //     if (movestriker == false)
+        //     {
+        //         breakshots[3].Stop();
+        if (isPlayerTurn)
         {
-            // ReturnStriker(); // Reset Striker Position
-            MoveStriker(false);
-            if (movestriker == false)
-            {
-                breakshots[3].Stop();
-                control();
-            }
+            control();
         }
+        //     }
+        // }
     }
 
 
-    public void MoveStriker(bool t)
+    public void ResetStrikerPos()
     {
-        if (rb.velocity.magnitude <= resetThresholdVelocity)
-        {
-            // float yPosition = t ? 1.47f : -1.47f;
-            // float yPosition = GetCurrentPlayingCharacter().GetComponent<striker>().strikerStartPosition.y;
-            float yPosition = strikerStartPosition.y;
-            this.transform.position = new Vector3(StrikerSlider.value, yPosition, 0);
-        }
+        // if (rb.velocity.magnitude <= resetThresholdVelocity)
+        // {
+        // // float yPosition = t ? 1.47f : -1.47f;
+        // // float yPosition = GetCurrentPlayingCharacter().GetComponent<striker>().strikerStartPosition.y;
+        float yPosition = strikerStartPosition.y;
+        this.transform.position = new Vector3(StrikerSlider.value, yPosition, 0);
+        // }
     }
 
     public void UpdateScore()
