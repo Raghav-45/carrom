@@ -24,6 +24,15 @@ public class Game_Manager : MonoBehaviour
         currentPlayingCharacter.GetComponent<striker>().isPlayerTurn = true;
     }
 
+    private void Update()
+    {
+        if (currentPlayingCharacter.GetComponent<striker>().startObserving && currentPlayingCharacter.GetComponent<striker>().GetComponent<Rigidbody2D>().velocity.magnitude <= currentPlayingCharacter.GetComponent<striker>().resetThresholdVelocity)
+        {
+            Debug.Log("sd");
+            currentPlayingCharacter.GetComponent<striker>().startObserving = false;
+        }
+    }
+
     public void SwitchToNextPlayer()
     {
         // Find the index of the current player

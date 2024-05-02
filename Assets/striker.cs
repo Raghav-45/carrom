@@ -39,6 +39,7 @@ public class striker : MonoBehaviour
     public bool movestriker = false;
     public bool isPlayerTurn = false;
     private bool isBeingDragged = false;
+    public bool startObserving = false;
     public byte currentTurnIndex = 0;
     bool showGizmos = false;
     [SerializeField] AnimationCurve ac;
@@ -92,6 +93,7 @@ public class striker : MonoBehaviour
     {
         Debug.Log("Turn Initialized");
         isBeingDragged = false;
+        startObserving = false;
         ResetStrikerPos();
     }
 
@@ -169,6 +171,7 @@ public class striker : MonoBehaviour
                             breakshots[2].Play();
 
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
+                            startObserving = true;
                             // breakshots[3].Play();
                             currentTurnIndex++;
                         }
