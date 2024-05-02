@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +9,7 @@ public class striker : MonoBehaviour
     float dragAmount;
 
     GameObject gameManager;
+    // Make it random, based on player turn
     public Vector2 strikerStartPosition = new Vector2(0, -1.47f);
     public float forceMultiplier = 230f;
     public float minRequiredForce = 0.8f;
@@ -40,9 +39,12 @@ public class striker : MonoBehaviour
     public bool isPlayerTurn = false;
     private bool isBeingDragged = false;
     public bool startObserving = false;
+    // public bool doesPlayerHit = false;
     public byte currentTurnIndex = 0;
     bool showGizmos = false;
     [SerializeField] AnimationCurve ac;
+
+    private Coroutine hitCoroutine;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -62,14 +64,19 @@ public class striker : MonoBehaviour
         focusCircle.SetActive(false);
     }
 
-    GameObject GetCurrentPlayingCharacter()
-    {
-        return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
-    }
+    // GameObject GetCurrentPlayingCharacter()
+    // {
+    //     return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
+    // }
 
     // Update is called once per frame
     void Update()
     {
+        // if (rb.velocity.magnitude <= resetThresholdVelocity)
+        // {
+        //     Debug.Log("sd");
+        //     ResetStrikerPos();
+        // }
         // if (rb.velocity.magnitude <= resetThresholdVelocity)
         // {
         //     // ReturnStriker(); // Reset Striker Position
@@ -77,10 +84,10 @@ public class striker : MonoBehaviour
         //     if (movestriker == false)
         //     {
         //         breakshots[3].Stop();
-        if (isPlayerTurn)
-        {
-            control();
-        }
+        // if (isPlayerTurn)
+        // {
+        control();
+        // }
         // if (rb.velocity.magnitude <= resetThresholdVelocity)
         // {
         //     breakshots[3].Stop();
@@ -89,9 +96,21 @@ public class striker : MonoBehaviour
         // }
     }
 
+    void FixedUpdate()
+    {
+        // Check if the magnitude of velocity is below the threshold
+        if (rb.velocity.magnitude <= resetThresholdVelocity)
+        {
+            Debug.Log("Player is stationary.");
+            breakshots[3].Stop();
+            ResetStrikerPos();
+        }
+    }
+
     void InitTurn()
     {
         Debug.Log("Turn Initialized");
+        // doesPlayerHit = false;
         isBeingDragged = false;
         startObserving = false;
         ResetStrikerPos();
@@ -103,8 +122,8 @@ public class striker : MonoBehaviour
         // {
         // // float yPosition = t ? 1.47f : -1.47f;
         // // float yPosition = GetCurrentPlayingCharacter().GetComponent<striker>().strikerStartPosition.y;
-        float yPosition = strikerStartPosition.y;
-        this.transform.position = new Vector3(StrikerSlider.value, yPosition, 0);
+        Transform pos = gameManager.GetComponent<Game_Manager>().currentPlayingCharacterResetPos;
+        this.transform.position = new Vector3(pos.position.x, pos.position.y, 0);
         // }
     }
 
@@ -171,14 +190,24 @@ public class striker : MonoBehaviour
                             breakshots[2].Play();
 
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
-                            startObserving = true;
-                            // breakshots[3].Play();
-                            currentTurnIndex++;
+                            breakshots[3].Play();
+
+                            if (hitCoroutine != null)
+                            {
+                                StopCoroutine(hitCoroutine);
+                            }
+                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.02f)); // Change delay in seconds
                         }
                     }
                     break;
             }
         }
+    }
+
+    private IEnumerator SwitchToNextPlayerAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
