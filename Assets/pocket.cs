@@ -22,7 +22,7 @@ public class pocket : MonoBehaviour
 
     GameObject GetCurrentPlayingCharacter()
     {
-        return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
+        return gameManager.GetComponent<Game_Manager>().striker;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -43,7 +43,7 @@ public class pocket : MonoBehaviour
         if (other.gameObject.tag == "pocket" && (this.gameObject.tag == "black" || this.gameObject.tag == "red" || this.gameObject.tag == "white"))
         {
             // Give one Bonus Turn
-            // GetCurrentPlayingCharacter().GetComponent<striker>().MoveStriker(true);
+            gameManager.GetComponent<Game_Manager>().giveTurn();
 
             if (this.gameObject.tag == "black")
             {

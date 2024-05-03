@@ -118,13 +118,8 @@ public class striker : MonoBehaviour
 
     public void ResetStrikerPos()
     {
-        // if (rb.velocity.magnitude <= resetThresholdVelocity)
-        // {
-        // // float yPosition = t ? 1.47f : -1.47f;
-        // // float yPosition = GetCurrentPlayingCharacter().GetComponent<striker>().strikerStartPosition.y;
         Transform pos = gameManager.GetComponent<Game_Manager>().currentPlayingCharacterResetPos;
         this.transform.position = new Vector3(pos.position.x, pos.position.y, 0);
-        // }
     }
 
     public void UpdateScore()

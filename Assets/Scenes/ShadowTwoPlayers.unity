@@ -1040,11 +1040,8 @@ MonoBehaviour:
   startPoints:
   - {fileID: 1422576986}
   - {fileID: 921990399}
-  - {fileID: 1406947765}
-  - {fileID: 1971214735}
   striker: {fileID: 0}
-  strikers: []
-  currentPlayingCharacter: {fileID: 0}
+  currentPlayingCharacterResetPos: {fileID: 0}
 --- !u!4 &786270579
 Transform:
   m_ObjectHideFlags: 0
