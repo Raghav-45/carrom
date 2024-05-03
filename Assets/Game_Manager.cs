@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UIElements;
 
 public class Game_Manager : MonoBehaviour
 {
@@ -12,10 +10,38 @@ public class Game_Manager : MonoBehaviour
     [SerializeField] private Text whiteTextRenderer;
     [SerializeField] private Text blackTextRenderer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public Transform[] startPoints;
+    public GameObject striker;
+    public Transform PreviousPlayingCharacterResetPos;
+    public Transform currentPlayingCharacterResetPos;
 
+    public byte deltaCoins;
+
+    // Awake is called when the script instance is being loaded
+    private void Awake()
+    {
+        striker = GameObject.FindGameObjectsWithTag("striker")[0];
+        currentPlayingCharacterResetPos = startPoints[0];
+    }
+
+    public void SwitchToNextPlayer()
+    {
+        // Find the index of the current player
+        int currentIndex = System.Array.IndexOf(startPoints, currentPlayingCharacterResetPos);
+
+        // Update Reset Position to the previous player
+        PreviousPlayingCharacterResetPos = startPoints[currentIndex];
+
+        // Increment the index to switch to the next player
+        currentIndex = (currentIndex + 1) % startPoints.Length;
+
+        // Update Reset Position to the next player
+        currentPlayingCharacterResetPos = startPoints[currentIndex];
+    }
+
+    public void giveTurn()
+    {
+        currentPlayingCharacterResetPos = PreviousPlayingCharacterResetPos;
     }
 
     public void UpdateScoreUI()

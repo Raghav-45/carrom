@@ -26,8 +26,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7372170955280073519}
   - {fileID: 3836421472956783163}
@@ -51,7 +51,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1211013682568365039
 Transform:
   m_ObjectHideFlags: 0
@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 75
-  radius: 1
 --- !u!1 &5629384337428999080
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +204,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1521463941, guid: 312b77ad84e51e24d9cf35de700af351, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -243,8 +242,8 @@ Transform:
   m_GameObject: {fileID: 6280952826090000229}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0065, y: 0.48174083, z: 0}
-  m_LocalScale: {x: 6.8, y: 25, z: 1}
+  m_LocalPosition: {x: 0.005, y: 0.48174083, z: 0}
+  m_LocalScale: {x: 7.2, y: 25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7569931554676573813}
@@ -289,7 +288,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1231272926, guid: 269f752ed6b390842a42918632d14134, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -385,7 +384,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 491ed6f62cdc0014180c9cb5762f2a0a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 28a8b36c74b5abd4f8aae1c0d83f6168, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -470,7 +469,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  striker: {fileID: 0}
 --- !u!95 &2521291883484052024
 Animator:
   serializedVersion: 5
@@ -504,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91205dd1f19f1694b92be16f11db5c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
+  strikerStartPosition: {x: 0, y: -1.47}
   forceMultiplier: 230
   minRequiredForce: 0.8
   maxForce: 4
@@ -549,7 +547,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1329d2306b9553f40a039be1bfec4820, type: 3}
   - {fileID: 8300000, guid: d8298314fe7049e448e905f87732c583, type: 3}
   StrikerSlider: {fileID: 0}
-  focusCircle: {fileID: 0}
+  focusCircle: {fileID: 4858310446698464183}
   powerControl: {fileID: 1272860692470752492}
   resetThresholdVelocity: 0.07
   board: {fileID: 0}
@@ -559,7 +557,8 @@ MonoBehaviour:
   coveringTheQueen: 0
   st: 0
   movestriker: 0
-  turn: 0
+  isPlayerTurn: 0
+  currentTurnIndex: 0
   ac:
     serializedVersion: 2
     m_Curve:
@@ -714,7 +713,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6362508504852925543}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -831,7 +830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  striker: {fileID: 6362508504852925543}
 --- !u!82 &809408867
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1000,7 +998,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 49d1119ec459eba46af16863a151025e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
