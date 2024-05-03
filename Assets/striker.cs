@@ -64,46 +64,32 @@ public class striker : MonoBehaviour
         focusCircle.SetActive(false);
     }
 
-    // GameObject GetCurrentPlayingCharacter()
-    // {
-    //     return gameManager.GetComponent<Game_Manager>().currentPlayingCharacter;
-    // }
-
     // Update is called once per frame
     void Update()
     {
-        // if (rb.velocity.magnitude <= resetThresholdVelocity)
-        // {
-        //     Debug.Log("sd");
-        //     ResetStrikerPos();
-        // }
-        // if (rb.velocity.magnitude <= resetThresholdVelocity)
-        // {
-        //     // ReturnStriker(); // Reset Striker Position
-        //     ResetStrikerPos();
-        //     if (movestriker == false)
-        //     {
-        //         breakshots[3].Stop();
-        // if (isPlayerTurn)
-        // {
         control();
-        // }
-        // if (rb.velocity.magnitude <= resetThresholdVelocity)
-        // {
-        //     breakshots[3].Stop();
-        // }
-        //     }
-        // }
     }
 
     void FixedUpdate()
     {
         // Check if the magnitude of velocity is below the threshold
-        if (rb.velocity.magnitude <= resetThresholdVelocity)
+        if (rb.velocity.magnitude <= resetThresholdVelocity && startObserving)
         {
-            Debug.Log("Player is stationary.");
-            breakshots[3].Stop();
+            startObserving = false;
+            // Debug.Log("Player is stationary.");
+            // breakshots[3].Stop();
             ResetStrikerPos();
+            if (!coveringTheQueen)
+            {
+                gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
+            }
+
+            if (coveringTheQueen && gameManager.GetComponent<Game_Manager>().deltaCoins == 1 && red == 1)
+            {
+                Debug.Log("Return Queen.");
+                coveringTheQueen = false;
+                // gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
+            }
         }
     }
 
@@ -120,6 +106,7 @@ public class striker : MonoBehaviour
     {
         Transform pos = gameManager.GetComponent<Game_Manager>().currentPlayingCharacterResetPos;
         this.transform.position = new Vector3(pos.position.x, pos.position.y, 0);
+        rb.velocity = Vector2.zero;
     }
 
     public void UpdateScore()
@@ -202,6 +189,7 @@ public class striker : MonoBehaviour
     private IEnumerator SwitchToNextPlayerAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        startObserving = true;
         gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
     }
 

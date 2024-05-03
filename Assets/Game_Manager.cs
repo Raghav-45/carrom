@@ -15,6 +15,8 @@ public class Game_Manager : MonoBehaviour
     public Transform PreviousPlayingCharacterResetPos;
     public Transform currentPlayingCharacterResetPos;
 
+    public byte deltaCoins;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
