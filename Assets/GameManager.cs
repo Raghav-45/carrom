@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -18,9 +19,33 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
-    [SerializeField] private int redCoins;
-    [SerializeField] private int blackCoins;
-    [SerializeField] private int whiteCoins;
+    [SerializeField] private int redCoins = 0;
+    [SerializeField] private int blackCoins = 0;
+    [SerializeField] private int whiteCoins = 0;
+
+    [SerializeField] private int currentPlayerIndex = 0; // Index of the current player
+    public Player[] players; // Array of players in the game
+
+    // Event to signal turn changes
+    public event Action<int> OnTurnChanged;
+
+    // Awake is called when the script instance is being loaded
+    private void Awake()
+    {
+        // Initialize players
+        players = new Player[]
+        {
+            new Player(PlayerTurn.PlayerOne),
+            new Player(PlayerTurn.PlayerTwo)
+        };
+    }
+
+    // Method to end the current turn and start the next turn
+    public void SwitchToNextPlayer()
+    {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
+        OnTurnChanged?.Invoke(currentPlayerIndex);
+    }
 
     // Method to collect coins
     public void CollectCoin(CoinType type)
@@ -37,6 +62,9 @@ public class GameManager : MonoBehaviour
                 whiteCoins++;
                 break;
         }
+
+        // Update the current player's score
+        players[currentPlayerIndex].Score++;
     }
 
     // Methods to retrieve coin counts
@@ -54,6 +82,12 @@ public class GameManager : MonoBehaviour
     {
         return whiteCoins;
     }
+
+    // Method to get the current player's score
+    public int GetCurrentPlayerScore()
+    {
+        return players[currentPlayerIndex].Score;
+    }
 }
 
 public enum CoinType
@@ -61,4 +95,25 @@ public enum CoinType
     Red,
     Black,
     White
+}
+
+// Enum for player turns
+public enum PlayerTurn
+{
+    PlayerOne,
+    PlayerTwo
+}
+
+// Player class to represent each player
+[System.Serializable]
+public class Player
+{
+    public PlayerTurn PlayerType;
+    public int Score; // Player's score
+
+    public Player(PlayerTurn playerType)
+    {
+        this.PlayerType = playerType;
+        this.Score = 0; // Initialize score to zero
+    }
 }
