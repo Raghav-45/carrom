@@ -33,15 +33,17 @@ public class GameManager : MonoBehaviour
         // Initialize players
         players = new Player[]
         {
-            new Player(PlayerTurn.PlayerOne),
-            new Player(PlayerTurn.PlayerTwo)
+            new Player(PlayerTurn.PlayerOne, true),
+            new Player(PlayerTurn.PlayerTwo, false)
         };
     }
 
     // Method to end the current turn and start the next turn
     public void SwitchToNextPlayer()
     {
+        players[currentPlayerIndex].isPlayerTurn = false;
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
+        players[currentPlayerIndex].isPlayerTurn = true;
         OnTurnChanged?.Invoke(currentPlayerIndex);
     }
 
@@ -91,14 +93,16 @@ public class Player
     public int redCoin; // Number of red coins collected
     public int blackCoin; // Number of black coins collected
     public int whiteCoin; // Number of white coins collected
+    public bool isPlayerTurn;
 
-    public Player(PlayerTurn playerType)
+    public Player(PlayerTurn playerType, bool isPlayerTurn)
     {
         this.PlayerType = playerType;
         this.score = 0; // Initialize score to zero
         this.redCoin = 0;
         this.blackCoin = 0;
         this.whiteCoin = 0;
+        this.isPlayerTurn = isPlayerTurn;
     }
 
     // Method to set coin counts
