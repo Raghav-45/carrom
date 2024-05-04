@@ -105,11 +105,17 @@ public class pocket : MonoBehaviour
                 {
                     GetStriker().black++;
                     gameManager.GetComponent<Game_Manager>().deltaCoins++;
+
+                    // Collect the coin using the GameManager
+                    GameManager.Instance.CollectCoin(CoinType.Black);
                 }
                 else if (this.gameObject.tag == "white")
                 {
                     GetStriker().white++;
                     gameManager.GetComponent<Game_Manager>().deltaCoins++;
+
+                    // Collect the coin using the GameManager
+                    GameManager.Instance.CollectCoin(CoinType.White);
                 }
 
                 GetStriker().UpdateScore();
@@ -133,6 +139,9 @@ public class pocket : MonoBehaviour
                 {
                     GetStriker().red++;
                     gameManager.GetComponent<Game_Manager>().deltaCoins++;
+
+                    // Collect the coin using the GameManager
+                    GameManager.Instance.CollectCoin(CoinType.Red);
                 }
 
                 GetStriker().coveringTheQueen = true;
