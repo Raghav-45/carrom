@@ -191,6 +191,8 @@ public class striker : MonoBehaviour
         yield return new WaitForSeconds(delay);
         startObserving = true;
         gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
+
+        // GameManager.Instance.SwitchToNextPlayer();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
