@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
     // Method to get the current player's score
     public int GetCurrentPlayerScore()
     {
-        return players[currentPlayerIndex].Score;
+        return players[currentPlayerIndex].score;
     }
 }
 
@@ -85,28 +85,28 @@ public enum PlayerTurn
 public class Player
 {
     public PlayerTurn PlayerType;
-    public int Score; // Player's score
+    public int score; // Player's score
 
     [Header("Coins")]
-    public int RedCoin; // Number of red coins collected
-    public int BlackCoin; // Number of black coins collected
-    public int WhiteCoin; // Number of white coins collected
+    public int redCoin; // Number of red coins collected
+    public int blackCoin; // Number of black coins collected
+    public int whiteCoin; // Number of white coins collected
 
     public Player(PlayerTurn playerType)
     {
         this.PlayerType = playerType;
-        this.Score = 0; // Initialize score to zero
-        this.RedCoin = 0;
-        this.BlackCoin = 0;
-        this.WhiteCoin = 0;
+        this.score = 0; // Initialize score to zero
+        this.redCoin = 0;
+        this.blackCoin = 0;
+        this.whiteCoin = 0;
     }
 
     // Method to set coin counts
     public void SetCoinCounts(int red, int black, int white)
     {
-        RedCoin = red;
-        BlackCoin = black;
-        WhiteCoin = white;
+        redCoin = red;
+        blackCoin = black;
+        whiteCoin = white;
     }
 
     // Method to increase coin count by 1 based on coin type
@@ -115,15 +115,15 @@ public class Player
         switch (type)
         {
             case CoinType.Red:
-                RedCoin++;
+                redCoin++;
                 break;
             case CoinType.Black:
-                BlackCoin++;
+                blackCoin++;
                 break;
             case CoinType.White:
-                WhiteCoin++;
+                whiteCoin++;
                 break;
         }
-        Score = RedCoin + BlackCoin + WhiteCoin;
+        score = redCoin + blackCoin + whiteCoin;
     }
 }
