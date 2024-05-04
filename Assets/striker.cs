@@ -64,7 +64,7 @@ public class striker : MonoBehaviour
         focusCircle.SetActive(false);
 
         // Subscribe to the OnTurnChanged event
-        GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+        // GameManager.Instance.OnTurnChanged += HandleTurnChanged;
     }
 
     // Update is called once per frame
@@ -82,6 +82,8 @@ public class striker : MonoBehaviour
 
             this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
             rb.velocity = Vector2.zero;
+
+            GameManager.Instance.EndTurn();
 
             // if (!coveringTheQueen)
             // {
@@ -163,11 +165,14 @@ public class striker : MonoBehaviour
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
                             // breakshots[3].Play();
 
+                            strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
+                            // startObserving = true;
+
                             if (hitCoroutine != null)
                             {
                                 StopCoroutine(hitCoroutine);
                             }
-                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.018f)); // Change delay in seconds
+                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.05f)); // Change delay in seconds
                         }
                     }
                     break;
@@ -183,9 +188,9 @@ public class striker : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         startObserving = true;
-        // gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
+        // // gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
 
-        GameManager.Instance.SwitchToNextPlayer();
+        // GameManager.Instance.SwitchToNextPlayer();
     }
 
     private void OnCollisionEnter2D(Collision2D other)

@@ -21,8 +21,8 @@ public class GameManager : MonoBehaviour
     // Variables
     [SerializeField] private int totalCoins = 0;
 
-    [SerializeField] private int currentPlayerIndex = 0; // Index of the current player
-    [SerializeField] private int previousPlayerIndex = 0; // Index of the previous player
+    [SerializeField] public int currentPlayerIndex = 0; // Index of the current player
+    [SerializeField] public int previousPlayerIndex = 0; // Index of the previous player
     public Player[] players; // Array of players in the game
 
     // Event to signal turn changes
@@ -44,10 +44,27 @@ public class GameManager : MonoBehaviour
         OnTurnChanged?.Invoke(currentPlayerIndex);
     }
 
+    public void EndTurn()
+    {
+        previousPlayerIndex = currentPlayerIndex;
+        players[currentPlayerIndex].isPlayerTurn = false;
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
+        players[currentPlayerIndex].isPlayerTurn = true;
+        OnTurnChanged?.Invoke(currentPlayerIndex);
+    }
+
+    public Transform GetNextPlayerResetPosition()
+    {
+        int c = (currentPlayerIndex + 1) % players.Length;
+        Debug.Log(c);
+        return players[c].startPoint;
+        // OnTurnChanged?.Invoke(currentPlayerIndex);
+    }
+
     // Method to collect coins for the current player
     public void AddCoinToCurrentPlayer(CoinType type)
     {
-        Player currentPlayer = players[previousPlayerIndex];
+        Player currentPlayer = players[currentPlayerIndex];
         currentPlayer.CollectCoin(type);
         totalCoins++;
     }

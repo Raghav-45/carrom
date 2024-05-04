@@ -20,16 +20,6 @@ public class pocket : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    GameObject GetCurrentPlayingCharacter()
-    {
-        return gameManager.GetComponent<Game_Manager>().striker;
-    }
-
-    striker GetStriker()
-    {
-        return GetCurrentPlayingCharacter().GetComponent<striker>();
-    }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         // // Object is Striker
@@ -99,12 +89,12 @@ public class pocket : MonoBehaviour
             case "black":
             case "white":
                 // Give one Bonus Turn
-                gameManager.GetComponent<Game_Manager>().giveTurn();
+                // gameManager.GetComponent<Game_Manager>().giveTurn();
 
                 if (this.gameObject.tag == "black")
                 {
-                    GetStriker().black++;
-                    gameManager.GetComponent<Game_Manager>().deltaCoins++;
+                    // GetStriker().black++;
+                    // gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
                     // GameManager.Instance.CollectCoin(CoinType.Black);
@@ -112,22 +102,22 @@ public class pocket : MonoBehaviour
                 }
                 else if (this.gameObject.tag == "white")
                 {
-                    GetStriker().white++;
-                    gameManager.GetComponent<Game_Manager>().deltaCoins++;
+                    // GetStriker().white++;
+                    // gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
                     // GameManager.Instance.CollectCoin(CoinType.White);
                     GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 }
 
-                GetStriker().UpdateScore();
+                // GetStriker().UpdateScore();
 
-                if (GetStriker().coveringTheQueen)
-                {
-                    //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
-                    GetStriker().red = 1;
-                    GetStriker().coveringTheQueen = false;
-                }
+                // if (GetStriker().coveringTheQueen)
+                // {
+                //     //TODO: also can add red++ instead of setting it to 1 ( for freeplay mode )
+                //     GetStriker().red = 1;
+                //     GetStriker().coveringTheQueen = false;
+                // }
 
                 rb.velocity = Vector2.zero;
                 // anim.SetTrigger("fall");
@@ -139,15 +129,15 @@ public class pocket : MonoBehaviour
                 gameManager.GetComponent<Game_Manager>().giveTurn();
                 if (this.gameObject.tag == "red")
                 {
-                    GetStriker().red++;
-                    gameManager.GetComponent<Game_Manager>().deltaCoins++;
+                    // GetStriker().red++;
+                    // gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
                     // GameManager.Instance.CollectCoin(CoinType.Red);
                     GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
                 }
 
-                GetStriker().coveringTheQueen = true;
+                // GetStriker().coveringTheQueen = true;
 
                 rb.velocity = Vector2.zero;
                 // anim.SetTrigger("fall");
