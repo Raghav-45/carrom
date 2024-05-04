@@ -33,6 +33,7 @@ public class striker : MonoBehaviour
     GameObject start;
 
     Rigidbody2D rb;
+    SpriteRenderer spriteRenderer;
     // bool hit = false;
     public bool st = false;
     public bool movestriker = false;
@@ -59,12 +60,13 @@ public class striker : MonoBehaviour
         cm = Camera.main;
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         powerControl.SetActive(false); // Hide arrow initially
         focusCircle.SetActive(false);
 
         // Subscribe to the OnTurnChanged event
-        // GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+        GameManager.Instance.OnTurnChanged += HandleTurnChanged;
     }
 
     // Update is called once per frame
@@ -181,7 +183,8 @@ public class striker : MonoBehaviour
     }
     void HandleTurnChanged(int currentPlayerIndex)
     {
-        strikerStartPosition = GameManager.Instance.players[currentPlayerIndex].startPoint.position;
+        // strikerStartPosition = GameManager.Instance.players[currentPlayerIndex].startPoint.position;
+        spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
     }
 
     private IEnumerator SwitchToNextPlayerAfterDelay(float delay)

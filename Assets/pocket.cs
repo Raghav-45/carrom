@@ -80,11 +80,11 @@ public class pocket : MonoBehaviour
             case "striker":
                 rb.velocity = Vector2.zero;
                 // StartCoroutine("fall");
-                if (this.gameObject.GetComponent<striker>().coveringTheQueen == true)
-                {
-                    //TODO: return the queen
-                    this.gameObject.GetComponent<striker>().coveringTheQueen = false;
-                }
+                // if (this.gameObject.GetComponent<striker>().coveringTheQueen == true)
+                // {
+                //     //TODO: return the queen
+                //     this.gameObject.GetComponent<striker>().coveringTheQueen = false;
+                // }
                 break;
             case "black":
             case "white":
@@ -97,7 +97,6 @@ public class pocket : MonoBehaviour
                     // gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
-                    // GameManager.Instance.CollectCoin(CoinType.Black);
                     GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
                 }
                 else if (this.gameObject.tag == "white")
@@ -106,7 +105,6 @@ public class pocket : MonoBehaviour
                     // gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
-                    // GameManager.Instance.CollectCoin(CoinType.White);
                     GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 }
 

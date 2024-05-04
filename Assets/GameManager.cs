@@ -1,5 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,8 +22,10 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
-    [SerializeField] private int totalCoins = 0;
+    [SerializeField] private Text whiteTextRenderer;
+    [SerializeField] private Text blackTextRenderer;
 
+    [SerializeField] private int totalCoins = 0;
     [SerializeField] public int currentPlayerIndex = 0; // Index of the current player
     [SerializeField] public int previousPlayerIndex = 0; // Index of the previous player
     public Player[] players; // Array of players in the game
@@ -32,6 +37,15 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         players[currentPlayerIndex].isPlayerTurn = true;
+    }
+
+    public void UpdateScoreUI()
+    {
+        if (whiteTextRenderer != null && blackTextRenderer != null)
+        {
+            whiteTextRenderer.text = players[0].score.ToString();
+            blackTextRenderer.text = players[1].score.ToString();
+        }
     }
 
     // Method to end the current turn and start the next turn
@@ -109,8 +123,9 @@ public class Player
     public int blackCoin; // Number of black coins collected
     public int whiteCoin; // Number of white coins collected
     public bool isPlayerTurn;
+    public Sprite StrikerImage;
 
-    public Player(PlayerTurn playerType, bool isPlayerTurn)
+    public Player(PlayerTurn playerType, bool isPlayerTurn, Sprite StrikerImage)
     {
         this.PlayerType = playerType;
         this.startPoint = startPoint;
@@ -119,6 +134,7 @@ public class Player
         this.blackCoin = 0;
         this.whiteCoin = 0;
         this.isPlayerTurn = isPlayerTurn;
+        this.StrikerImage = StrikerImage;
     }
 
     // Method to set coin counts
