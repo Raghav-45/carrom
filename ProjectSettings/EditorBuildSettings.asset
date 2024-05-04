@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: d6c360db3ea16c74abe38e0dd28abb91
   - enabled: 1
-    path: Assets/Scenes/ShadowTwo.unity
-    guid: aebc98f0a51e532428a74a24d0ddcaa4
+    path: Assets/Scenes/ShadowTwoPlayers.unity
+    guid: 981b11805537e2d4aaa5a3722106b478
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: cd01ae129e675aa4097cf84e5cc2b38a, type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000, guid: 51cbc980c1c7dfb438c3b1795ba410e2, type: 2}
