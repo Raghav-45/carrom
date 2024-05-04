@@ -62,6 +62,9 @@ public class striker : MonoBehaviour
 
         powerControl.SetActive(false); // Hide arrow initially
         focusCircle.SetActive(false);
+
+        // Subscribe to the OnTurnChanged event
+        GameManager.Instance.OnTurnChanged += HandleTurnChanged;
     }
 
     // Update is called once per frame
@@ -184,6 +187,11 @@ public class striker : MonoBehaviour
                     break;
             }
         }
+    }
+    void HandleTurnChanged(int currentPlayerIndex)
+    {
+        Debug.Log("turn Changed");
+        Debug.Log(currentPlayerIndex);
     }
 
     private IEnumerator SwitchToNextPlayerAfterDelay(float delay)
