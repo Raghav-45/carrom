@@ -18,9 +18,9 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
-    private int redCoins;
-    private int blackCoins;
-    private int whiteCoins;
+    [SerializeField] private int redCoins;
+    [SerializeField] private int blackCoins;
+    [SerializeField] private int whiteCoins;
 
     // Method to collect coins
     public void CollectCoin(CoinType type)
