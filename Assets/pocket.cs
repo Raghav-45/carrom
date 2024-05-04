@@ -108,7 +108,7 @@ public class pocket : MonoBehaviour
                     GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 }
 
-                // GetStriker().UpdateScore();
+                GameManager.Instance.UpdateScoreUI();
 
                 // if (GetStriker().coveringTheQueen)
                 // {
@@ -124,7 +124,7 @@ public class pocket : MonoBehaviour
                 break;
             case "red":
                 // Give one Bonus Turn
-                gameManager.GetComponent<Game_Manager>().giveTurn();
+                // gameManager.GetComponent<Game_Manager>().giveTurn();
                 if (this.gameObject.tag == "red")
                 {
                     // GetStriker().red++;
