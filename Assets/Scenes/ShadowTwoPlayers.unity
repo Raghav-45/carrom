@@ -1041,7 +1041,22 @@ MonoBehaviour:
   - {fileID: 1422576986}
   - {fileID: 921990399}
   striker: {fileID: 0}
+  PreviousPlayingCharacterResetPos: {fileID: 0}
   currentPlayingCharacterResetPos: {fileID: 0}
+  PlayerData:
+  - transform: {fileID: 1422576986}
+    turnIndex: 0
+    black: 0
+    white: 0
+    red: 0
+    isPlayerTurn: 1
+  - transform: {fileID: 921990399}
+    turnIndex: 1
+    black: 0
+    white: 0
+    red: 0
+    isPlayerTurn: 0
+  deltaCoins: 0
 --- !u!4 &786270579
 Transform:
   m_ObjectHideFlags: 0

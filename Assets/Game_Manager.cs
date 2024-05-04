@@ -3,6 +3,30 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+// Define a custom class to represent each element in the array
+[System.Serializable]
+public class PlayerElement
+{
+    public Transform transform;
+    public int turnIndex;
+
+    [Header("Coins")]
+    public byte black;
+    public byte white;
+    public byte red;
+    public bool isPlayerTurn;
+
+    public PlayerElement(string name, Transform transform, int turnIndex)
+    {
+        this.transform = transform;
+        this.turnIndex = turnIndex;
+        this.black = black;
+        this.white = white;
+        this.red = red;
+        this.isPlayerTurn = isPlayerTurn;
+    }
+}
+
 public class Game_Manager : MonoBehaviour
 {
     public byte white = 0;
@@ -14,7 +38,7 @@ public class Game_Manager : MonoBehaviour
     public GameObject striker;
     public Transform PreviousPlayingCharacterResetPos;
     public Transform currentPlayingCharacterResetPos;
-
+    public PlayerElement[] PlayerData;
     public byte deltaCoins;
 
     // Awake is called when the script instance is being loaded
