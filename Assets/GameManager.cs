@@ -1,44 +1,64 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-
-    public GameState State;
-
-    public static event Action<GameState> OnGameStateChanged;
-
-    // Awake is called when the script instance is being loaded
-    private void Awake()
+    // Singleton instance
+    private static GameManager _instance;
+    public static GameManager Instance
     {
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        UpdateGameStates(GameState.turnIndex);
-    }
-
-    public void UpdateGameStates(GameState newState)
-    {
-        State = newState;
-
-        switch (State)
+        get
         {
-            case GameState.turnIndex:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(State), newState, null);
-        }
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<GameManager>();
+            }
 
-        OnGameStateChanged?.Invoke(newState);
+            return _instance;
+        }
+    }
+
+    // Variables
+    private int redCoins;
+    private int blackCoins;
+    private int whiteCoins;
+
+    // Method to collect coins
+    public void CollectCoin(CoinType type)
+    {
+        switch (type)
+        {
+            case CoinType.Red:
+                redCoins++;
+                break;
+            case CoinType.Black:
+                blackCoins++;
+                break;
+            case CoinType.White:
+                whiteCoins++;
+                break;
+        }
+    }
+
+    // Methods to retrieve coin counts
+    public int GetRedCoins()
+    {
+        return redCoins;
+    }
+
+    public int GetBlackCoins()
+    {
+        return blackCoins;
+    }
+
+    public int GetWhiteCoins()
+    {
+        return whiteCoins;
     }
 }
 
-public enum GameState
+public enum CoinType
 {
-    turnIndex
+    Red,
+    Black,
+    White
 }
