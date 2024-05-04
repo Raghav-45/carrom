@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalCoins = 0;
 
     [SerializeField] private int currentPlayerIndex = 0; // Index of the current player
+    [SerializeField] private int previousPlayerIndex = 0; // Index of the previous player
     public Player[] players; // Array of players in the game
 
     // Event to signal turn changes
@@ -30,17 +31,13 @@ public class GameManager : MonoBehaviour
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        // Initialize players
-        // players = new Player[]
-        // {
-        //     new Player(PlayerTurn.PlayerOne, true),
-        //     new Player(PlayerTurn.PlayerTwo, false)
-        // };
+        players[currentPlayerIndex].isPlayerTurn = true;
     }
 
     // Method to end the current turn and start the next turn
     public void SwitchToNextPlayer()
     {
+        previousPlayerIndex = currentPlayerIndex;
         players[currentPlayerIndex].isPlayerTurn = false;
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
         players[currentPlayerIndex].isPlayerTurn = true;
@@ -50,7 +47,7 @@ public class GameManager : MonoBehaviour
     // Method to collect coins for the current player
     public void AddCoinToCurrentPlayer(CoinType type)
     {
-        Player currentPlayer = players[currentPlayerIndex];
+        Player currentPlayer = players[previousPlayerIndex];
         currentPlayer.CollectCoin(type);
         totalCoins++;
     }
@@ -100,7 +97,7 @@ public class Player
     {
         this.PlayerType = playerType;
         this.startPoint = startPoint;
-        this.score = 0; // Initialize score to zero
+        this.score = 0;
         this.redCoin = 0;
         this.blackCoin = 0;
         this.whiteCoin = 0;

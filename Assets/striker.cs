@@ -75,41 +75,26 @@ public class striker : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Check if the magnitude of velocity is below the threshold
         if (rb.velocity.magnitude <= resetThresholdVelocity && startObserving)
         {
             startObserving = false;
-            // Debug.Log("Player is stationary.");
             // breakshots[3].Stop();
-            ResetStrikerPos();
-            if (!coveringTheQueen)
-            {
-                gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
-            }
 
-            if (coveringTheQueen && gameManager.GetComponent<Game_Manager>().deltaCoins == 1 && red == 1)
-            {
-                Debug.Log("Return Queen.");
-                coveringTheQueen = false;
-                // gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
-            }
+            this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+            rb.velocity = Vector2.zero;
+
+            // if (!coveringTheQueen)
+            // {
+            //     gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
+            // }
+
+            // if (coveringTheQueen && gameManager.GetComponent<Game_Manager>().deltaCoins == 1 && red == 1)
+            // {
+            //     Debug.Log("Return Queen.");
+            //     coveringTheQueen = false;
+            //     // gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
+            // }
         }
-    }
-
-    void InitTurn()
-    {
-        Debug.Log("Turn Initialized");
-        // doesPlayerHit = false;
-        isBeingDragged = false;
-        startObserving = false;
-        ResetStrikerPos();
-    }
-
-    public void ResetStrikerPos()
-    {
-        Transform pos = gameManager.GetComponent<Game_Manager>().currentPlayingCharacterResetPos;
-        this.transform.position = new Vector3(pos.position.x, pos.position.y, 0);
-        rb.velocity = Vector2.zero;
     }
 
     public void UpdateScore()
@@ -118,6 +103,7 @@ public class striker : MonoBehaviour
         gameManager.GetComponent<Game_Manager>().black = (byte)black;
         gameManager.GetComponent<Game_Manager>().UpdateScoreUI();
     }
+
     public void control()
     {
         if (Input.touchCount > 0)
@@ -181,7 +167,7 @@ public class striker : MonoBehaviour
                             {
                                 StopCoroutine(hitCoroutine);
                             }
-                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.02f)); // Change delay in seconds
+                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.018f)); // Change delay in seconds
                         }
                     }
                     break;
@@ -190,17 +176,16 @@ public class striker : MonoBehaviour
     }
     void HandleTurnChanged(int currentPlayerIndex)
     {
-        Debug.Log("turn Changed");
-        Debug.Log(currentPlayerIndex);
+        strikerStartPosition = GameManager.Instance.players[currentPlayerIndex].startPoint.position;
     }
 
     private IEnumerator SwitchToNextPlayerAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         startObserving = true;
-        gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
+        // gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
 
-        // GameManager.Instance.SwitchToNextPlayer();
+        GameManager.Instance.SwitchToNextPlayer();
     }
 
     private void OnCollisionEnter2D(Collision2D other)

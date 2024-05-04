@@ -1013,7 +1013,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 786270579}
-  - component: {fileID: 786270578}
   - component: {fileID: 786270580}
   m_Layer: 0
   m_Name: Game Manager
@@ -1022,42 +1021,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &786270578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 786270577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3f3d4e3f0109cf4db894840a4f6d37d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  white: 0
-  black: 0
-  whiteTextRenderer: {fileID: 1414856694}
-  blackTextRenderer: {fileID: 994593642}
-  startPoints:
-  - {fileID: 1422576986}
-  - {fileID: 921990399}
-  striker: {fileID: 0}
-  PreviousPlayingCharacterResetPos: {fileID: 0}
-  currentPlayingCharacterResetPos: {fileID: 0}
-  PlayerData:
-  - transform: {fileID: 1422576986}
-    turnIndex: 0
-    black: 0
-    white: 0
-    red: 0
-    isPlayerTurn: 1
-  - transform: {fileID: 921990399}
-    turnIndex: 1
-    black: 0
-    white: 0
-    red: 0
-    isPlayerTurn: 0
-  deltaCoins: 0
 --- !u!4 &786270579
 Transform:
   m_ObjectHideFlags: 0
@@ -1087,6 +1050,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalCoins: 0
   currentPlayerIndex: 0
+  previousPlayerIndex: 0
   players:
   - PlayerType: 0
     startPoint: {fileID: 1422576986}
@@ -1095,7 +1059,7 @@ MonoBehaviour:
     blackCoin: 0
     whiteCoin: 0
     isPlayerTurn: 0
-  - PlayerType: 0
+  - PlayerType: 1
     startPoint: {fileID: 921990399}
     score: 0
     redCoin: 0
@@ -2043,7 +2007,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 786270578}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: 
         m_MethodName: restart
         m_Mode: 1
