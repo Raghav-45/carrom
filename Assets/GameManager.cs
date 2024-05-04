@@ -19,9 +19,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
-    [SerializeField] private int redCoins = 0;
-    [SerializeField] private int blackCoins = 0;
-    [SerializeField] private int whiteCoins = 0;
+    [SerializeField] private int totalCoins = 0;
 
     [SerializeField] private int currentPlayerIndex = 0; // Index of the current player
     public Player[] players; // Array of players in the game
@@ -47,40 +45,18 @@ public class GameManager : MonoBehaviour
         OnTurnChanged?.Invoke(currentPlayerIndex);
     }
 
-    // Method to collect coins
-    public void CollectCoin(CoinType type)
+    // Method to collect coins for the current player
+    public void AddCoinToCurrentPlayer(CoinType type)
     {
-        switch (type)
-        {
-            case CoinType.Red:
-                redCoins++;
-                break;
-            case CoinType.Black:
-                blackCoins++;
-                break;
-            case CoinType.White:
-                whiteCoins++;
-                break;
-        }
-
-        // Update the current player's score
-        players[currentPlayerIndex].Score++;
+        Player currentPlayer = players[currentPlayerIndex];
+        currentPlayer.CollectCoin(type);
+        totalCoins++;
     }
 
-    // Methods to retrieve coin counts
-    public int GetRedCoins()
+    // Method to retrieve Total Coins
+    public int GetTotalCoins()
     {
-        return redCoins;
-    }
-
-    public int GetBlackCoins()
-    {
-        return blackCoins;
-    }
-
-    public int GetWhiteCoins()
-    {
-        return whiteCoins;
+        return totalCoins;
     }
 
     // Method to get the current player's score
@@ -111,9 +87,43 @@ public class Player
     public PlayerTurn PlayerType;
     public int Score; // Player's score
 
+    [Header("Coins")]
+    public int RedCoin; // Number of red coins collected
+    public int BlackCoin; // Number of black coins collected
+    public int WhiteCoin; // Number of white coins collected
+
     public Player(PlayerTurn playerType)
     {
         this.PlayerType = playerType;
         this.Score = 0; // Initialize score to zero
+        this.RedCoin = 0;
+        this.BlackCoin = 0;
+        this.WhiteCoin = 0;
+    }
+
+    // Method to set coin counts
+    public void SetCoinCounts(int red, int black, int white)
+    {
+        RedCoin = red;
+        BlackCoin = black;
+        WhiteCoin = white;
+    }
+
+    // Method to increase coin count by 1 based on coin type
+    public void CollectCoin(CoinType type)
+    {
+        switch (type)
+        {
+            case CoinType.Red:
+                RedCoin++;
+                break;
+            case CoinType.Black:
+                BlackCoin++;
+                break;
+            case CoinType.White:
+                WhiteCoin++;
+                break;
+        }
+        Score = RedCoin + BlackCoin + WhiteCoin;
     }
 }
