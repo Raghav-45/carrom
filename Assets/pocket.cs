@@ -107,7 +107,8 @@ public class pocket : MonoBehaviour
                     gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
-                    GameManager.Instance.CollectCoin(CoinType.Black);
+                    // GameManager.Instance.CollectCoin(CoinType.Black);
+                    GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
                 }
                 else if (this.gameObject.tag == "white")
                 {
@@ -115,7 +116,8 @@ public class pocket : MonoBehaviour
                     gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
-                    GameManager.Instance.CollectCoin(CoinType.White);
+                    // GameManager.Instance.CollectCoin(CoinType.White);
+                    GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 }
 
                 GetStriker().UpdateScore();
@@ -141,7 +143,8 @@ public class pocket : MonoBehaviour
                     gameManager.GetComponent<Game_Manager>().deltaCoins++;
 
                     // Collect the coin using the GameManager
-                    GameManager.Instance.CollectCoin(CoinType.Red);
+                    // GameManager.Instance.CollectCoin(CoinType.Red);
+                    GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
                 }
 
                 GetStriker().coveringTheQueen = true;
