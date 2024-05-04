@@ -31,11 +31,11 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         // Initialize players
-        players = new Player[]
-        {
-            new Player(PlayerTurn.PlayerOne, true),
-            new Player(PlayerTurn.PlayerTwo, false)
-        };
+        // players = new Player[]
+        // {
+        //     new Player(PlayerTurn.PlayerOne, true),
+        //     new Player(PlayerTurn.PlayerTwo, false)
+        // };
     }
 
     // Method to end the current turn and start the next turn
@@ -87,6 +87,7 @@ public enum PlayerTurn
 public class Player
 {
     public PlayerTurn PlayerType;
+    public Transform startPoint;
     public int score; // Player's score
 
     [Header("Coins")]
@@ -98,6 +99,7 @@ public class Player
     public Player(PlayerTurn playerType, bool isPlayerTurn)
     {
         this.PlayerType = playerType;
+        this.startPoint = startPoint;
         this.score = 0; // Initialize score to zero
         this.redCoin = 0;
         this.blackCoin = 0;
