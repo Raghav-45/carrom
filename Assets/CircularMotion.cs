@@ -7,7 +7,7 @@ public class CircularMotion : MonoBehaviour
 
     private void Update()
     {
-        if (gameObject.active)
+        if (gameObject.activeSelf)
         {
             angle += speed * Time.deltaTime;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
