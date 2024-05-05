@@ -80,7 +80,7 @@ public class striker : MonoBehaviour
         // Update previous velocity
         previousVelocity = rb.velocity;
 
-        if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating)
+        if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating) // && rb.velocity.magnitude != 0f
         {
             breakshots[3].Stop();
 
