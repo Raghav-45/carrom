@@ -1,31 +1,34 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PawnDesignGenerator : MonoBehaviour
 {
     [SerializeField] GameObject circlePrefab; // Reference to the GameObject you want to spawn
 
-    // Coordinates of circle centers
-    Vector2[] circleCoordinates = new Vector2[]
+    // Dictionary to map coordinates to colors
+    Dictionary<Vector2, Color> coordinateColors = new Dictionary<Vector2, Color>()
     {
-        // new Vector2(0f, 0f), // Red
-        // new Vector2(-0.1905256f, 0.11f), // White
-        // new Vector2(0.1905256f, 0.11f), // White
-        // new Vector2(0f, -0.22f), // White
-        // new Vector2(0f, -0.44f), // White
-        // new Vector2(0.3810512f, 0.22f), // White
-        // new Vector2(-0.3810512f, 0.22f), // White
-        // new Vector2(-0.3810512f, -0.22f), // White
-        // new Vector2(0f, 0.44f), // White
-        // new Vector2(0.3810512f, -0.22f), // White
-        new Vector2(0f, 0.22f), // Black
-        new Vector2(0.1905256f, -0.11f), // Black
-        new Vector2(-0.1905256f, -0.11f), // Black
-        new Vector2(0.1905256f, -0.33f), // Black
-        new Vector2(-0.1905256f, -0.33f), // Black
-        new Vector2(0.1905256f, 0.33f), // Black
-        new Vector2(0.3810512f, 0f), // Black
-        new Vector2(-0.3810512f, 0f), // Black
-        new Vector2(-0.1905256f, 0.33f) // Black
+        { new Vector2(0f, 0f), Color.red }, // Red
+
+        { new Vector2(-0.1905256f, 0.11f), Color.white }, // White
+        { new Vector2(0.1905256f, 0.11f), Color.white },  // White
+        { new Vector2(0f, -0.22f), Color.white }, // White
+        { new Vector2(0f, -0.44f), Color.white }, // White
+        { new Vector2(0.3810512f, 0.22f), Color.white }, // White
+        { new Vector2(-0.3810512f, 0.22f), Color.white }, // White
+        { new Vector2(-0.3810512f, -0.22f), Color.white }, // White
+        { new Vector2(0f, 0.44f), Color.white }, // White
+        { new Vector2(0.3810512f, -0.22f), Color.white }, // White
+        
+        { new Vector2(0f, 0.22f), Color.black }, // Black
+        { new Vector2(0.1905256f, -0.11f), Color.black }, // Black
+        { new Vector2(-0.1905256f, -0.11f), Color.black }, // Black
+        { new Vector2(0.1905256f, -0.33f), Color.black }, // Black
+        { new Vector2(-0.1905256f, -0.33f), Color.black }, // Black
+        { new Vector2(0.1905256f, 0.33f), Color.black }, // Black
+        { new Vector2(0.3810512f, 0f), Color.black }, // Black
+        { new Vector2(-0.3810512f, 0f), Color.black }, // Black
+        { new Vector2(-0.1905256f, 0.33f), Color.black } // Black
     };
 
     void Start()
@@ -35,11 +38,12 @@ public class PawnDesignGenerator : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-
-        // Draw a small sphere at each circle spawn point
-        foreach (Vector2 position in circleCoordinates)
+        foreach (var kvp in coordinateColors)
         {
+            Vector2 position = kvp.Key;
+            Color color = kvp.Value;
+
+            Gizmos.color = color;
             Gizmos.DrawSphere(new Vector3(position.x, position.y, 0), 0.1f);
         }
     }
@@ -47,9 +51,11 @@ public class PawnDesignGenerator : MonoBehaviour
     void SpawnCirclesAtCoordinates()
     {
         // Loop through each coordinate and spawn a circle GameObject
-        for (int i = 0; i < circleCoordinates.Length; i++)
+        foreach (var kvp in coordinateColors)
         {
-            Vector2 position = circleCoordinates[i];
+            Vector2 position = kvp.Key;
+            Color color = kvp.Value;
+
             GameObject circle = Instantiate(circlePrefab, position, Quaternion.identity);
             // Optionally, you can set a parent for the spawned circles
             circle.transform.parent = transform;
