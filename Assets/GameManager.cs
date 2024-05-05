@@ -105,7 +105,9 @@ public enum CoinType
 public enum PlayerTurn
 {
     PlayerOne,
-    PlayerTwo
+    PlayerTwo,
+    PlayerThree,
+    PlayerFour
 }
 
 // Player class to represent each player
