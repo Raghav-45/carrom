@@ -17,7 +17,6 @@ public class striker : MonoBehaviour
     [SerializeField] Slider strikerSlider;
     [SerializeField] GameObject focusCircle;
     [SerializeField] GameObject powerControl;
-    [SerializeField] GameObject gameBoard;
     [SerializeField] AnimationCurve ac;
 
     // Audio
@@ -34,12 +33,14 @@ public class striker : MonoBehaviour
     bool isBeingDragged = false;
     Vector2 previousVelocity;
 
+    GameObject gameBoard;
     GameObject gameManager; // Reference to GameManager
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
         gameManager = GameObject.Find("Game Manager");
+        gameBoard = GameObject.Find("carrom_board");
     }
 
     // Start is called before the first frame update
