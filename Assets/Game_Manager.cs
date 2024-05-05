@@ -20,10 +20,10 @@ public class PlayerElement
     {
         this.transform = transform;
         this.turnIndex = turnIndex;
-        this.black = black;
-        this.white = white;
-        this.red = red;
-        this.isPlayerTurn = isPlayerTurn;
+        //black = black;
+        //white = white;
+        //red = red;
+        //isPlayerTurn = isPlayerTurn;
     }
 }
 
