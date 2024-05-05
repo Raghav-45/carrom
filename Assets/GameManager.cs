@@ -125,14 +125,14 @@ public class Player
     public bool isPlayerTurn;
     public Sprite StrikerImage;
 
-    public Player(PlayerTurn playerType, bool isPlayerTurn, Sprite StrikerImage)
+    public Player(PlayerTurn playerType, Transform startPoint, bool isPlayerTurn, Sprite StrikerImage)
     {
-        this.PlayerType = playerType;
+        PlayerType = playerType;
         this.startPoint = startPoint;
-        this.score = 0;
-        this.redCoin = 0;
-        this.blackCoin = 0;
-        this.whiteCoin = 0;
+        score = 0;
+        redCoin = 0;
+        blackCoin = 0;
+        whiteCoin = 0;
         this.isPlayerTurn = isPlayerTurn;
         this.StrikerImage = StrikerImage;
     }
