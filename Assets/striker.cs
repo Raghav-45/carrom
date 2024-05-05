@@ -33,7 +33,7 @@ public class striker : MonoBehaviour
     GameObject start;
 
     Rigidbody2D rb;
-    SpriteRenderer spriteRenderer;
+    SpriteRenderer sr;
     // bool hit = false;
     public bool st = false;
     public bool movestriker = false;
@@ -61,7 +61,7 @@ public class striker : MonoBehaviour
         cm = Camera.main;
         lr = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        sr = GetComponent<SpriteRenderer>();
 
         previousVelocity = rb.velocity;
 
@@ -91,33 +91,13 @@ public class striker : MonoBehaviour
 
         if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating)
         {
-            // startObserving = false;
             // breakshots[3].Stop();
 
             this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
             rb.velocity = Vector2.zero;
 
             GameManager.Instance.EndTurn();
-
-            // if (!coveringTheQueen)
-            // {
-            //     gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
-            // }
-
-            // if (coveringTheQueen && gameManager.GetComponent<Game_Manager>().deltaCoins == 1 && red == 1)
-            // {
-            //     Debug.Log("Return Queen.");
-            //     coveringTheQueen = false;
-            //     // gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
-            // }
         }
-    }
-
-    public void UpdateScore()
-    {
-        gameManager.GetComponent<Game_Manager>().white = (byte)white;
-        gameManager.GetComponent<Game_Manager>().black = (byte)black;
-        gameManager.GetComponent<Game_Manager>().UpdateScoreUI();
     }
 
     public void control()
@@ -170,6 +150,7 @@ public class striker : MonoBehaviour
                         powerControl.transform.localScale = Vector3.one * 0.75f; // Reset Gizmos Scale
 
                         float magnitude = Mathf.Clamp(dragAmount, 0f, maxForce);
+
                         // Apply force in the direction of drag
                         if (magnitude > minRequiredForce)
                         {
@@ -180,13 +161,6 @@ public class striker : MonoBehaviour
                             // breakshots[3].Play();
 
                             strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
-                            // startObserving = true;
-
-                            // if (hitCoroutine != null)
-                            // {
-                            // StopCoroutine(hitCoroutine);
-                            // }
-                            // hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.05f)); // Change delay in seconds
                         }
                     }
                     break;
@@ -195,17 +169,7 @@ public class striker : MonoBehaviour
     }
     void HandleTurnChanged(int currentPlayerIndex)
     {
-        // strikerStartPosition = GameManager.Instance.players[currentPlayerIndex].startPoint.position;
-        spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
-    }
-
-    private IEnumerator SwitchToNextPlayerAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        startObserving = true;
-        // // gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
-
-        // GameManager.Instance.SwitchToNextPlayer();
+        sr.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
