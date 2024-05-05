@@ -70,9 +70,7 @@ public class GameManager : MonoBehaviour
     public Transform GetNextPlayerResetPosition()
     {
         int c = (currentPlayerIndex + 1) % players.Length;
-        Debug.Log(c);
         return players[c].startPoint;
-        // OnTurnChanged?.Invoke(currentPlayerIndex);
     }
 
     // Method to collect coins for the current player

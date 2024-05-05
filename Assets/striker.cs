@@ -51,13 +51,16 @@ public class striker : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        // Subscribe to the OnTurnChanged event
+        GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+
         previousVelocity = rb.velocity;
 
         powerControl.SetActive(false); // Hide arrow initially
         focusCircle.SetActive(false);
 
-        // Subscribe to the OnTurnChanged event
-        GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+        this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+        rb.velocity = Vector2.zero;
     }
 
     // Update is called once per frame
@@ -79,7 +82,7 @@ public class striker : MonoBehaviour
 
         if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating)
         {
-            // breakshots[3].Stop();
+            breakshots[3].Stop();
 
             this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
             rb.velocity = Vector2.zero;
