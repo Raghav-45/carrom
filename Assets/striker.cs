@@ -46,6 +46,7 @@ public class striker : MonoBehaviour
     [SerializeField] AnimationCurve ac;
 
     private Coroutine hitCoroutine;
+    private Vector2 previousVelocity;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -62,6 +63,8 @@ public class striker : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        previousVelocity = rb.velocity;
+
         powerControl.SetActive(false); // Hide arrow initially
         focusCircle.SetActive(false);
 
@@ -77,9 +80,18 @@ public class striker : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (rb.velocity.magnitude <= resetThresholdVelocity && startObserving)
+        // Calculate change in velocity
+        Vector2 deltaVelocity = rb.velocity - previousVelocity;
+
+        // Check if object is decelerating
+        bool isDecelerating = deltaVelocity.magnitude > 0 && Vector2.Dot(deltaVelocity, rb.velocity) < 0;
+
+        // Update previous velocity
+        previousVelocity = rb.velocity;
+
+        if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating)
         {
-            startObserving = false;
+            // startObserving = false;
             // breakshots[3].Stop();
 
             this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
@@ -170,11 +182,11 @@ public class striker : MonoBehaviour
                             strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
                             // startObserving = true;
 
-                            if (hitCoroutine != null)
-                            {
-                                StopCoroutine(hitCoroutine);
-                            }
-                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.05f)); // Change delay in seconds
+                            // if (hitCoroutine != null)
+                            // {
+                            // StopCoroutine(hitCoroutine);
+                            // }
+                            // hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.05f)); // Change delay in seconds
                         }
                     }
                     break;
