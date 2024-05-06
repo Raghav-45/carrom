@@ -82,12 +82,12 @@ public class striker : MonoBehaviour
 
         if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating) // && rb.velocity.magnitude != 0f
         {
-            breakshots[3].Stop();
+            // breakshots[3].Stop();
 
-            this.transform.position = new Vector3(strikerSlider.value, strikerStartPosition.y, 0);
+            this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
             rb.velocity = Vector2.zero;
 
-            GameManager.Instance.EndTurn();
+            GameManager.Instance.SwitchToNextPlayer();
         }
     }
 
