@@ -33,6 +33,7 @@ public class striker : MonoBehaviour
     bool isBeingDragged = false;
     Vector2 previousVelocity;
     bool isCollectedAnyCoin = false;
+    PlayerCoin CollectedCoinDetails;
     bool startObserving;
 
     GameObject gameBoard;
@@ -94,6 +95,16 @@ public class striker : MonoBehaviour
                 this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
                 rb.velocity = Vector2.zero;
 
+                if (GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].isQueenCoveringMove == true)
+                {
+                    GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
+                }
+
+                if (CollectedCoinDetails.coinType == CoinType.Red)
+                {
+                    GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].isQueenCoveringMove = true;
+                }
+
                 isCollectedAnyCoin = false;
             }
             else
@@ -102,6 +113,12 @@ public class striker : MonoBehaviour
                 strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
                 this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
                 rb.velocity = Vector2.zero;
+
+                foreach (var player in GameManager.Instance.players)
+                {
+                    player.isQueenCoveringMove = false;
+                }
+
                 GameManager.Instance.SwitchToNextPlayer();
             }
         }
@@ -179,8 +196,9 @@ public class striker : MonoBehaviour
     {
         spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
     }
-    void HandleCoinCollected(Player player)
+    void HandleCoinCollected(Player player, CoinType coinType)
     {
+        CollectedCoinDetails = new PlayerCoin(player, coinType);
         isCollectedAnyCoin = true;
     }
 
@@ -204,5 +222,17 @@ public class striker : MonoBehaviour
             gameBoard.GetComponent<Collider2D>().enabled = false;
             breakshots[0].Play();
         }
+    }
+}
+
+public class PlayerCoin
+{
+    public Player player;
+    public CoinType coinType;
+
+    public PlayerCoin(Player player, CoinType coinType)
+    {
+        this.player = player;
+        this.coinType = coinType;
     }
 }

@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviour
 
     // Events
     public event Action<int> OnTurnChanged;
-    public event Action<Player> OnCoinCollected;
+    // public event Action<Player> OnCoinCollected;
+    public event Action<Player, CoinType> OnCoinCollected;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
     public void AddCoinToCurrentPlayer(CoinType type)
     {
         Player currentPlayer = players[currentPlayerIndex];
-        OnCoinCollected?.Invoke(currentPlayer); // Coin Collect Event
+        OnCoinCollected?.Invoke(currentPlayer, type); // Coin Collect Event
         currentPlayer.CollectCoin(type);
         totalCoins++;
     }
@@ -116,6 +117,7 @@ public class Player
     public int blackCoin; // Number of black coins collected
     public int whiteCoin; // Number of white coins collected
     public bool isPlayerTurn;
+    public bool isQueenCoveringMove;
     public Sprite StrikerImage;
 
     public Player(PlayerTurn playerType, Transform startPoint, bool isPlayerTurn, Sprite StrikerImage)
@@ -127,6 +129,7 @@ public class Player
         blackCoin = 0;
         whiteCoin = 0;
         this.isPlayerTurn = isPlayerTurn;
+        isQueenCoveringMove = false;
         this.StrikerImage = StrikerImage;
     }
 
