@@ -32,6 +32,8 @@ public class striker : MonoBehaviour
     // State flags
     bool isBeingDragged = false;
     Vector2 previousVelocity;
+    bool isCollectedAnyCoin = false;
+    bool startObserving;
 
     GameObject gameBoard;
     GameObject gameManager; // Reference to GameManager
@@ -51,8 +53,9 @@ public class striker : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Subscribe to the OnTurnChanged event
+        // Subscribe to events
         GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+        GameManager.Instance.OnCoinCollected += HandleCoinCollected;
 
         previousVelocity = rb.velocity;
 
@@ -80,14 +83,27 @@ public class striker : MonoBehaviour
         // Update previous velocity
         previousVelocity = rb.velocity;
 
-        if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating) // && rb.velocity.magnitude != 0f
+        if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating && startObserving) // && rb.velocity.magnitude != 0f
         {
+            startObserving = false;
             // breakshots[3].Stop();
 
-            this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
-            rb.velocity = Vector2.zero;
+            if (isCollectedAnyCoin)
+            {
+                // Should Get Extra Turn
+                this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                rb.velocity = Vector2.zero;
 
-            GameManager.Instance.SwitchToNextPlayer();
+                isCollectedAnyCoin = false;
+            }
+            else
+            {
+                // Should not Get Turn
+                strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
+                this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                rb.velocity = Vector2.zero;
+                GameManager.Instance.SwitchToNextPlayer();
+            }
         }
     }
 
@@ -149,9 +165,10 @@ public class striker : MonoBehaviour
                             breakshots[2].Play();
 
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
+                            startObserving = true;
                             // breakshots[3].Play();
 
-                            strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
+                            // strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
                         }
                     }
                     break;
@@ -161,6 +178,10 @@ public class striker : MonoBehaviour
     void HandleTurnChanged(int currentPlayerIndex)
     {
         spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
+    }
+    void HandleCoinCollected(Player player)
+    {
+        isCollectedAnyCoin = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
