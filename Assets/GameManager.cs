@@ -30,8 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int previousPlayerIndex = 0; // Index of the previous player
     public Player[] players; // Array of players in the game
 
-    // Event to signal turn changes
+    // Events
     public event Action<int> OnTurnChanged;
+    public event Action<Player> OnCoinCollected;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -58,15 +59,6 @@ public class GameManager : MonoBehaviour
         OnTurnChanged?.Invoke(currentPlayerIndex);
     }
 
-    public void EndTurn()
-    {
-        previousPlayerIndex = currentPlayerIndex;
-        players[currentPlayerIndex].isPlayerTurn = false;
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
-        players[currentPlayerIndex].isPlayerTurn = true;
-        OnTurnChanged?.Invoke(currentPlayerIndex);
-    }
-
     public Transform GetNextPlayerResetPosition()
     {
         int c = (currentPlayerIndex + 1) % players.Length;
@@ -77,6 +69,7 @@ public class GameManager : MonoBehaviour
     public void AddCoinToCurrentPlayer(CoinType type)
     {
         Player currentPlayer = players[currentPlayerIndex];
+        OnCoinCollected?.Invoke(currentPlayer); // Coin Collect Event
         currentPlayer.CollectCoin(type);
         totalCoins++;
     }
