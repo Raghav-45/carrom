@@ -28,9 +28,11 @@ public class striker : MonoBehaviour
     LineRenderer lineRenderer;
     Rigidbody2D rb;
     SpriteRenderer spriteRenderer;
+    Transform myTransform;
 
     // State flags
     bool isBeingDragged = false;
+    bool isDecelerating;
     Vector2 previousVelocity;
     bool isCollectedAnyCoin = false;
     PlayerCoin CollectedCoinDetails;
@@ -44,6 +46,7 @@ public class striker : MonoBehaviour
     {
         gameManager = GameObject.Find("Game Manager");
         gameBoard = GameObject.Find("carrom_board");
+        myTransform = transform;
     }
 
     // Start is called before the first frame update
@@ -63,7 +66,7 @@ public class striker : MonoBehaviour
         powerControl.SetActive(false); // Hide arrow initially
         focusCircle.SetActive(false);
 
-        this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+        myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
         rb.velocity = Vector2.zero;
     }
 
@@ -79,7 +82,7 @@ public class striker : MonoBehaviour
         Vector2 deltaVelocity = rb.velocity - previousVelocity;
 
         // Check if object is decelerating
-        bool isDecelerating = deltaVelocity.magnitude > 0 && Vector2.Dot(deltaVelocity, rb.velocity) < 0;
+        isDecelerating = deltaVelocity.magnitude > 0 && Vector2.Dot(deltaVelocity, rb.velocity) < 0;
 
         // Update previous velocity
         previousVelocity = rb.velocity;
@@ -92,7 +95,7 @@ public class striker : MonoBehaviour
             if (isCollectedAnyCoin)
             {
                 // Should Get Extra Turn
-                this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
                 rb.velocity = Vector2.zero;
 
                 if (GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].isQueenCoveringMove == true)
@@ -133,7 +136,7 @@ public class striker : MonoBehaviour
             touchPosition = mainCamera.ScreenToWorldPoint(touch.position);
             touchPosition.z = 0;
 
-            currentStrikerPosition = this.transform.position;
+            currentStrikerPosition = myTransform.position;
 
             // Raycast to check if the touch position is hitting the striker collider
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
