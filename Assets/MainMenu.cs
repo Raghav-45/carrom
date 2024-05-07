@@ -5,7 +5,8 @@ public class MainMenu : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("ShadowTwoPlayers");
+        Application.targetFrameRate = 60;
+        SceneManager.LoadScene("Classic");
     }
 
     public void QuitGame()
