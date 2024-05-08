@@ -8,7 +8,7 @@ public class Framerate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("GetFPS", 1, 1);
+        InvokeRepeating(nameof(GetFPS), 1, 1);
     }
 
     void GetFPS()
