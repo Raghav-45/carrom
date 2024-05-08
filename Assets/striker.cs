@@ -14,7 +14,7 @@ public class striker : MonoBehaviour
     [SerializeField] float minRequiredForce = 0.8f;
     [SerializeField] float maxForce = 4f;
     [SerializeField] float resetThresholdVelocity = 0.07f;
-    [SerializeField] float allowedTouchRadius = 0.4f;
+    [SerializeField] float allowedTouchRadius = 0.36f;
     [SerializeField] Slider strikerSlider;
     [SerializeField] GameObject focusCircle;
     [SerializeField] GameObject powerControl;
