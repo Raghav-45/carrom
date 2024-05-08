@@ -20,7 +20,8 @@ public class pocket : MonoBehaviour
         switch (this.gameObject.tag)
         {
             case "striker":
-                rb.velocity = Vector2.zero;
+                Vector2 currentDirection = rb.velocity.normalized;
+                rb.velocity = currentDirection.normalized * 0.07f;
                 break;
             case "black":
             case "red":
