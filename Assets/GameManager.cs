@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
-    [SerializeField] private GameMode gameMode;
+    [SerializeField] private GameMode gameMode = GameMode.Classic; // Default GameMode is Classic
     [SerializeField] private Text whiteTextRenderer;
     [SerializeField] private Text blackTextRenderer;
 
