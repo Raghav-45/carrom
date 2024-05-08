@@ -9,8 +9,11 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-        MaxFPSText.text = "Max FPS: " + Screen.currentResolution.refreshRateRatio.ToString();
-        maxFrameRate = Screen.currentResolution.refreshRate;
+        Resolution[] resolutions = Screen.resolutions;
+
+        MaxFPSText.text = "Max FPS: " + resolutions[resolutions.Length - 1].refreshRateRatio.ToString();
+
+        maxFrameRate = resolutions[resolutions.Length - 1].refreshRate;
     }
 
     public void PlayGame()
