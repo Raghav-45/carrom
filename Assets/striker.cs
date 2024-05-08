@@ -14,6 +14,7 @@ public class striker : MonoBehaviour
     [SerializeField] float minRequiredForce = 0.8f;
     [SerializeField] float maxForce = 4f;
     [SerializeField] float resetThresholdVelocity = 0.07f;
+    [SerializeField] float allowedTouchRadius = 0.4f;
     [SerializeField] Slider strikerSlider;
     [SerializeField] GameObject focusCircle;
     [SerializeField] GameObject powerControl;
@@ -138,6 +139,8 @@ public class striker : MonoBehaviour
 
             currentStrikerPosition = myTransform.position;
 
+            float touchErrorDistance = Vector2.Distance(currentStrikerPosition, touchPosition);
+
             // Raycast to check if the touch position is hitting the striker collider
             RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
 
@@ -145,7 +148,7 @@ public class striker : MonoBehaviour
             {
                 case TouchPhase.Began:
                     // Show arrow
-                    if (hit.transform.CompareTag("striker") && hit.transform.name == this.name)
+                    if (touchErrorDistance < allowedTouchRadius)
                     {
                         isBeingDragged = true; // Set the flag to indicate this striker is being dragged
                         powerControl.transform.localScale = Vector3.one * 0.75f; // Reset Gizmos Scale
