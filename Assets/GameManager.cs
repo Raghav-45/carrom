@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
+    [SerializeField] private GameMode gameMode;
     [SerializeField] private Text whiteTextRenderer;
     [SerializeField] private Text blackTextRenderer;
 
@@ -100,6 +101,13 @@ public enum PlayerTurn
     PlayerTwo,
     PlayerThree,
     PlayerFour
+}
+
+// Enum for Game Modes
+public enum GameMode
+{
+    Classic,
+    Disk
 }
 
 // Player class to represent each player
