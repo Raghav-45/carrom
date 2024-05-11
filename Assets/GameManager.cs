@@ -23,10 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameMode gameMode = GameMode.Classic; // Default GameMode is Classic
     [SerializeField] private Text whiteTextRenderer;
     [SerializeField] private Text blackTextRenderer;
-
-    [SerializeField] private int totalCoins = 0;
     [SerializeField] public int currentPlayerIndex = 0; // Index of the current player
-    [SerializeField] public int previousPlayerIndex = 0; // Index of the previous player
     public Player[] players; // Array of players in the game
 
     // Events
@@ -40,19 +37,15 @@ public class GameManager : MonoBehaviour
         players[currentPlayerIndex].isPlayerTurn = true;
     }
 
-    public void UpdateScoreUI()
+    // Method to get the current player
+    public Player GetCurrentPlayer()
     {
-        if (whiteTextRenderer != null && blackTextRenderer != null)
-        {
-            whiteTextRenderer.text = players[0].score.ToString();
-            blackTextRenderer.text = players[1].score.ToString();
-        }
+        return players[currentPlayerIndex];
     }
 
     // Method to end the current turn and start the next turn
     public void SwitchToNextPlayer()
     {
-        previousPlayerIndex = currentPlayerIndex;
         players[currentPlayerIndex].isPlayerTurn = false;
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
         players[currentPlayerIndex].isPlayerTurn = true;
@@ -68,22 +61,9 @@ public class GameManager : MonoBehaviour
     // Method to collect coins for the current player
     public void AddCoinToCurrentPlayer(CoinType type)
     {
-        Player currentPlayer = players[currentPlayerIndex];
-        OnCoinCollected?.Invoke(currentPlayer, type); // Coin Collect Event
+        Player currentPlayer = GetCurrentPlayer();
         currentPlayer.CollectCoin(type);
-        totalCoins++;
-    }
-
-    // Method to retrieve Total Coins
-    public int GetTotalCoins()
-    {
-        return totalCoins;
-    }
-
-    // Method to get the current player's score
-    public int GetCurrentPlayerScore()
-    {
-        return players[currentPlayerIndex].score;
+        OnCoinCollected?.Invoke(currentPlayer, type); // Coin Collect Event
     }
 }
 
@@ -122,6 +102,11 @@ public class Player
     public int redCoin; // Number of red coins collected
     public int blackCoin; // Number of black coins collected
     public int whiteCoin; // Number of white coins collected
+
+    [Header("Coin UI")]
+    public TMPro.TextMeshProUGUI redCoinText; // UI of red coins collected
+    public TMPro.TextMeshProUGUI blackCoinText; // UI of black coins collected
+    public TMPro.TextMeshProUGUI whiteCoinText; // UI of white coins collected
     public bool isPlayerTurn;
     public bool isQueenCoveringMove;
     public Sprite StrikerImage;
@@ -147,21 +132,57 @@ public class Player
         whiteCoin = white;
     }
 
-    // Method to increase coin count by 1 based on coin type
+    public void UpdateCoinTextsUI()
+    {
+        redCoinText.text = redCoin.ToString();
+        blackCoinText.text = blackCoin.ToString();
+        whiteCoinText.text = whiteCoin.ToString();
+    }
+
+    // Method to handle coin functionality based on coin type
     public void CollectCoin(CoinType type)
     {
         switch (type)
         {
             case CoinType.Red:
-                redCoin++;
+                isQueenCoveringMove = true;
                 break;
             case CoinType.Black:
                 blackCoin++;
+                if (isQueenCoveringMove)
+                {
+                    redCoin = 1;
+                }
                 break;
             case CoinType.White:
                 whiteCoin++;
+                if (isQueenCoveringMove)
+                {
+                    redCoin = 1;
+                }
                 break;
         }
         score = redCoin + blackCoin + whiteCoin;
+        UpdateCoinTextsUI();
+    }
+
+    public void OnFoul()
+    {
+        if (redCoin + blackCoin + whiteCoin > 0)
+        {
+            if (blackCoin > 0)
+            {
+                blackCoin--;
+            }
+            else if (whiteCoin > 0)
+            {
+                whiteCoin--;
+            }
+            else if (redCoin > 0)
+            {
+                redCoin = 0;
+            }
+        }
+        UpdateCoinTextsUI();
     }
 }

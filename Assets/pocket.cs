@@ -20,14 +20,13 @@ public class pocket : MonoBehaviour
         switch (this.gameObject.tag)
         {
             case "striker":
+                GameManager.Instance.GetCurrentPlayer().OnFoul();
                 Vector2 currentDirection = rb.velocity.normalized;
                 rb.velocity = currentDirection.normalized * 0.07f;
                 break;
             case "black":
             case "red":
             case "white":
-                // TODO: Give one Bonus Turn
-
                 switch (this.gameObject.tag)
                 {
                     case "black":
@@ -40,8 +39,6 @@ public class pocket : MonoBehaviour
                         GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                         break;
                 }
-
-                GameManager.Instance.UpdateScoreUI();
 
                 rb.velocity = Vector2.zero;
                 Destroy(this.gameObject);
@@ -56,6 +53,5 @@ public class pocket : MonoBehaviour
     {
         anim.SetTrigger("fall");
         yield return new WaitForSeconds(1f);
-        // this.GetComponent<striker>().MoveStriker(false); // Dont Give Bonus Chance
     }
 }

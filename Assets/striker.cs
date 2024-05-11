@@ -99,23 +99,13 @@ public class striker : MonoBehaviour
                 myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
                 rb.velocity = Vector2.zero;
 
-                if (GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].isQueenCoveringMove == true)
-                {
-                    GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
-                }
-
-                if (CollectedCoinDetails.coinType == CoinType.Red)
-                {
-                    GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].isQueenCoveringMove = true;
-                }
-
                 isCollectedAnyCoin = false;
             }
             else
             {
                 // Should not Get Turn
                 strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
-                this.transform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
                 rb.velocity = Vector2.zero;
 
                 foreach (var player in GameManager.Instance.players)

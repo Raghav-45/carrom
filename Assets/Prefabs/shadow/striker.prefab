@@ -317,7 +317,6 @@ GameObject:
   - component: {fileID: 6185954806710999382}
   - component: {fileID: 6544903975766815390}
   - component: {fileID: 4719726446641218173}
-  - component: {fileID: -8643044857360292569}
   - component: {fileID: 809408867}
   m_Layer: 0
   m_Name: striker
@@ -507,6 +506,7 @@ MonoBehaviour:
   minRequiredForce: 0.8
   maxForce: 4
   resetThresholdVelocity: 0.07
+  allowedTouchRadius: 0.3
   strikerSlider: {fileID: 0}
   focusCircle: {fileID: 4858310446698464183}
   powerControl: {fileID: 1272860692470752492}
@@ -809,18 +809,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 0
---- !u!114 &-8643044857360292569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6362508504852925543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &809408867
 AudioSource:
   m_ObjectHideFlags: 0
