@@ -1239,6 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cc1245f64032b54f9568d51f7c372ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 0
   whiteTextRenderer: {fileID: 1414856694}
   blackTextRenderer: {fileID: 994593642}
   totalCoins: 0
