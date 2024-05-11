@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public void SwitchToNextPlayer()
     {
         players[currentPlayerIndex].isPlayerTurn = false;
+        players[currentPlayerIndex].isQueenCoveringMove = false; // Reset this flag for Previous Player
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
         players[currentPlayerIndex].isPlayerTurn = true;
         OnTurnChanged?.Invoke(currentPlayerIndex);

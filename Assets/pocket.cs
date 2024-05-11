@@ -25,25 +25,21 @@ public class pocket : MonoBehaviour
                 rb.velocity = currentDirection.normalized * 0.07f;
                 break;
             case "black":
-            case "red":
-            case "white":
-                switch (this.gameObject.tag)
-                {
-                    case "black":
-                        GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
-                        break;
-                    case "red":
-                        GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
-                        break;
-                    case "white":
-                        GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
-                        break;
-                }
-
+                GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
                 rb.velocity = Vector2.zero;
                 Destroy(this.gameObject);
-
                 break;
+            case "red":
+                GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
+                rb.velocity = Vector2.zero;
+                Destroy(this.gameObject);
+                break;
+            case "white":
+                GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
+                rb.velocity = Vector2.zero;
+                Destroy(this.gameObject);
+                break;
+
             default:
                 break;
         }

@@ -108,10 +108,10 @@ public class striker : MonoBehaviour
                 myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
                 rb.velocity = Vector2.zero;
 
-                foreach (var player in GameManager.Instance.players)
-                {
-                    player.isQueenCoveringMove = false;
-                }
+                // foreach (var player in GameManager.Instance.players)
+                // {
+                //     player.isQueenCoveringMove = false;
+                // }
 
                 GameManager.Instance.SwitchToNextPlayer();
             }
