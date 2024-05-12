@@ -131,9 +131,6 @@ public class striker : MonoBehaviour
 
             float touchErrorDistance = Vector2.Distance(currentStrikerPosition, touchPosition);
 
-            // Raycast to check if the touch position is hitting the striker collider
-            RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
-
             switch (touch.phase)
             {
                 case TouchPhase.Began:
@@ -180,8 +177,6 @@ public class striker : MonoBehaviour
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
                             startObserving = true;
                             // breakshots[3].Play();
-
-                            // strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
                         }
                     }
                     break;
