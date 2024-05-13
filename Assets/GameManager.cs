@@ -20,9 +20,9 @@ public class GameManager : MonoBehaviour
     }
 
     // Variables
-    [SerializeField] private GameMode gameMode = GameMode.Classic; // Default GameMode is Classic
-    [SerializeField] private Text whiteTextRenderer;
-    [SerializeField] private Text blackTextRenderer;
+    [SerializeField] GameMode gameMode = GameMode.Classic; // Default GameMode is Classic
+    [SerializeField] Text whiteTextRenderer;
+    [SerializeField] Text blackTextRenderer;
     [SerializeField] public int currentPlayerIndex = 0; // Index of the current player
     public Player[] players; // Array of players in the game
 
