@@ -22,28 +22,28 @@ public class pocket : MonoBehaviour
         switch (this.gameObject.tag)
         {
             case "striker":
-                StartCoroutine(FallCoroutine(true));
+                // StartCoroutine(FallCoroutine(true));
                 GameManager.Instance.GetCurrentPlayer().OnFoul();
                 Vector2 currentDirection = rb.velocity.normalized;
                 rb.velocity = currentDirection.normalized * 0.07f;
                 break;
             case "black":
-                StartCoroutine(FallCoroutine(false));
+                // StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
                 rb.velocity = Vector2.zero;
-                // Destroy(this.gameObject);
+                Destroy(this.gameObject);
                 break;
             case "red":
-                StartCoroutine(FallCoroutine(false));
+                // StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
                 rb.velocity = Vector2.zero;
-                // Destroy(this.gameObject);
+                Destroy(this.gameObject);
                 break;
             case "white":
-                StartCoroutine(FallCoroutine(false));
+                // StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 rb.velocity = Vector2.zero;
-                // Destroy(this.gameObject);
+                Destroy(this.gameObject);
                 break;
 
             default:
@@ -55,10 +55,6 @@ public class pocket : MonoBehaviour
     {
         Debug.Log("Foul");
     }
-    void HandleCoinFall()
-    {
-        Debug.Log("coin");
-    }
 
     IEnumerator FallCoroutine(bool isStriker)
     {
@@ -67,11 +63,11 @@ public class pocket : MonoBehaviour
 
         if (isStriker)
         {
-            HandleStrikerFoul();
+            Debug.Log("Foul");
         }
         else
         {
-            Destroy(this.gameObject);
+            Debug.Log("coin");
         }
     }
 }
