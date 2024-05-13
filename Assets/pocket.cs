@@ -11,6 +11,8 @@ public class pocket : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        GameManager.Instance.OnStrikerFoul += HandleStrikerFoul;
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -20,24 +22,28 @@ public class pocket : MonoBehaviour
         switch (this.gameObject.tag)
         {
             case "striker":
+                StartCoroutine(FallCoroutine(true));
                 GameManager.Instance.GetCurrentPlayer().OnFoul();
                 Vector2 currentDirection = rb.velocity.normalized;
                 rb.velocity = currentDirection.normalized * 0.07f;
                 break;
             case "black":
+                StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
                 rb.velocity = Vector2.zero;
-                Destroy(this.gameObject);
+                // Destroy(this.gameObject);
                 break;
             case "red":
+                StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
                 rb.velocity = Vector2.zero;
-                Destroy(this.gameObject);
+                // Destroy(this.gameObject);
                 break;
             case "white":
+                StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 rb.velocity = Vector2.zero;
-                Destroy(this.gameObject);
+                // Destroy(this.gameObject);
                 break;
 
             default:
@@ -45,9 +51,27 @@ public class pocket : MonoBehaviour
         }
     }
 
-    IEnumerator fall()
+    void HandleStrikerFoul()
     {
-        anim.SetTrigger("fall");
+        Debug.Log("Foul");
+    }
+    void HandleCoinFall()
+    {
+        Debug.Log("coin");
+    }
+
+    IEnumerator FallCoroutine(bool isStriker)
+    {
+        anim.SetTrigger(isStriker ? "Striker Fall" : "Coin Fall");
         yield return new WaitForSeconds(1f);
+
+        if (isStriker)
+        {
+            HandleStrikerFoul();
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

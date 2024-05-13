@@ -28,8 +28,8 @@ public class GameManager : MonoBehaviour
 
     // Events
     public event Action<int> OnTurnChanged;
-    // public event Action<Player> OnCoinCollected;
     public event Action<Player, CoinType> OnCoinCollected;
+    public event Action OnStrikerFoul;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -66,6 +66,11 @@ public class GameManager : MonoBehaviour
         currentPlayer.CollectCoin(type);
         OnCoinCollected?.Invoke(currentPlayer, type); // Coin Collect Event
     }
+
+    public void OnFoul()
+    {
+        OnStrikerFoul?.Invoke();
+    }
 }
 
 public enum CoinType
@@ -95,6 +100,7 @@ public enum GameMode
 [System.Serializable]
 public class Player
 {
+    private GameManager gameManager;
     public PlayerTurn PlayerType;
     public Transform startPoint;
     public int score; // Player's score
@@ -169,6 +175,7 @@ public class Player
 
     public void OnFoul()
     {
+        GameManager.Instance.OnFoul();
         if (redCoin + blackCoin + whiteCoin > 0)
         {
             if (blackCoin > 0)

@@ -93,28 +93,28 @@ public class striker : MonoBehaviour
             startObserving = false;
             // breakshots[3].Stop();
 
-            if (isCollectedAnyCoin)
-            {
-                // Should Get Extra Turn
-                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
-                rb.velocity = Vector2.zero;
+            // if (isCollectedAnyCoin)
+            // {
+            //     // Should Get Extra Turn
+            //     myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+            //     rb.velocity = Vector2.zero;
 
-                isCollectedAnyCoin = false;
-            }
-            else
-            {
-                // Should not Get Turn
-                strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
-                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
-                rb.velocity = Vector2.zero;
+            //     isCollectedAnyCoin = false;
+            // }
+            // else
+            // {
+            //     // Should not Get Turn
+            //     strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
+            //     myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+            //     rb.velocity = Vector2.zero;
 
-                // foreach (var player in GameManager.Instance.players)
-                // {
-                //     player.isQueenCoveringMove = false;
-                // }
+            //     // foreach (var player in GameManager.Instance.players)
+            //     // {
+            //     //     player.isQueenCoveringMove = false;
+            //     // }
 
-                GameManager.Instance.SwitchToNextPlayer();
-            }
+            //     GameManager.Instance.SwitchToNextPlayer();
+            // }
         }
     }
 
