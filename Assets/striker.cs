@@ -35,17 +35,13 @@ public class striker : MonoBehaviour
     bool isBeingDragged = false;
     bool isDecelerating;
     Vector2 previousVelocity;
-    bool isCollectedAnyCoin = false;
-    PlayerCoin CollectedCoinDetails;
     bool startObserving;
 
     GameObject gameBoard;
-    GameObject gameManager; // Reference to GameManager
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        gameManager = GameObject.Find("Game Manager");
         gameBoard = GameObject.Find("carrom_board");
         myTransform = transform;
     }
@@ -60,7 +56,6 @@ public class striker : MonoBehaviour
 
         // Subscribe to events
         GameManager.Instance.OnTurnChanged += HandleTurnChanged;
-        GameManager.Instance.OnCoinCollected += HandleCoinCollected;
 
         previousVelocity = rb.velocity;
 
@@ -186,11 +181,6 @@ public class striker : MonoBehaviour
     void HandleTurnChanged(int currentPlayerIndex)
     {
         spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
-    }
-    void HandleCoinCollected(Player player, CoinType coinType)
-    {
-        CollectedCoinDetails = new PlayerCoin(player, coinType);
-        isCollectedAnyCoin = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
