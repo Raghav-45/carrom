@@ -35,6 +35,8 @@ public class striker : MonoBehaviour
     bool isBeingDragged = false;
     bool isDecelerating;
     Vector2 previousVelocity;
+    bool isCollectedAnyCoin = false;
+    PlayerCoin CollectedCoinDetails;
     bool startObserving;
 
     GameObject gameBoard;
@@ -56,6 +58,7 @@ public class striker : MonoBehaviour
 
         // Subscribe to events
         GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+        GameManager.Instance.OnCoinCollected += HandleCoinCollected;
 
         previousVelocity = rb.velocity;
 
@@ -87,29 +90,46 @@ public class striker : MonoBehaviour
         {
             startObserving = false;
             // breakshots[3].Stop();
+            strikerSlider.value = 0f;
 
-            // if (isCollectedAnyCoin)
-            // {
-            //     // Should Get Extra Turn
-            //     myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
-            //     rb.velocity = Vector2.zero;
+            if (isCollectedAnyCoin)
+            {
+                // Should Get Extra Turn
+                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                rb.velocity = Vector2.zero;
 
-            //     isCollectedAnyCoin = false;
-            // }
-            // else
-            // {
-            //     // Should not Get Turn
-            //     strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
-            //     myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
-            //     rb.velocity = Vector2.zero;
+                isCollectedAnyCoin = false;
+            }
+            else
+            {
+                // Should not Get Turn
+                strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
+                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                rb.velocity = Vector2.zero;
 
-            //     // foreach (var player in GameManager.Instance.players)
-            //     // {
-            //     //     player.isQueenCoveringMove = false;
-            //     // }
+                // foreach (var player in GameManager.Instance.players)
+                // {
+                //     player.isQueenCoveringMove = false;
+                // }
 
-            //     GameManager.Instance.SwitchToNextPlayer();
-            // }
+                GameManager.Instance.SwitchToNextPlayer();
+            }
+        }
+    }
+
+    public void OnSliderValueChanged()
+    {
+        if (startObserving == false)
+        {
+            // Get the slider's value (between 0 and 1)
+            float sliderValue = strikerSlider.value;
+
+            // Calculate the new position for the object
+            Vector3 newPosition = myTransform.position;
+            newPosition.x = sliderValue; // Change the range as needed
+
+            // Update the object's position
+            myTransform.position = newPosition;
         }
     }
 
@@ -181,6 +201,12 @@ public class striker : MonoBehaviour
     void HandleTurnChanged(int currentPlayerIndex)
     {
         spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
+    }
+
+    void HandleCoinCollected(Player player, CoinType coinType)
+    {
+        CollectedCoinDetails = new PlayerCoin(player, coinType);
+        isCollectedAnyCoin = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
