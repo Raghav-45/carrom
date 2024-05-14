@@ -69,7 +69,7 @@ public class pocket : MonoBehaviour
     IEnumerator FallCoroutine()
     {
         // anim.SetTrigger(isStriker ? "Striker Fall" : "Coin Fall");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
         Destroy(this.gameObject);
 
         // if (isStriker)
