@@ -31,19 +31,22 @@ public class pocket : MonoBehaviour
                 // StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Black);
                 rb.velocity = Vector2.zero;
-                Destroy(this.gameObject);
+                // Destroy(this.gameObject);
+                HandlePawnFall();
                 break;
             case "red":
                 // StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.Red);
                 rb.velocity = Vector2.zero;
-                Destroy(this.gameObject);
+                // Destroy(this.gameObject);
+                HandlePawnFall();
                 break;
             case "white":
                 // StartCoroutine(FallCoroutine(false));
                 GameManager.Instance.AddCoinToCurrentPlayer(CoinType.White);
                 rb.velocity = Vector2.zero;
-                Destroy(this.gameObject);
+                // Destroy(this.gameObject);
+                HandlePawnFall();
                 break;
 
             default:
@@ -56,18 +59,26 @@ public class pocket : MonoBehaviour
         Debug.Log("Foul");
     }
 
-    IEnumerator FallCoroutine(bool isStriker)
+    void HandlePawnFall()
     {
-        anim.SetTrigger(isStriker ? "Striker Fall" : "Coin Fall");
-        yield return new WaitForSeconds(1f);
+        transform.localScale = Vector3.one * 0.56f * 0.9f;
+        GetComponent<SpriteRenderer>().color = new Color(180f / 255f, 180f / 255f, 180f / 255f);
+        StartCoroutine(FallCoroutine());
+    }
 
-        if (isStriker)
-        {
-            Debug.Log("Foul");
-        }
-        else
-        {
-            Debug.Log("coin");
-        }
+    IEnumerator FallCoroutine()
+    {
+        // anim.SetTrigger(isStriker ? "Striker Fall" : "Coin Fall");
+        yield return new WaitForSeconds(1f);
+        Destroy(this.gameObject);
+
+        // if (isStriker)
+        // {
+        //     Debug.Log("Foul");
+        // }
+        // else
+        // {
+        //     Debug.Log("coin");
+        // }
     }
 }
