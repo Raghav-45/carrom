@@ -100,7 +100,6 @@ public enum GameMode
 [System.Serializable]
 public class Player
 {
-    private GameManager gameManager;
     public PlayerTurn PlayerType;
     public Transform startPoint;
     public int score; // Player's score
