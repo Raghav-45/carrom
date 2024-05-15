@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -191,5 +192,47 @@ public class Player
             }
         }
         UpdateCoinTextsUI();
+    }
+}
+
+public class CoinStack
+{
+    private List<CoinType> coins;
+
+    public CoinStack()
+    {
+        coins = new List<CoinType>();
+    }
+
+    // Add a coin to the stack
+    public void AddCoin(CoinType coinType)
+    {
+        coins.Add(coinType);
+    }
+
+    // Remove the last coin from the stack
+    public void RemoveLastCoin()
+    {
+        if (coins.Count > 0)
+        {
+            coins.RemoveAt(coins.Count - 1);
+        }
+        else
+        {
+            Debug.Log("Coin stack is empty.");
+        }
+    }
+
+    // Remove a specific coin type from the stack
+    public void RemoveCoin(CoinType coinType)
+    {
+        if (coins.Contains(coinType))
+        {
+            coins.Remove(coinType);
+        }
+        else
+        {
+            Debug.Log($"Coin of type {coinType} not found in the stack.");
+        }
     }
 }
