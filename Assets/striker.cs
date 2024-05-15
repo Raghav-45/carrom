@@ -99,6 +99,7 @@ public class striker : MonoBehaviour
                 rb.velocity = Vector2.zero;
 
                 isCollectedAnyCoin = false;
+                GameManager.Instance.onResetPlayerLocation();
             }
             else
             {

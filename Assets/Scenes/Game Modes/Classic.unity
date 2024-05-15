@@ -313,6 +313,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1844238001307295498, guid: e183d326411e3484090fa5646f40df84, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.987
+      objectReference: {fileID: 0}
+    - target: {fileID: 1844238001307295498, guid: e183d326411e3484090fa5646f40df84, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.682
+      objectReference: {fileID: 0}
     - target: {fileID: 2182899129370638904, guid: e183d326411e3484090fa5646f40df84, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1077,6 +1085,67 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1001 &507021682
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2018613631248010756, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010758, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018613631248010810, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+      propertyPath: m_Name
+      value: white (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,13 +1475,17 @@ MonoBehaviour:
   whiteTextRenderer: {fileID: 1414856694}
   blackTextRenderer: {fileID: 994593642}
   currentPlayerIndex: 0
+  redPrefab: {fileID: 8025590601702778582, guid: 41a2bf5b7b0d6644388ac7d75ae04808, type: 3}
+  whitePrefab: {fileID: 2018613631248010810, guid: 5e33340241dbc2e4292ca1a95746a398, type: 3}
+  blackPrefab: {fileID: 7070617059890042606, guid: 8e1c05159ede1c149aba408b5ad5a9d2, type: 3}
   players:
   - PlayerType: 0
     startPoint: {fileID: 1422576986}
     score: 0
-    redCoin: 0
-    blackCoin: 0
-    whiteCoin: 0
+    coinStack:
+      coins: 
+    currentTurnCoinStack:
+      coins: 
     redCoinText: {fileID: 1909782191}
     blackCoinText: {fileID: 1909782193}
     whiteCoinText: {fileID: 1909782192}
@@ -1422,9 +1495,10 @@ MonoBehaviour:
   - PlayerType: 1
     startPoint: {fileID: 921990399}
     score: 0
-    redCoin: 0
-    blackCoin: 0
-    whiteCoin: 0
+    coinStack:
+      coins: 
+    currentTurnCoinStack:
+      coins: 
     redCoinText: {fileID: 2011521463}
     blackCoinText: {fileID: 2011521465}
     whiteCoinText: {fileID: 2011521464}
@@ -4197,6 +4271,7 @@ SceneRoots:
   - {fileID: 264699925}
   - {fileID: 786270579}
   - {fileID: 1071034238}
+  - {fileID: 507021682}
   - {fileID: 109259912}
   - {fileID: 1810730898}
   - {fileID: 1432945067}

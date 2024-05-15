@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text whiteTextRenderer;
     [SerializeField] Text blackTextRenderer;
     [SerializeField] public int currentPlayerIndex = 0; // Index of the current player
+
+    [SerializeField] GameObject redPrefab;
+    [SerializeField] GameObject whitePrefab;
+    [SerializeField] GameObject blackPrefab;
+
     public Player[] players; // Array of players in the game
 
     // Events
@@ -48,9 +54,34 @@ public class GameManager : MonoBehaviour
     public void SwitchToNextPlayer()
     {
         players[currentPlayerIndex].isPlayerTurn = false;
+        players[currentPlayerIndex].currentTurnCoinStack.resetCoinStack();
+
         players[currentPlayerIndex].isQueenCoveringMove = false; // Reset this flag for Previous Player
         currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
+
         players[currentPlayerIndex].isPlayerTurn = true;
+        players[currentPlayerIndex].currentTurnCoinStack.resetCoinStack();
+
+        // TODO: Do this only for Classic Mode
+        if (GameObject.FindGameObjectsWithTag("red").Length < 1)
+        {
+            bool shouldSpawn = true;
+
+            foreach (Player player in players)
+            {
+                if (player.coinStack.GetCoinCount(CoinType.Red) == 1)
+                {
+                    shouldSpawn = false;
+                    break; // Exit the loop after spawning one red coin
+                }
+            }
+
+            if (shouldSpawn)
+            {
+                SpawnCoinOnBoard(CoinType.Red);
+            }
+        }
+
         OnTurnChanged?.Invoke(currentPlayerIndex);
     }
 
@@ -68,9 +99,41 @@ public class GameManager : MonoBehaviour
         OnCoinCollected?.Invoke(currentPlayer, type); // Coin Collect Event
     }
 
+    public void onResetPlayerLocation()
+    {
+        Player currentPlayer = GetCurrentPlayer();
+        currentPlayer.currentTurnCoinStack = new CoinStack(); // Initialize the coin stack for the current turn
+    }
+
     public void OnFoul()
     {
         OnStrikerFoul?.Invoke();
+    }
+
+    public void SpawnCoinOnBoard(CoinType coinType)
+    {
+        Vector2 location = new Vector2(0, 0);
+        GameObject coinPrefab = null;
+
+        // Select the appropriate prefab based on the coin type
+        switch (coinType)
+        {
+            case CoinType.Red:
+                coinPrefab = redPrefab;
+                break;
+            case CoinType.Black:
+                coinPrefab = blackPrefab;
+                break;
+            case CoinType.White:
+                coinPrefab = whitePrefab;
+                break;
+        }
+
+        // Instantiate the coin prefab at the specified location with no rotation
+        GameObject coinObject = Instantiate(coinPrefab, location, Quaternion.identity);
+
+        // Set the scale of the instantiated coin object
+        coinObject.transform.localScale = new Vector3(0.56f, 0.56f, 0.56f);
     }
 }
 
@@ -104,11 +167,13 @@ public class Player
     public PlayerTurn PlayerType;
     public Transform startPoint;
     public int score; // Player's score
+    public CoinStack coinStack;
+    public CoinStack currentTurnCoinStack;
 
-    [Header("Coins")]
-    public int redCoin; // Number of red coins collected
-    public int blackCoin; // Number of black coins collected
-    public int whiteCoin; // Number of white coins collected
+    // [Header("Coins")]
+    // public int redCoin; // Number of red coins collected
+    // public int blackCoin; // Number of black coins collected
+    // public int whiteCoin; // Number of white coins collected
 
     [Header("Coin UI")]
     public TMPro.TextMeshProUGUI redCoinText; // UI of red coins collected
@@ -123,85 +188,115 @@ public class Player
         PlayerType = playerType;
         this.startPoint = startPoint;
         score = 0;
-        redCoin = 0;
-        blackCoin = 0;
-        whiteCoin = 0;
+        // redCoin = 0;
+        // blackCoin = 0;
+        // whiteCoin = 0;
         this.isPlayerTurn = isPlayerTurn;
         isQueenCoveringMove = false;
         this.StrikerImage = StrikerImage;
+        this.coinStack = new CoinStack(); // Initialize the overall coin stack
+        this.currentTurnCoinStack = new CoinStack(); // Initialize the coin stack for the current turn
+
     }
 
-    // Method to set coin counts
-    public void SetCoinCounts(int red, int black, int white)
-    {
-        redCoin = red;
-        blackCoin = black;
-        whiteCoin = white;
-    }
+    // Method to set initial coin counts
+    // public void SetCoinCounts(int red, int black, int white)
+    // {
+    //     redCoin = red;
+    //     blackCoin = black;
+    //     whiteCoin = white;
+    // }
 
     public void UpdateCoinTextsUI()
     {
-        redCoinText.text = redCoin.ToString();
-        blackCoinText.text = blackCoin.ToString();
-        whiteCoinText.text = whiteCoin.ToString();
+        // redCoinText.text = redCoin.ToString();
+        // blackCoinText.text = blackCoin.ToString();
+        // whiteCoinText.text = whiteCoin.ToString();
+
+        // TODO: If the velocity of the player's striker is below threshold velocity, then stop all coins to ensure no errors occur.
+
+        redCoinText.text = coinStack.GetCoinCount(CoinType.Red).ToString();
+        blackCoinText.text = coinStack.GetCoinCount(CoinType.Black).ToString();
+        whiteCoinText.text = coinStack.GetCoinCount(CoinType.White).ToString();
     }
 
     // Method to handle coin functionality based on coin type
     public void CollectCoin(CoinType type)
     {
+        currentTurnCoinStack.resetCoinStack(); // Reset currentTurnCoinStack to ensure correct results
         switch (type)
         {
             case CoinType.Red:
                 isQueenCoveringMove = true;
                 break;
+
             case CoinType.Black:
-                blackCoin++;
-                if (isQueenCoveringMove)
-                {
-                    redCoin = 1;
-                }
-                break;
             case CoinType.White:
-                whiteCoin++;
+                coinStack.AddCoin(type); // Add the coin to the CoinStack
+                currentTurnCoinStack.AddCoin(type); // Add the coin to the currentTurnCoinStack
                 if (isQueenCoveringMove)
                 {
-                    redCoin = 1;
+                    coinStack.AddCoin(CoinType.Red); // Add red coin if Queen Covering Move
+                    currentTurnCoinStack.AddCoin(CoinType.Red); // Add red coin if Queen Covering Move
+                    isQueenCoveringMove = false;
                 }
                 break;
+
         }
-        score = redCoin + blackCoin + whiteCoin;
+        //score = coinStack.CoinsCount();
+        score = (coinStack.GetCoinCount(CoinType.Black) * 10) + (coinStack.GetCoinCount(CoinType.White) * 20) + (coinStack.GetCoinCount(CoinType.Red) * 50);
+        // currentTurnCoinStack = coinStack;
         UpdateCoinTextsUI();
     }
 
     public void OnFoul()
     {
         GameManager.Instance.OnFoul();
-        if (redCoin + blackCoin + whiteCoin > 0)
+        if (currentTurnCoinStack.CoinsCount() > 0)
         {
-            if (blackCoin > 0)
+            Debug.Log(coinStack.GetLastCoin());
+            coinStack.RemoveLastCoin();
+        }
+        else if (coinStack.CoinsCount() > 0)
+        {
+            if (coinStack.GetCoinCount(CoinType.Black) > 0)
             {
-                blackCoin--;
+                // blackCoin--;
+                coinStack.RemoveCoin(CoinType.Black);
             }
-            else if (whiteCoin > 0)
+            else if (coinStack.GetCoinCount(CoinType.White) > 0)
             {
-                whiteCoin--;
+                // whiteCoin--;
+                coinStack.RemoveCoin(CoinType.White);
             }
-            else if (redCoin > 0)
+            else if (coinStack.GetCoinCount(CoinType.Red) > 0)
             {
-                redCoin = 0;
+                // redCoin = 0;
+                coinStack.RemoveCoin(CoinType.Red);
             }
         }
         UpdateCoinTextsUI();
     }
 }
 
+[System.Serializable]
 public class CoinStack
 {
-    private List<CoinType> coins;
+    public List<CoinType> coins;
 
     public CoinStack()
     {
         coins = new List<CoinType>();
+    }
+
+    public void resetCoinStack()
+    {
+        coins = new List<CoinType>();
+    }
+
+    public int CoinsCount()
+    {
+        return coins.Count;
     }
 
     // Add a coin to the stack
@@ -215,6 +310,7 @@ public class CoinStack
     {
         if (coins.Count > 0)
         {
+            GameManager.Instance.SpawnCoinOnBoard(GetLastCoin());
             coins.RemoveAt(coins.Count - 1);
         }
         else
@@ -223,16 +319,28 @@ public class CoinStack
         }
     }
 
+    public CoinType GetLastCoin()
+    {
+        return coins[coins.Count - 1];
+    }
+
     // Remove a specific coin type from the stack
     public void RemoveCoin(CoinType coinType)
     {
         if (coins.Contains(coinType))
         {
+            GameManager.Instance.SpawnCoinOnBoard(coinType);
             coins.Remove(coinType);
         }
         else
         {
-            Debug.Log($"Coin of type {coinType} not found in the stack.");
+            Debug.Log("Coin stack is empty.");
         }
+    }
+
+    // Count of a specific coin type from the stack
+    public int GetCoinCount(CoinType coinType)
+    {
+        return coins.Count(c => c == coinType);
     }
 }

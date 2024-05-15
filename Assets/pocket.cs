@@ -56,7 +56,7 @@ public class pocket : MonoBehaviour
 
     void HandleStrikerFoul()
     {
-        Debug.Log("Foul");
+        // Debug.Log("Foul");
     }
 
     void HandlePawnFall()
