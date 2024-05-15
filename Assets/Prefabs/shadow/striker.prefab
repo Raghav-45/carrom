@@ -317,7 +317,6 @@ GameObject:
   - component: {fileID: 6185954806710999382}
   - component: {fileID: 6544903975766815390}
   - component: {fileID: 4719726446641218173}
-  - component: {fileID: -8643044857360292569}
   - component: {fileID: 809408867}
   m_Layer: 0
   m_Name: striker
@@ -418,7 +417,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -506,6 +505,44 @@ MonoBehaviour:
   forceMultiplier: 230
   minRequiredForce: 0.8
   maxForce: 4
+  resetThresholdVelocity: 0.07
+  allowedTouchRadius: 0.3
+  strikerSlider: {fileID: 0}
+  focusCircle: {fileID: 4858310446698464183}
+  powerControl: {fileID: 1272860692470752492}
+  ac:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.0070801
+      inSlope: -2.4187822
+      outSlope: -2.4187822
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.26884472
+      value: 0.35680324
+      inSlope: -1.465208
+      outSlope: -1.465208
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.9708252
+      value: -0.0023536682
+      inSlope: -0.51163375
+      outSlope: -0.51163375
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   breakshots:
   - {fileID: 809408867}
   - {fileID: 0}
@@ -546,52 +583,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 640889bf79da186438265d4203ffe41c, type: 3}
   - {fileID: 8300000, guid: 1329d2306b9553f40a039be1bfec4820, type: 3}
   - {fileID: 8300000, guid: d8298314fe7049e448e905f87732c583, type: 3}
-  StrikerSlider: {fileID: 0}
-  focusCircle: {fileID: 4858310446698464183}
-  powerControl: {fileID: 1272860692470752492}
-  resetThresholdVelocity: 0.07
-  board: {fileID: 0}
-  black: 0
-  white: 0
-  red: 0
-  coveringTheQueen: 0
-  st: 0
-  movestriker: 0
-  isPlayerTurn: 0
-  currentTurnIndex: 0
-  ac:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1.0070801
-      inSlope: -2.4187822
-      outSlope: -2.4187822
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.26884472
-      value: 0.35680324
-      inSlope: -1.465208
-      outSlope: -1.465208
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9708252
-      value: -0.0023536682
-      inSlope: -0.51163375
-      outSlope: -0.51163375
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!120 &6544903975766815390
 LineRenderer:
   serializedVersion: 2
@@ -818,18 +809,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 0
---- !u!114 &-8643044857360292569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6362508504852925543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ed2fe9e70e0723429c651df97c03035, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &809408867
 AudioSource:
   m_ObjectHideFlags: 0

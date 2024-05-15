@@ -1,67 +1,72 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class striker : MonoBehaviour
 {
-    // Vector3 strikerPosition, targetDirection, touchPosition;
-    Vector3 strikerPosition, dragDirection, forceDirection, touchPosition;
+    // Input handling
+    Vector3 currentStrikerPosition, currentDragDirection, forceDirection, touchPosition;
     float dragAmount;
 
-    GameObject gameManager;
-    // Make it random, based on player turn
-    public Vector2 strikerStartPosition = new Vector2(0, -1.47f);
-    public float forceMultiplier = 230f;
-    public float minRequiredForce = 0.8f;
-    public float maxForce = 4f;
+    // Serialized fields
+    [Header("Striker Settings")]
+    public Vector2 strikerStartPosition = new Vector2(0, -1.47f); // Make it random, based on player turn
+    [SerializeField] float forceMultiplier = 230f;
+    [SerializeField] float minRequiredForce = 0.8f;
+    [SerializeField] float maxForce = 4f;
+    [SerializeField] float resetThresholdVelocity = 0.07f;
+    [SerializeField] float allowedTouchRadius = 0.36f;
+    [SerializeField] Slider strikerSlider;
+    [SerializeField] GameObject focusCircle;
+    [SerializeField] GameObject powerControl;
+    [SerializeField] AnimationCurve ac;
 
-    // TODO: Instea of Array, do something else
+    // Audio
     public AudioSource[] breakshots;
     public AudioClip[] hitsound, breaksound, hits, pocketfillsound, movesound;
 
-    [SerializeField] Slider StrikerSlider;
-
-    public GameObject focusCircle;
-    public GameObject powerControl;
-    public float resetThresholdVelocity = 0.07f;
-    public GameObject board;
-    public int black, white, red;
-    public bool coveringTheQueen = false;
-
-    Camera cm;
-    LineRenderer lr;
-    GameObject start;
-
+    // Unity components
+    Camera mainCamera;
+    LineRenderer lineRenderer;
     Rigidbody2D rb;
-    // bool hit = false;
-    public bool st = false;
-    public bool movestriker = false;
-    public bool isPlayerTurn = false;
-    private bool isBeingDragged = false;
-    public bool startObserving = false;
-    // public bool doesPlayerHit = false;
-    public byte currentTurnIndex = 0;
-    bool showGizmos = false;
-    [SerializeField] AnimationCurve ac;
+    SpriteRenderer spriteRenderer;
+    Transform myTransform;
 
-    private Coroutine hitCoroutine;
+    // State flags
+    bool isBeingDragged = false;
+    bool isDecelerating;
+    Vector2 previousVelocity;
+    bool isCollectedAnyCoin = false;
+    PlayerCoin CollectedCoinDetails;
+    bool startObserving;
+
+    GameObject gameBoard;
 
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
-        start = GameObject.Find("start");
-        gameManager = GameObject.Find("Game Manager");
+        gameBoard = GameObject.Find("carrom_board");
+        myTransform = transform;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        cm = Camera.main;
-        lr = GetComponent<LineRenderer>();
+        mainCamera = Camera.main;
+        lineRenderer = GetComponent<LineRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // Subscribe to events
+        GameManager.Instance.OnTurnChanged += HandleTurnChanged;
+        GameManager.Instance.OnCoinCollected += HandleCoinCollected;
+
+        previousVelocity = rb.velocity;
 
         powerControl.SetActive(false); // Hide arrow initially
         focusCircle.SetActive(false);
+
+        myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+        rb.velocity = Vector2.zero;
     }
 
     // Update is called once per frame
@@ -72,68 +77,80 @@ public class striker : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Check if the magnitude of velocity is below the threshold
-        if (rb.velocity.magnitude <= resetThresholdVelocity && startObserving)
+        // Calculate change in velocity
+        Vector2 deltaVelocity = rb.velocity - previousVelocity;
+
+        // Check if object is decelerating
+        isDecelerating = deltaVelocity.magnitude > 0 && Vector2.Dot(deltaVelocity, rb.velocity) < 0;
+
+        // Update previous velocity
+        previousVelocity = rb.velocity;
+
+        if (rb.velocity.magnitude <= resetThresholdVelocity && isDecelerating && startObserving) // && rb.velocity.magnitude != 0f
         {
             startObserving = false;
-            // Debug.Log("Player is stationary.");
             // breakshots[3].Stop();
-            ResetStrikerPos();
-            if (!coveringTheQueen)
-            {
-                gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
-            }
+            strikerSlider.value = 0f;
 
-            if (coveringTheQueen && gameManager.GetComponent<Game_Manager>().deltaCoins == 1 && red == 1)
+            if (isCollectedAnyCoin)
             {
-                Debug.Log("Return Queen.");
-                coveringTheQueen = false;
-                // gameManager.GetComponent<Game_Manager>().deltaCoins = 0;
+                // Should Get Extra Turn
+                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                rb.velocity = Vector2.zero;
+
+                isCollectedAnyCoin = false;
+            }
+            else
+            {
+                // Should not Get Turn
+                strikerStartPosition = GameManager.Instance.GetNextPlayerResetPosition().position;
+                myTransform.position = new Vector3(strikerStartPosition.x, strikerStartPosition.y, 0);
+                rb.velocity = Vector2.zero;
+
+                // foreach (var player in GameManager.Instance.players)
+                // {
+                //     player.isQueenCoveringMove = false;
+                // }
+
+                GameManager.Instance.SwitchToNextPlayer();
             }
         }
     }
 
-    void InitTurn()
+    public void OnSliderValueChanged()
     {
-        Debug.Log("Turn Initialized");
-        // doesPlayerHit = false;
-        isBeingDragged = false;
-        startObserving = false;
-        ResetStrikerPos();
+        if (startObserving == false)
+        {
+            // Get the slider's value (between 0 and 1)
+            float sliderValue = strikerSlider.value;
+
+            // Calculate the new position for the object
+            Vector3 newPosition = myTransform.position;
+            newPosition.x = sliderValue; // Change the range as needed
+
+            // Update the object's position
+            myTransform.position = newPosition;
+        }
     }
 
-    public void ResetStrikerPos()
-    {
-        Transform pos = gameManager.GetComponent<Game_Manager>().currentPlayingCharacterResetPos;
-        this.transform.position = new Vector3(pos.position.x, pos.position.y, 0);
-        rb.velocity = Vector2.zero;
-    }
-
-    public void UpdateScore()
-    {
-        gameManager.GetComponent<Game_Manager>().white = (byte)white;
-        gameManager.GetComponent<Game_Manager>().black = (byte)black;
-        gameManager.GetComponent<Game_Manager>().UpdateScoreUI();
-    }
     public void control()
     {
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
 
-            touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+            touchPosition = mainCamera.ScreenToWorldPoint(touch.position);
             touchPosition.z = 0;
 
-            strikerPosition = this.transform.position;
+            currentStrikerPosition = myTransform.position;
 
-            // Raycast to check if the touch position is hitting the striker collider
-            RaycastHit2D hit = Physics2D.Raycast(touchPosition, Vector3.forward);
+            float touchErrorDistance = Vector2.Distance(currentStrikerPosition, touchPosition);
 
             switch (touch.phase)
             {
                 case TouchPhase.Began:
                     // Show arrow
-                    if (hit.transform.CompareTag("striker") && hit.transform.name == this.name)
+                    if (touchErrorDistance < allowedTouchRadius)
                     {
                         isBeingDragged = true; // Set the flag to indicate this striker is being dragged
                         powerControl.transform.localScale = Vector3.one * 0.75f; // Reset Gizmos Scale
@@ -144,10 +161,10 @@ public class striker : MonoBehaviour
                     if (isBeingDragged) // Process drag motion only if this striker is being dragged
                     {
                         // Calculate directions
-                        dragDirection = (touchPosition - strikerPosition).normalized;
-                        forceDirection = (dragDirection * -1).normalized;
+                        currentDragDirection = (touchPosition - currentStrikerPosition).normalized;
+                        forceDirection = (currentDragDirection * -1).normalized;
 
-                        dragAmount = 4f * Vector2.Distance(strikerPosition, touchPosition);
+                        dragAmount = 4f * Vector2.Distance(currentStrikerPosition, touchPosition);
                         powerControl.transform.localScale = Vector3.one * Mathf.Clamp(dragAmount, 0.75f, maxForce);
 
                         float angle = Mathf.Atan2(forceDirection.y, forceDirection.x) * Mathf.Rad2Deg;
@@ -165,6 +182,7 @@ public class striker : MonoBehaviour
                         powerControl.transform.localScale = Vector3.one * 0.75f; // Reset Gizmos Scale
 
                         float magnitude = Mathf.Clamp(dragAmount, 0f, maxForce);
+
                         // Apply force in the direction of drag
                         if (magnitude > minRequiredForce)
                         {
@@ -172,32 +190,30 @@ public class striker : MonoBehaviour
                             breakshots[2].Play();
 
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
-                            breakshots[3].Play();
-
-                            if (hitCoroutine != null)
-                            {
-                                StopCoroutine(hitCoroutine);
-                            }
-                            hitCoroutine = StartCoroutine(SwitchToNextPlayerAfterDelay(0.02f)); // Change delay in seconds
+                            startObserving = true;
+                            // breakshots[3].Play();
                         }
                     }
                     break;
             }
         }
     }
-
-    private IEnumerator SwitchToNextPlayerAfterDelay(float delay)
+    void HandleTurnChanged(int currentPlayerIndex)
     {
-        yield return new WaitForSeconds(delay);
-        startObserving = true;
-        gameManager.GetComponent<Game_Manager>().SwitchToNextPlayer();
+        spriteRenderer.sprite = GameManager.Instance.players[GameManager.Instance.currentPlayerIndex].StrikerImage;
+    }
+
+    void HandleCoinCollected(Player player, CoinType coinType)
+    {
+        CollectedCoinDetails = new PlayerCoin(player, coinType);
+        isCollectedAnyCoin = true;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "black" || other.gameObject.tag == "white" || other.gameObject.tag == "red")
         {
-            if (board.GetComponent<Collider2D>().enabled == false)
+            if (gameBoard.GetComponent<Collider2D>().enabled == false)
             {
                 breakshots[1].clip = hits[Random.Range(0, hits.Length)];
                 breakshots[1].volume = Mathf.Clamp01(other.relativeVelocity.magnitude / 12);
@@ -210,8 +226,20 @@ public class striker : MonoBehaviour
         if (other.gameObject.tag == "board")
         {
             breakshots[0].volume = Mathf.Clamp01(rb.velocity.sqrMagnitude / 80);
-            board.GetComponent<Collider2D>().enabled = false;
+            gameBoard.GetComponent<Collider2D>().enabled = false;
             breakshots[0].Play();
         }
+    }
+}
+
+public class PlayerCoin
+{
+    public Player player;
+    public CoinType coinType;
+
+    public PlayerCoin(Player player, CoinType coinType)
+    {
+        this.player = player;
+        this.coinType = coinType;
     }
 }
