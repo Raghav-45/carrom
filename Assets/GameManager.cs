@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -37,6 +38,57 @@ public class GameManager : MonoBehaviour
     public event Action<int> OnTurnChanged;
     public event Action<Player, CoinType> OnCoinCollected;
     public event Action OnStrikerFoul;
+
+    // Dictionary to map coordinates to colors
+    // Dictionary<String, Vector2> coordinateColors = new Dictionary<String, Vector2>()
+    // {
+    //     {"location", new Vector2(0f, 0f) }, // Red
+
+    //     {"location", new Vector2(-0.1905256f, 0.11f)}, // White
+    //     {"location", new Vector2(0.1905256f, 0.11f)},  // White
+    //     {"location", new Vector2(0f, -0.22f)}, // White
+    //     {"location", new Vector2(0f, -0.44f)}, // White
+    //     {"location", new Vector2(0.3810512f, 0.22f)}, // White
+    //     {"location", new Vector2(-0.3810512f, 0.22f)}, // White
+    //     {"location", new Vector2(-0.3810512f, -0.22f)}, // White
+    //     {"location", new Vector2(0f, 0.44f)}, // White
+    //     {"location", new Vector2(0.3810512f, -0.22f)}, // White
+
+    //     {"location", new Vector2(0f, 0.22f)}, // Black
+    //     {"location", new Vector2(0.1905256f, -0.11f)}, // Black
+    //     {"location", new Vector2(-0.1905256f, -0.11f)}, // Black
+    //     {"location", new Vector2(0.1905256f, -0.33f)}, // Black
+    //     {"location", new Vector2(-0.1905256f, -0.33f)}, // Black
+    //     {"location", new Vector2(0.1905256f, 0.33f)}, // Black
+    //     {"location", new Vector2(0.3810512f, 0f)}, // Black
+    //     {"location", new Vector2(-0.3810512f, 0f)}, // Black
+    //     {"location", new Vector2(-0.1905256f, 0.33f)} // Black
+    // };
+
+    Vector2[] coinCoordinates = new Vector2[]
+    {
+        new Vector2(0f, 0f) , // Red
+
+        new Vector2(-0.1905256f, 0.11f), // White
+        new Vector2(0.1905256f, 0.11f),  // White
+        new Vector2(0f, -0.22f), // White
+        new Vector2(0f, -0.44f), // White
+        new Vector2(0.3810512f, 0.22f), // White
+        new Vector2(-0.3810512f, 0.22f), // White
+        new Vector2(-0.3810512f, -0.22f), // White
+        new Vector2(0f, 0.44f), // White
+        new Vector2(0.3810512f, -0.22f), // White
+
+        new Vector2(0f, 0.22f), // Black
+        new Vector2(0.1905256f, -0.11f), // Black
+        new Vector2(-0.1905256f, -0.11f), // Black
+        new Vector2(0.1905256f, -0.33f), // Black
+        new Vector2(-0.1905256f, -0.33f), // Black
+        new Vector2(0.1905256f, 0.33f), // Black
+        new Vector2(0.3810512f, 0f), // Black
+        new Vector2(-0.3810512f, 0f), // Black
+        new Vector2(-0.1905256f, 0.33f) // Black
+    };
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -94,6 +146,7 @@ public class GameManager : MonoBehaviour
     // Method to collect coins for the current player
     public void AddCoinToCurrentPlayer(CoinType type)
     {
+        FindClearLocation();
         Player currentPlayer = GetCurrentPlayer();
         currentPlayer.CollectCoin(type);
         OnCoinCollected?.Invoke(currentPlayer, type); // Coin Collect Event
@@ -108,6 +161,61 @@ public class GameManager : MonoBehaviour
     public void OnFoul()
     {
         OnStrikerFoul?.Invoke();
+    }
+
+    private void DrawDebugWireSphere(Vector2 center, float radius, float duration)
+    {
+        const int segments = 36; // Number of segments to approximate the circle
+        float segmentAngle = 360f / segments;
+
+        Vector2 startPoint = Vector2.zero;
+        Vector2 prevPoint = Vector2.zero;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = i * segmentAngle;
+            float x = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+            float y = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
+            Vector2 point = center + new Vector2(x, y);
+
+            if (i > 0)
+            {
+                Debug.DrawLine(prevPoint, point, Color.red, duration); // Draw line between previous and current point with duration
+            }
+
+            prevPoint = point;
+
+            if (i == 0)
+            {
+                startPoint = point;
+            }
+            else if (i == segments)
+            {
+                Debug.DrawLine(point, startPoint, Color.red, duration); // Connect last point to the start point with duration
+            }
+        }
+    }
+
+    public void FindClearLocation()
+    {
+        // float desiredRadius = 0.56f / 4;
+        float desiredRadius = (0.22f * 2) / 3;
+
+        Collider2D collider = Physics2D.OverlapCircle(coinCoordinates[0], desiredRadius / (float)Math.Sqrt(2));
+        DrawDebugWireSphere(collider.bounds.center, desiredRadius / (float)Math.Sqrt(2), 10f); // Adjust 2f to the desired duration
+
+        // If a collider is found, check if its tag matches one of the specified tags
+        if (collider != null)
+        {
+            if (collider.CompareTag("white") || collider.CompareTag("red") || collider.CompareTag("black"))
+            {
+                Debug.Log(coinCoordinates[0] + "Occupied by " + collider.tag);
+            }
+            else
+            {
+                Debug.Log("Clear " + coinCoordinates[0]);
+            }
+        }
     }
 
     public void SpawnCoinOnBoard(CoinType coinType)
