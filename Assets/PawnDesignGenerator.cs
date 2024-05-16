@@ -3,7 +3,11 @@ using System.Collections.Generic;
 
 public class PawnDesignGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject circlePrefab; // Reference to the GameObject you want to spawn
+    // [SerializeField] GameObject circlePrefab; // Reference to the GameObject you want to spawn
+
+    [SerializeField] GameObject redPrefab;
+    [SerializeField] GameObject whitePrefab;
+    [SerializeField] GameObject blackPrefab;
 
     // Dictionary to map coordinates to colors
     Dictionary<Vector2, Color> coordinateColors = new Dictionary<Vector2, Color>()
@@ -34,7 +38,27 @@ public class PawnDesignGenerator : MonoBehaviour
     void Start()
     {
         // SpawnCirclesAtCoordinates();
-        this.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-9f, 18f));
+        // this.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-9f, 18f));
+        GameManager.Instance.SpawnCoin += SpawnAt;
+
+        Debug.Log(transform.childCount);
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            // Get the child object at index i
+            Transform child = transform.GetChild(i);
+
+            // Check if the child object is colliding with something
+            if (child.GetComponent<Collider2D>().isTrigger && (child.CompareTag("white") || child.CompareTag("black") || child.CompareTag("red")))
+            {
+                // Do something if collision occurs
+                Debug.Log("Collision detected with child object: " + child.name);
+            }
+            // else
+            // {
+            //     Debug.Log("Clean Area: " + child.transform.position);
+            // }
+        }
     }
 
     // void OnDrawGizmos()
@@ -49,17 +73,47 @@ public class PawnDesignGenerator : MonoBehaviour
     //     }
     // }
 
-    void SpawnCirclesAtCoordinates()
+    void SpawnAt(CoinType coinType, Vector2 location)
     {
-        // Loop through each coordinate and spawn a circle GameObject
-        foreach (var kvp in coordinateColors)
-        {
-            Vector2 position = kvp.Key;
-            Color color = kvp.Value;
+        // transform.GetChild(0);
 
-            GameObject circle = Instantiate(circlePrefab, position, Quaternion.identity);
-            // Optionally, you can set a parent for the spawned circles
-            circle.transform.parent = transform;
+        GameObject coinPrefab = null;
+
+        // Select the appropriate prefab based on the coin type
+        switch (coinType)
+        {
+            case CoinType.Red:
+                coinPrefab = redPrefab;
+                break;
+            case CoinType.Black:
+                coinPrefab = blackPrefab;
+                break;
+            case CoinType.White:
+                coinPrefab = whitePrefab;
+                break;
         }
+
+        // Instantiate the coin prefab at the specified location with no rotation
+        GameObject coinObject = Instantiate(coinPrefab, location, Quaternion.identity);
+
+        // Set the scale of the instantiated coin object
+        coinObject.transform.localScale = new Vector3(0.56f, 0.56f, 0.56f);
+
+        // Optionally, you can set a parent for the spawned circles
+        coinObject.transform.parent = transform;
     }
+
+    // void SpawnCirclesAtCoordinates()
+    // {
+    //     // Loop through each coordinate and spawn a circle GameObject
+    //     foreach (var kvp in coordinateColors)
+    //     {
+    //         Vector2 position = kvp.Key;
+    //         Color color = kvp.Value;
+
+    //         GameObject circle = Instantiate(circlePrefab, position, Quaternion.identity);
+    //         // Optionally, you can set a parent for the spawned circles
+    //         circle.transform.parent = transform;
+    //     }
+    // }
 }
