@@ -139,39 +139,6 @@ public class GameManager : MonoBehaviour
         OnStrikerFoul?.Invoke();
     }
 
-    private void DrawDebugWireSphere(Vector2 center, float radius, float duration)
-    {
-        const int segments = 36; // Number of segments to approximate the circle
-        float segmentAngle = 360f / segments;
-
-        Vector2 startPoint = Vector2.zero;
-        Vector2 prevPoint = Vector2.zero;
-
-        for (int i = 0; i <= segments; i++)
-        {
-            float angle = i * segmentAngle;
-            float x = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
-            float y = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
-            Vector2 point = center + new Vector2(x, y);
-
-            if (i > 0)
-            {
-                Debug.DrawLine(prevPoint, point, Color.red, duration); // Draw line between previous and current point with duration
-            }
-
-            prevPoint = point;
-
-            if (i == 0)
-            {
-                startPoint = point;
-            }
-            else if (i == segments)
-            {
-                Debug.DrawLine(point, startPoint, Color.red, duration); // Connect last point to the start point with duration
-            }
-        }
-    }
-
     public void SpawnCoinOnBoard(CoinType coinType)
     {
         SpawnCoin?.Invoke(coinType, new Vector2(0f, 0f));
