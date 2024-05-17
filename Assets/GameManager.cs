@@ -28,10 +28,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text blackTextRenderer;
     [SerializeField] public int currentPlayerIndex = 0; // Index of the current player
 
-    [SerializeField] GameObject redPrefab;
-    [SerializeField] GameObject whitePrefab;
-    [SerializeField] GameObject blackPrefab;
-
     public Player[] players; // Array of players in the game
 
     // Events
@@ -39,31 +35,6 @@ public class GameManager : MonoBehaviour
     public event Action<Player, CoinType> OnCoinCollected;
     public event Action OnStrikerFoul;
     public event Action<CoinType, Vector2> SpawnCoin;
-
-    Vector2[] coinCoordinates = new Vector2[]
-    {
-        new Vector2(0f, 0f) , // Red
-
-        new Vector2(-0.1905256f, 0.11f), // White
-        new Vector2(0.1905256f, 0.11f),  // White
-        new Vector2(0f, -0.22f), // White
-        new Vector2(0f, -0.44f), // White
-        new Vector2(0.3810512f, 0.22f), // White
-        new Vector2(-0.3810512f, 0.22f), // White
-        new Vector2(-0.3810512f, -0.22f), // White
-        new Vector2(0f, 0.44f), // White
-        new Vector2(0.3810512f, -0.22f), // White
-
-        new Vector2(0f, 0.22f), // Black
-        new Vector2(0.1905256f, -0.11f), // Black
-        new Vector2(-0.1905256f, -0.11f), // Black
-        new Vector2(0.1905256f, -0.33f), // Black
-        new Vector2(-0.1905256f, -0.33f), // Black
-        new Vector2(0.1905256f, 0.33f), // Black
-        new Vector2(0.3810512f, 0f), // Black
-        new Vector2(-0.3810512f, 0f), // Black
-        new Vector2(-0.1905256f, 0.33f) // Black
-    };
 
     // Awake is called when the script instance is being loaded
     private void Awake()
@@ -196,9 +167,6 @@ public class Player
         PlayerType = playerType;
         this.startPoint = startPoint;
         score = 0;
-        // redCoin = 0;
-        // blackCoin = 0;
-        // whiteCoin = 0;
         this.isPlayerTurn = isPlayerTurn;
         isQueenCoveringMove = false;
         this.StrikerImage = StrikerImage;
@@ -207,20 +175,8 @@ public class Player
 
     }
 
-    // Method to set initial coin counts
-    // public void SetCoinCounts(int red, int black, int white)
-    // {
-    //     redCoin = red;
-    //     blackCoin = black;
-    //     whiteCoin = white;
-    // }
-
     public void UpdateCoinTextsUI()
     {
-        // redCoinText.text = redCoin.ToString();
-        // blackCoinText.text = blackCoin.ToString();
-        // whiteCoinText.text = whiteCoin.ToString();
-
         // TODO: If the velocity of the player's striker is below threshold velocity, then stop all coins to ensure no errors occur.
 
         redCoinText.text = coinStack.GetCoinCount(CoinType.Red).ToString();
