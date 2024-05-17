@@ -172,52 +172,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void FindClearLocation()
-    {
-        // // float desiredRadius = 0.56f / 4;
-        // float desiredRadius = (0.22f * 2) / 3;
-
-        // Collider2D collider = Physics2D.OverlapCircle(coinCoordinates[0], desiredRadius / (float)Math.Sqrt(2));
-        // DrawDebugWireSphere(collider.bounds.center, desiredRadius / (float)Math.Sqrt(2), 10f); // Adjust 2f to the desired duration
-
-        // // If a collider is found, check if its tag matches one of the specified tags
-        // if (collider != null)
-        // {
-        //     if (collider.CompareTag("white") || collider.CompareTag("red") || collider.CompareTag("black"))
-        //     {
-        //         Debug.Log(coinCoordinates[0] + "Occupied by " + collider.tag);
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("Clear " + coinCoordinates[0]);
-        //     }
-        // }
-
-        foreach (Vector2 location in coinCoordinates)
-        {
-            // float desiredRadius = 0.56f / 4;
-            float desiredRadius = (0.22f * 2) / 3;
-
-            Collider2D collider = Physics2D.OverlapCircle(location, desiredRadius / (float)Math.Sqrt(2));
-            // DrawDebugWireSphere(collider.bounds.center, desiredRadius / (float)Math.Sqrt(2), 10f); // Adjust 2f to the desired duration
-
-            // If a collider is found, check if its tag matches one of the specified tags
-            if (collider != null)
-            {
-                if (collider.CompareTag("white") || collider.CompareTag("red") || collider.CompareTag("black"))
-                {
-                    // Debug.Log(location + "Occupied by " + collider.tag);
-                    // DrawDebugWireSphere(location, desiredRadius / (float)Math.Sqrt(2), 10f); // Adjust 2f to the desired duration
-                }
-                else
-                {
-                    Debug.Log("Clear " + location);
-                    DrawDebugWireSphere(location, desiredRadius / (float)Math.Sqrt(2), 10f); // Adjust 2f to the desired duration
-                }
-            }
-        }
-    }
-
     public void SpawnCoinOnBoard(CoinType coinType)
     {
         SpawnCoin?.Invoke(coinType, new Vector2(0f, 0f));
