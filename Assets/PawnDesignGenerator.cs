@@ -42,23 +42,6 @@ public class PawnDesignGenerator : MonoBehaviour
         GameManager.Instance.SpawnCoin += SpawnAt;
 
         Debug.Log(transform.childCount);
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            // Get the child object at index i
-            Transform child = transform.GetChild(i);
-
-            // Check if the child object is colliding with something
-            if (child.GetComponent<Collider2D>().isTrigger && (child.CompareTag("white") || child.CompareTag("black") || child.CompareTag("red")))
-            {
-                // Do something if collision occurs
-                Debug.Log("Collision detected with child object: " + child.name);
-            }
-            // else
-            // {
-            //     Debug.Log("Clean Area: " + child.transform.position);
-            // }
-        }
     }
 
     // void OnDrawGizmos()
@@ -73,8 +56,55 @@ public class PawnDesignGenerator : MonoBehaviour
     //     }
     // }
 
+    private void DrawDebugWireSphere(Vector2 center, float radius, float duration)
+    {
+        const int segments = 36; // Number of segments to approximate the circle
+        float segmentAngle = 360f / segments;
+
+        Vector2 startPoint = Vector2.zero;
+        Vector2 prevPoint = Vector2.zero;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = i * segmentAngle;
+            float x = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+            float y = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
+            Vector2 point = center + new Vector2(x, y);
+
+            if (i > 0)
+            {
+                Debug.DrawLine(prevPoint, point, Color.red, duration); // Draw line between previous and current point with duration
+            }
+
+            prevPoint = point;
+
+            if (i == 0)
+            {
+                startPoint = point;
+            }
+            else if (i == segments)
+            {
+                Debug.DrawLine(point, startPoint, Color.red, duration); // Connect last point to the start point with duration
+            }
+        }
+    }
+
     void SpawnAt(CoinType coinType, Vector2 location)
     {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            // Get the child object at index i
+            Transform child = transform.GetChild(i);
+
+            // Check if the child object is colliding with something
+            // if (child.GetComponent<Collider2D>().isTrigger && (child.CompareTag("white") || child.CompareTag("black") || child.CompareTag("red")))
+            if (!child.GetComponent<ColliderCheck>().isColliderTriggered)
+            {
+                // Debug.Log("Clean Area: " + child.transform.position);
+                DrawDebugWireSphere(child.transform.position, (0.22f) / 3, 10f);
+            }
+        }
+
         // transform.GetChild(0);
 
         GameObject coinPrefab = null;
