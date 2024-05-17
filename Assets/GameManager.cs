@@ -217,7 +217,6 @@ public class Player
         GameManager.Instance.OnFoul();
         if (currentTurnCoinStack.CoinsCount() > 0)
         {
-            Debug.Log(coinStack.GetLastCoin());
             coinStack.RemoveLastCoin();
         }
         else if (coinStack.CoinsCount() > 0)
@@ -276,10 +275,6 @@ public class CoinStack
             GameManager.Instance.SpawnCoinOnBoard(GetLastCoin());
             coins.RemoveAt(coins.Count - 1);
         }
-        else
-        {
-            Debug.Log("Coin stack is empty.");
-        }
     }
 
     public CoinType GetLastCoin()
@@ -294,10 +289,6 @@ public class CoinStack
         {
             GameManager.Instance.SpawnCoinOnBoard(coinType);
             coins.Remove(coinType);
-        }
-        else
-        {
-            Debug.Log("Coin stack is empty.");
         }
     }
 
