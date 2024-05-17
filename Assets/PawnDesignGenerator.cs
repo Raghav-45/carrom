@@ -91,23 +91,25 @@ public class PawnDesignGenerator : MonoBehaviour
 
     void SpawnAt(CoinType coinType, Vector2 location)
     {
+        List<Vector2> spawnLocations = new List<Vector2>();
+
         for (int i = 0; i < transform.childCount; i++)
         {
             // Get the child object at index i
             Transform child = transform.GetChild(i);
 
             // Check if the child object is colliding with something
-            // if (child.GetComponent<Collider2D>().isTrigger && (child.CompareTag("white") || child.CompareTag("black") || child.CompareTag("red")))
             if (!child.GetComponent<ColliderCheck>().isColliderTriggered)
             {
-                // Debug.Log("Clean Area: " + child.transform.position);
-                DrawDebugWireSphere(child.transform.position, (0.22f) / 3, 10f);
+                // DrawDebugWireSphere(child.transform.position, (0.22f) / 3, 10f);
+                spawnLocations.Add(child.position);
             }
         }
 
         // transform.GetChild(0);
 
         GameObject coinPrefab = null;
+        GameObject coinObject = null;
 
         // Select the appropriate prefab based on the coin type
         switch (coinType)
@@ -124,7 +126,14 @@ public class PawnDesignGenerator : MonoBehaviour
         }
 
         // Instantiate the coin prefab at the specified location with no rotation
-        GameObject coinObject = Instantiate(coinPrefab, location, Quaternion.identity);
+        if (spawnLocations.Count > 0)
+        {
+            coinObject = Instantiate(coinPrefab, spawnLocations[0], Quaternion.identity);
+        }
+        else
+        {
+            coinObject = Instantiate(coinPrefab, new Vector2(0f, 0f), Quaternion.identity);
+        }
 
         // Set the scale of the instantiated coin object
         coinObject.transform.localScale = new Vector3(0.56f, 0.56f, 0.56f);
