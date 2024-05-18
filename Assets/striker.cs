@@ -10,7 +10,7 @@ public class striker : MonoBehaviour
     // Serialized fields
     [Header("Striker Settings")]
     public Vector2 strikerStartPosition = new Vector2(0, -1.47f); // Make it random, based on player turn
-    [SerializeField] float forceMultiplier = 120f;
+    [SerializeField] float forceMultiplier = 80f;
     [SerializeField] float minRequiredForce = 0.8f;
     [SerializeField] float maxForce = 4f;
     [SerializeField] float resetThresholdVelocity = 0.07f;
@@ -185,7 +185,19 @@ public class striker : MonoBehaviour
                         float magnitude = Mathf.Clamp(dragAmount, 0f, maxForce);
 
                         // Apply force in the direction of drag
-                        if (magnitude > minRequiredForce)
+                        // if (magnitude > minRequiredForce)
+                        // {
+                        //     breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
+                        //     breakshots[2].Play();
+
+                        //     rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
+                        //     startObserving = true;
+                        //     // breakshots[3].Play();
+                        // }
+
+                        Debug.Log("force " + (magnitude / maxForce) * 100);
+
+                        if ((magnitude / maxForce) * 100 > 40f)
                         {
                             breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
                             breakshots[2].Play();
@@ -193,6 +205,17 @@ public class striker : MonoBehaviour
                             rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier);
                             startObserving = true;
                             // breakshots[3].Play();
+                            Debug.Log("ajda");
+                        }
+                        else
+                        {
+                            breakshots[2].clip = hitsound[Random.Range(0, hitsound.Length)];
+                            breakshots[2].Play();
+
+                            rb.AddForce(forceDirection.normalized * magnitude * forceMultiplier / 10f);
+                            startObserving = true;
+                            // breakshots[3].Play();
+                            Debug.Log("kamm");
                         }
                     }
                     break;

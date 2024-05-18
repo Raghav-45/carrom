@@ -191,6 +191,10 @@ public class Player
         {
             case CoinType.Red:
                 isQueenCoveringMove = true;
+                if ((GameObject.FindGameObjectsWithTag("black").Length + GameObject.FindGameObjectsWithTag("white").Length) < 1)
+                {
+                    GameManager.Instance.SpawnCoinOnBoard(CoinType.Black);
+                }
                 break;
 
             case CoinType.Black:
@@ -237,6 +241,7 @@ public class Player
                 coinStack.RemoveCoin(CoinType.Red);
             }
         }
+        score = (coinStack.GetCoinCount(CoinType.Black) * 10) + (coinStack.GetCoinCount(CoinType.White) * 20) + (coinStack.GetCoinCount(CoinType.Red) * 50);
         UpdateCoinTextsUI();
     }
 }
