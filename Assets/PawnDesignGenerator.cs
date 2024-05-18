@@ -8,6 +8,7 @@ public class PawnDesignGenerator : MonoBehaviour
     [SerializeField] GameObject redPrefab;
     [SerializeField] GameObject whitePrefab;
     [SerializeField] GameObject blackPrefab;
+    GameObject coinObject;
 
     // Dictionary to map coordinates to colors
     Dictionary<Vector2, Color> coordinateColors = new Dictionary<Vector2, Color>()
@@ -89,27 +90,31 @@ public class PawnDesignGenerator : MonoBehaviour
         }
     }
 
-    void SpawnAt(CoinType coinType, Vector2 location)
+    private Vector2 FindClearLocation()
     {
-        List<Vector2> spawnLocations = new List<Vector2>();
+        Vector2 clearLocation = Vector2.zero;
 
         for (int i = 0; i < transform.childCount; i++)
         {
-            // Get the child object at index i
             Transform child = transform.GetChild(i);
-
-            // Check if the child object is colliding with something
             if (!child.GetComponent<ColliderCheck>().isColliderTriggered)
             {
-                // DrawDebugWireSphere(child.transform.position, (0.22f) / 3, 10f);
-                spawnLocations.Add(child.position);
+                clearLocation = child.transform.position;
+                break; // Stop loop once a clear location is found
             }
         }
 
-        // transform.GetChild(0);
+        return clearLocation;
+    }
+
+    void SpawnAt(CoinType coinType, Vector2 location)
+    {
+        List<Vector2> spawnLocations = new List<Vector2>();
+        Vector2 clearLocation = FindClearLocation();
+
+        Debug.Log(clearLocation);
 
         GameObject coinPrefab = null;
-        GameObject coinObject = null;
 
         // Select the appropriate prefab based on the coin type
         switch (coinType)
@@ -126,14 +131,7 @@ public class PawnDesignGenerator : MonoBehaviour
         }
 
         // Instantiate the coin prefab at the specified location with no rotation
-        if (spawnLocations.Count > 0)
-        {
-            coinObject = Instantiate(coinPrefab, spawnLocations[0], Quaternion.identity);
-        }
-        else
-        {
-            coinObject = Instantiate(coinPrefab, new Vector2(0f, 0f), Quaternion.identity);
-        }
+        coinObject = Instantiate(coinPrefab, clearLocation, Quaternion.identity);
 
         // Set the scale of the instantiated coin object
         coinObject.transform.localScale = new Vector3(0.56f, 0.56f, 0.56f);

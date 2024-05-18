@@ -10,7 +10,7 @@ public class striker : MonoBehaviour
     // Serialized fields
     [Header("Striker Settings")]
     public Vector2 strikerStartPosition = new Vector2(0, -1.47f); // Make it random, based on player turn
-    [SerializeField] float forceMultiplier = 230f;
+    [SerializeField] float forceMultiplier = 120f;
     [SerializeField] float minRequiredForce = 0.8f;
     [SerializeField] float maxForce = 4f;
     [SerializeField] float resetThresholdVelocity = 0.07f;

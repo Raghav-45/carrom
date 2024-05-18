@@ -42,13 +42,13 @@ public class ColliderCheck : MonoBehaviour
         }
     }
 
-    // void Update()
-    // {
-    //     if (!isColliderTriggered)
-    //     {
-    //         DrawDebugWireSphere(transform.position, (((0.22f) * 2) / 3) / (float)Math.Sqrt(2));
-    //     }
-    // }
+    void Update()
+    {
+        if (!isColliderTriggered)
+        {
+            DrawDebugWireSphere(transform.position, (((0.22f) * 2) / 3) / (float)Math.Sqrt(2));
+        }
+    }
 
     // OnTriggerEnter is called when the Collider other enters the trigger
     private void OnTriggerEnter2D(Collider2D other)
