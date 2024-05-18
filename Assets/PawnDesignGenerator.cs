@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class PawnDesignGenerator : MonoBehaviour
 {
@@ -36,13 +37,33 @@ public class PawnDesignGenerator : MonoBehaviour
         { new Vector2(-0.1905256f, 0.33f), Color.black } // Black
     };
 
+    GameObject leftBottomObject;
+    GameObject rightBottomObject;
+    GameObject leftTopObject;
+    GameObject rightTopObject;
+
+    Vector3[] positions;
+
     void Start()
     {
         // SpawnCirclesAtCoordinates();
         // this.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(-9f, 18f));
         GameManager.Instance.SpawnCoin += SpawnAt;
-
         Debug.Log(transform.childCount);
+
+        leftBottomObject = GameObject.Find("left_bottom");
+        rightBottomObject = GameObject.Find("right_bottom");
+        leftTopObject = GameObject.Find("left_top");
+        rightTopObject = GameObject.Find("right_top");
+
+        // Create an array to store the positions
+        positions = new Vector3[]
+        {
+            leftBottomObject.transform.position,
+            rightBottomObject.transform.position,
+            leftTopObject.transform.position,
+            rightTopObject.transform.position
+        };
     }
 
     // void OnDrawGizmos()
@@ -130,14 +151,44 @@ public class PawnDesignGenerator : MonoBehaviour
                 break;
         }
 
+        // Select a random position from the array
+        Vector3 randomHolePosition = positions[Random.Range(0, positions.Length)];
+
         // Instantiate the coin prefab at the specified location with no rotation
-        coinObject = Instantiate(coinPrefab, clearLocation, Quaternion.identity);
+        coinObject = Instantiate(coinPrefab, randomHolePosition, Quaternion.identity);
 
-        // Set the scale of the instantiated coin object
-        coinObject.transform.localScale = new Vector3(0.56f, 0.56f, 0.56f);
+        // Disable the collider before moving
+        Collider2D coinCollider = coinObject.GetComponent<Collider2D>();
+        if (coinCollider != null)
+        {
+            coinCollider.enabled = false;
+        }
 
-        // Optionally, you can set a parent for the spawned circles
-        coinObject.transform.parent = transform;
+        StartCoroutine(MoveCoin(coinObject.transform, clearLocation, 0.35f)); // Move the coin to position (0,0) smoothly over 1 second
+    }
+
+    private IEnumerator MoveCoin(Transform transformToMove, Vector2 targetPosition, float duration)
+    {
+        Vector2 startPosition = transformToMove.position;
+        float timeElapsed = 0;
+
+        while (timeElapsed < duration + 1f)
+        {
+            // Interpolate the position between start and target positions over time
+            transformToMove.position = Vector2.Lerp(startPosition, targetPosition, timeElapsed / duration);
+            timeElapsed += Time.deltaTime;
+            yield return null; // Wait for the end of the frame
+        }
+
+        // Ensure the object ends exactly at the target position
+        transformToMove.position = targetPosition;
+
+        // Re-enable the collider after moving
+        Collider2D coinCollider = transformToMove.GetComponent<Collider2D>();
+        if (coinCollider != null)
+        {
+            coinCollider.enabled = true;
+        }
     }
 
     // void SpawnCirclesAtCoordinates()
